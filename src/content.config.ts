@@ -10,8 +10,10 @@ const projects = defineCollection({
     status: z.enum(["ongoing", "finished", "archived"]),
     featured: z.boolean().default(false),
     problem: z.string().optional(),
+    challenge: z.string().optional(), // reto de ingeniería
     solution: z.string().optional(),
     decisions: z.array(z.string()).optional(),
+    highlights: z.array(z.string()).optional(), // métricas/logros destacados
     result: z.string().optional(),
     tech: z.array(z.string()),
     areas: z.array(z.string()).optional(),

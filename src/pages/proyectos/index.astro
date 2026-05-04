@@ -7,6 +7,21 @@ const projects = await getCollection("projects");
 
 // Extraer todos los tech únicos
 const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
+const allAreas = [...new Set(projects.flatMap(p => p.data.areas || []))].sort();
+
+// Categorización de tecnologías
+const categories: Record<string, string[]> = {
+  "Lenguajes": allTech.filter(t => ["Rust", "TypeScript", "Python"].includes(t)),
+  "Frameworks": allTech.filter(t => ["Django", "React", "Celery", "sysinfo", "serde"].includes(t)),
+  "Infraestructura": allTech.filter(t => ["PostgreSQL", "Redis"].includes(t)),
+};
+
+// Si hay tecnologías no categorizadas, agregarlas a "Otros"
+const categorized = new Set(Object.values(categories).flat());
+const others = allTech.filter(t => !categorized.has(t));
+if (others.length > 0) {
+  categories["Otros"] = others;
+}
 ---
 
 <Layout title="Proyectos" description="Casos de estudio: problemas reales, decisiones técnicas, resultados.">
@@ -14,30 +29,55 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
     <h1>Proyectos</h1>
     <p class="desc">
       No son listas. Son casos de estudio. Cada uno responde: qué problema existía,
-      qué se construyó, por qué se decidió así y qué resultado tuvo.
+      qué reto técnico implicó, qué se construyó y qué resultado tuvo.
     </p>
   </section>
 
   <div class="content-wrapper" id="projects-view">
     <aside class="sidebar">
-      <h3>Filtrar por tecnología</h3>
-      <ul class="tech-filters">
-        <li>
-          <button class="filter-btn active" data-tech="all">Todos</button>
-        </li>
-        {allTech.map(tech => (
+      <div class="filter-group">
+        <h3>Tecnología</h3>
+        <ul class="tech-filters">
           <li>
-            <button class="filter-btn" data-tech={tech.toLowerCase()}>{tech}</button>
+            <button class="filter-btn active" data-tech="all" data-type="tech">Todas</button>
           </li>
-        ))}
-      </ul>
+          {Object.entries(categories).map(([category, techs]) => (
+            <li class="category">
+              <span class="category-label">{category}</span>
+              {techs.map(tech => (
+                <button class="filter-btn" data-tech={tech.toLowerCase()} data-type="tech">{tech}</button>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {allAreas.length > 0 && (
+        <div class="filter-group">
+          <h3>Área</h3>
+          <ul class="tech-filters">
+            <li>
+              <button class="filter-btn active" data-tech="all" data-type="area">Todas</button>
+            </li>
+            {allAreas.map(area => (
+              <li>
+                <button class="filter-btn" data-tech={area} data-type="area">{area}</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </aside>
 
     <div class="projects-grid">
       {projects
         .sort((a, b) => a.data.order - b.data.order)
         .map(project => (
-          <div class="project-item" data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}>
+          <div
+            class="project-item"
+            data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
+            data-areas={(project.data.areas || []).join(",")}
+          >
             <ProjectCard project={project} />
           </div>
         ))}
@@ -50,21 +90,38 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
     const buttons = document.querySelectorAll('.filter-btn');
     const items = document.querySelectorAll('.project-item');
 
+    let activeTech = 'all';
+    let activeArea = 'all';
+
+    function applyFilters() {
+      items.forEach(item => {
+        const itemTechs = item.getAttribute('data-techs') || '';
+        const itemAreas = item.getAttribute('data-areas') || '';
+
+        const techMatch = activeTech === 'all' || itemTechs.includes(activeTech);
+        const areaMatch = activeArea === 'all' || itemAreas.includes(activeArea);
+
+        item.style.display = (techMatch && areaMatch) ? '' : 'none';
+      });
+    }
+
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
+        const type = btn.getAttribute('data-type');
         const tech = btn.getAttribute('data-tech');
 
-        items.forEach(item => {
-          const itemTech = item.getAttribute('data-techs') || '';
-          if (tech === 'all' || itemTech.includes(tech)) {
-            item.style.display = '';
-          } else {
-            item.style.display = 'none';
+        // Desactivar del mismo tipo
+        buttons.forEach(b => {
+          if (b.getAttribute('data-type') === type) {
+            b.classList.remove('active');
           }
         });
+        btn.classList.add('active');
+
+        if (type === 'tech') activeTech = tech;
+        if (type === 'area') activeArea = tech;
+
+        applyFilters();
       });
     });
   }
@@ -91,16 +148,19 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
   }
 
   .sidebar {
-    width: 220px;
+    width: 240px;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
-  .sidebar h3 {
+  .filter-group h3 {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     font-weight: 600;
   }
 
@@ -108,7 +168,7 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .filter-btn {
@@ -116,7 +176,7 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
     border: none;
     color: var(--text-secondary);
     font-size: 0.85rem;
-    padding: 8px 12px;
+    padding: 6px 12px;
     text-align: left;
     cursor: pointer;
     border-radius: 6px;
@@ -126,13 +186,32 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
   }
 
   .filter-btn:hover {
-    background: var(--bg-surface);
+    background: rgba(255, 255, 255, 0.04);
     color: var(--text-primary);
   }
 
   .filter-btn.active {
     background: var(--accent-glow);
     color: var(--accent-soft);
+  }
+
+  .category {
+    margin-top: 4px;
+  }
+
+  .category-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    padding: 4px 12px 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .category .filter-btn {
+    padding-left: 20px;
+    font-size: 0.8rem;
   }
 
   .projects-grid {
@@ -158,6 +237,10 @@ const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
 
     .filter-btn {
       width: auto;
+    }
+
+    .category .filter-btn {
+      padding-left: 12px;
     }
 
     .projects-grid {

@@ -11,15 +11,25 @@ problem: >
   pesadas o configuraciones complejas. No existía una CLI ligera que permitiera
   supervisar métricas clave y exportar datos sin overhead.
 
+challenge: >
+  Recopilar métricas del sistema operativo cada segundo sin consumir recursos
+  significativos del propio sistema monitorizado. El trade-off: precisión vs
+  overhead en entornos con recursos limitados.
+
 solution: >
   CLI en Rust que utiliza sysinfo para recopilar métricas del sistema en tiempo
   real, permite configurar umbrales de alerta y exporta datos en formatos
   estructurados (JSON, CSV) para análisis posterior.
 
 decisions:
-  - "Rust para garantizar performance y consumo mínimo de recursos"
-  - "Arquitectura por plugins para métricas customizables"
+  - "Rust por seguridad de memoria y rendimiento determinista — un monitor que consume el 20% del CPU es un monitor que no sirve"
+  - "Arquitectura por plugins para métricas customizables sin recompilar"
   - "Exportación incremental para evitar pérdida de datos en cortes"
+
+highlights:
+  - "< 2MB de consumo de RAM"
+  - "Muestreo configurable desde 1 segundo"
+  - "Zero-dependency en runtime"
 
 result: >
   Herramienta en uso para monitoreo de servidores. Consumo de <2MB RAM
