@@ -1,13 +1,15 @@
 ---
 name: System Design
-description: Arquitectura de sistemas escalables con decisiones basadas en trade-offs reales.
+description: Arquitectura de sistemas distribuidos con decisiones basadas en trade-offs reales entre flexibilidad, control y simplicidad.
 problems:
-  - "Diseño de sistemas modulares con responsabilidad clara"
-  - "Separación de core de dominio y capas de presentación"
-  - "Event-driven para desacoplamiento de servicios"
+  - "Diseño de pipelines de datos desacoplados (ingesta → procesamiento → almacenamiento)"
+  - "Arquitectura tolerante a fallos parciales en sistemas distribuidos"
+  - "Separación de capas por tipo de consulta (time-series vs metadata)"
 projects:
+  - iot-platform
   - debita
   - argos
-level: intermediate
-order: 4
+  - magic-orm
+level: advanced
+order: 2
 ---

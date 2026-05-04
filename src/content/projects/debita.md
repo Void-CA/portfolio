@@ -4,7 +4,7 @@ subtitle: Sistema de gestión de deuda y cobros automatizados
 description: Plataforma para automatizar el seguimiento, cálculo y cobro de deudas, reduciendo la fricción operativa entre acreedores y deudores.
 status: finished
 featured: true
-order: 1
+order: 3
 
 problem: >
   La gestión manual de deuda generaba errores en cálculos, retrasos en cobros
@@ -45,6 +45,7 @@ tech:
   - Redis
   - React
   - Celery
+  - Docker
 areas:
   - backend
   - system design
