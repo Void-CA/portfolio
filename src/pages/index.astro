@@ -1,11 +1,211 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = await getCollection("projects");
+const featured = projects
+  .filter(p => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Inicio" description="Ingeniero de sistemas: backend, data, automatización. Proyectos reales, decisiones técnicas, resultados medibles.">
+  <section class="hero">
+    <p class="overline">Ingeniería de sistemas</p>
+    <h1>
+      Construyo sistemas que <span class="highlight">resuelven problemas reales</span>.
+    </h1>
+    <p class="hero-desc">
+      Backend, data, automatización y diseño de arquitecturas. No hago demos — 
+      hago sistemas que operan en producción con restricciones reales.
+    </p>
+    <div class="hero-cta">
+      <a href="/proyectos" class="btn btn-primary">Ver proyectos</a>
+      <a href="/skills" class="btn btn-secondary">Habilidades</a>
+    </div>
+  </section>
+
+  <section class="areas">
+    <h2>Qué tipo de problemas abordo</h2>
+    <div class="areas-grid">
+      <div class="area-card">
+        <span class="area-icon">⚙</span>
+        <h3>Backend & APIs</h3>
+        <p>Sistemas que procesan datos, gestionan estados y exponen interfaces robustas para consumo programático.</p>
+      </div>
+      <div class="area-card">
+        <span class="area-icon">◈</span>
+        <h3>Data & Modelado</h3>
+        <p>Diseño de esquemas, flujos de transformación de datos y sistemas donde la integridad no es negociable.</p>
+      </div>
+      <div class="area-card">
+        <span class="area-icon">⟳</span>
+        <h3>Automatización</h3>
+        <p>Flujos operativos que eliminan intervención manual, desde cobros recurrentes hasta monitoreo de infraestructura.</p>
+      </div>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="featured">
+      <div class="section-header">
+        <h2>Proyectos destacados</h2>
+        <a href="/proyectos" class="link">Ver todos →</a>
+      </div>
+      <div class="grid">
+        {featured.map(project => <ProjectCard project={project} />)}
+      </div>
+    </section>
+  )}
 </Layout>
+
+<style>
+  .hero {
+    padding: 80px 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 720px;
+  }
+
+  .overline {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-soft);
+    font-weight: 600;
+  }
+
+  h1 .highlight {
+    color: var(--accent-soft);
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #6D28D9;
+    color: white;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    background: var(--bg-surface);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent-soft);
+  }
+
+  .areas {
+    padding: 64px 0;
+  }
+
+  .areas h2 {
+    margin-bottom: 32px;
+  }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .area-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .area-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .area-icon {
+    font-size: 1.5rem;
+    opacity: 0.7;
+  }
+
+  .area-card h3 {
+    color: var(--text-primary);
+  }
+
+  .area-card p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .featured {
+    padding: 64px 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+  }
+
+  .section-header .link {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 48px 0 40px;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+    }
+
+    .btn {
+      justify-content: center;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

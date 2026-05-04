@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Método" description="Cómo construyo sistemas: proceso de análisis, diseño, desarrollo y evolución.">
+  <section class="page-header">
+    <h1>Método de trabajo</h1>
+    <p class="desc">
+      Cómo analizo, diseño y construyo sistemas. No es teoría — es el proceso que aplico
+      en cada proyecto para reducir incertidumbre y entregar algo que funcione en producción.
+    </p>
+  </section>
+
+  <section class="process">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-content">
+        <h3>Análisis del problema</h3>
+        <p>Antes de escribir código, entiendo el problema real. ¿Qué situación motivó esto? ¿Quiénes son los actores? ¿Qué restricciones existen? Especifico requisitos en términos de comportamiento, no de tecnología.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-content">
+        <h3>Modelado y diseño</h3>
+        <p>Identifico las entidades del dominio, sus relaciones y responsabilidades. Defino los límites del sistema y sus interfaces. Las decisiones de arquitectura se documentan con trade-offs, no solo con elecciones.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-content">
+        <h3>Desarrollo iterativo</h3>
+        <p>Construyo en capas: primero el core de dominio, luego las interfaces externas. Cada feature se desarrolla con criterio de reversibilidad — si la decisión era equivocada, debe ser fácil de cambiar. Separación clara entre lógica de negocio y framework.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">04</span>
+      <div class="step-content">
+        <h3>Evolución del sistema</h3>
+        <p>Un sistema no termina cuando se entrega. Pienso en mantenibilidad desde el día uno: tests en lo crítico, documentación de decisiones, interfaces estables. El sistema debe poder evolucionar sin reescribirse.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles">
+    <h2>Principios</h2>
+    <div class="principles-grid">
+      <div class="principle">
+        <h4>Claridad sobre cleverness</h4>
+        <p>Código que se entiende es código que se mantiene. Prefiero lo aburrido que funciona sobre lo inteligente que nadie entiende.</p>
+      </div>
+      <div class="principle">
+        <h4>Separación de responsabilidades</h4>
+        <p>El dominio no sabe de frameworks, los frameworks no saben del dominio. Cada capa tiene un contrato claro.</p>
+      </div>
+      <div class="principle">
+        <h4>Decisiones explícitas</h4>
+        <p>Cada elección técnica tiene un por qué. Si no puedo explicar el trade-off, la decisión no está madura.</p>
+      </div>
+      <div class="principle">
+        <h4>Progresiva revelación</h4>
+        <p>La complejidad se revela a medida que se necesita. La superficie pública es simple; el interior puede ser profundo.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 64px 0 40px;
+    max-width: 640px;
+  }
+
+  .desc {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .process {
+    padding: 40px 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .step {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums;
+    min-width: 48px;
+  }
+
+  .step-content {
+    flex: 1;
+    padding-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step:last-child .step-content {
+    border-bottom: none;
+  }
+
+  .step-content h3 {
+    color: var(--text-primary);
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .principles {
+    padding-bottom: 80px;
+  }
+
+  .principles h2 {
+    margin-bottom: 24px;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .principle {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .principle h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .principle p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .step {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-num {
+      font-size: 1rem;
+    }
+
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

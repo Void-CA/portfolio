@@ -1,0 +1,321 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { data, slug } = project;
+
+const statusLabels = {
+  ongoing: "En desarrollo",
+  finished: "Completado",
+  archived: "Archivado",
+};
+---
+
+<Layout title={data.title} description={data.description}>
+  <article class="project-detail">
+    <header class="project-header">
+      <a href="/proyectos" class="back-link">← Volver a proyectos</a>
+      <h1>{data.title}</h1>
+      {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+      <div class="meta">
+        <span class="status status-{data.status}">{statusLabels[data.status]}</span>
+        <span class="date">{data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}</span>
+      </div>
+    </header>
+
+    <section class="case-study">
+      {data.problem && (
+        <div class="case-block">
+          <span class="case-label">Problema</span>
+          <p class="case-text">{data.problem}</p>
+        </div>
+      )}
+
+      {data.solution && (
+        <div class="case-block">
+          <span class="case-label">Solución</span>
+          <p class="case-text">{data.solution}</p>
+        </div>
+      )}
+
+      {data.result && (
+        <div class="case-block highlight-block">
+          <span class="case-label">Resultado</span>
+          <p class="case-text result-text">{data.result}</p>
+        </div>
+      )}
+    </section>
+
+    {data.decisions && data.decisions.length > 0 && (
+      <section class="decisions">
+        <h2>Decisiones técnicas</h2>
+        <ul>
+          {data.decisions.map(d => <li>{d}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <section class="tech-section">
+      <h2>Stack tecnológico</h2>
+      <div class="tech-tags">
+        {data.tech.map(t => <span class="tag">{t}</span>)}
+      </div>
+    </section>
+
+    {data.areas && data.areas.length > 0 && (
+      <section class="areas-section">
+        <h2>Áreas</h2>
+        <div class="tech-tags">
+          {data.areas.map(a => <span class="tag tag-area">{a}</span>)}
+        </div>
+      </section>
+    )}
+
+    <div class="project-body">
+      <slot />
+    </div>
+
+    <footer class="project-footer">
+      {data.repo && data.repo !== "#" && (
+        <a href={data.repo} class="btn" target="_blank" rel="noopener">
+          Ver repositorio
+        </a>
+      )}
+      {data.live && data.live !== "#" && (
+        <a href={data.live} class="btn btn-secondary" target="_blank" rel="noopener">
+          Demo en vivo
+        </a>
+      )}
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  .project-detail {
+    padding: 48px 0 80px;
+    max-width: 720px;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 32px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--accent-soft);
+  }
+
+  .project-header h1 {
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 48px;
+  }
+
+  .status {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .status-ongoing { border-color: rgba(234, 179, 8, 0.3); color: #EAB308; }
+  .status-finished { border-color: rgba(74, 222, 128, 0.3); color: #4ADE80; }
+  .status-archived { border-color: rgba(107, 114, 128, 0.3); color: #9CA3AF; }
+
+  .date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .case-block {
+    padding: 20px;
+    background: var(--bg-surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .highlight-block {
+    border-color: var(--accent-glow);
+    background: rgba(124, 58, 237, 0.05);
+  }
+
+  .case-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    font-weight: 600;
+  }
+
+  .case-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .result-text {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+  }
+
+  .decisions {
+    margin-bottom: 48px;
+  }
+
+  .decisions h2 {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+  }
+
+  .decisions ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .decisions li {
+    padding-left: 20px;
+    position: relative;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .decisions li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.6rem;
+    top: 4px;
+  }
+
+  .tech-section, .areas-section {
+    margin-bottom: 48px;
+  }
+
+  .tech-section h2, .areas-section h2 {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: var(--accent-glow);
+    color: var(--accent-soft);
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .tag-area {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+  }
+
+  .project-body {
+    margin-bottom: 48px;
+  }
+
+  .project-body :global(h2) {
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  .project-body :global(p) {
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  .project-body :global(ul), .project-body :global(ol) {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  .project-body :global(li) {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .project-footer {
+    display: flex;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn:hover {
+    background: #6D28D9;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent-soft);
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="inner">
+    <p>{year} — Diseñado para demostrar capacidad de ingeniería, no para impresionar.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    margin-top: 80px;
+  }
+
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+</style>

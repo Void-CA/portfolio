@@ -1,0 +1,139 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  skill: CollectionEntry<"skills">;
+}
+
+const { skill } = Astro.props;
+const { data } = skill;
+
+const levelLabels = {
+  expert: "Experto",
+  advanced: "Avanzado",
+  intermediate: "Intermedio",
+};
+
+const levelColors = {
+  expert: "#10B981",
+  advanced: "#7C3AED",
+  intermediate: "#9CA3AF",
+};
+---
+
+<article class="skill-card">
+  <div class="header">
+    <h3>{data.name}</h3>
+    <span class="level" style={`color: ${levelColors[data.level]}`}>{levelLabels[data.level]}</span>
+  </div>
+
+  <p class="description">{data.description}</p>
+
+  <div class="section">
+    <span class="label">Problemas resueltos</span>
+    <ul>
+      {data.problems.map(p => <li>{p}</li>)}
+    </ul>
+  </div>
+
+  <div class="section">
+    <span class="label">Proyectos</span>
+    <div class="project-links">
+      {data.projects.map(p => <a href={`/proyectos/${p}`} class="project-link">{p}</a>)}
+    </div>
+  </div>
+</article>
+
+<style>
+  .skill-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .skill-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header h3 {
+    color: var(--text-primary);
+  }
+
+  .level {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    font-weight: 600;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+  }
+
+  li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .project-link {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    background: var(--accent-glow);
+    border-radius: 4px;
+    color: var(--accent-soft);
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .project-link:hover {
+    background: rgba(124, 58, 237, 0.25);
+  }
+</style>
