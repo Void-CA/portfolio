@@ -31,8 +31,8 @@ decisions:
   - "Docker para orquestación: cada componente es un servicio independiente, escalable por separado"
 
 highlights:
-  - "Arquitectura desacoplada con tolerancia a fallos parciales"
-  - "Pipeline de datos en tiempo real con múltiples formatos de sensor"
+  - "Sensores multifuente con MQTT"
+  - "Pipeline de datos en tiempo real"
   - "Separación time-series / metadata por tipo de consulta"
 
 result: >

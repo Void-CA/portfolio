@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import FilterPills from '../../components/FilterPills.astro';
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
@@ -34,40 +35,7 @@ if (others.length > 0) {
   </section>
 
   <div class="content-wrapper" id="projects-view">
-    <aside class="sidebar">
-      <div class="filter-group">
-        <h3>Tecnología</h3>
-        <ul class="tech-filters">
-          <li>
-            <button class="filter-btn active" data-tech="all" data-type="tech">Todas</button>
-          </li>
-          {Object.entries(categories).map(([category, techs]) => (
-            <li class="category">
-              <span class="category-label">{category}</span>
-              {techs.map(tech => (
-                <button class="filter-btn" data-tech={tech.toLowerCase()} data-type="tech">{tech}</button>
-              ))}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {allAreas.length > 0 && (
-        <div class="filter-group">
-          <h3>Área</h3>
-          <ul class="tech-filters">
-            <li>
-              <button class="filter-btn active" data-tech="all" data-type="area">Todas</button>
-            </li>
-            {allAreas.map(area => (
-              <li>
-                <button class="filter-btn" data-tech={area} data-type="area">{area}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </aside>
+    <FilterPills categories={categories} areas={allAreas} />
 
     <div class="projects-grid">
       {projects
@@ -85,53 +53,9 @@ if (others.length > 0) {
   </div>
 </Layout>
 
-<script is:inline>
-  function initFilters() {
-    const buttons = document.querySelectorAll('.filter-btn');
-    const items = document.querySelectorAll('.project-item');
-
-    let activeTech = 'all';
-    let activeArea = 'all';
-
-    function applyFilters() {
-      items.forEach(item => {
-        const itemTechs = item.getAttribute('data-techs') || '';
-        const itemAreas = item.getAttribute('data-areas') || '';
-
-        const techMatch = activeTech === 'all' || itemTechs.includes(activeTech);
-        const areaMatch = activeArea === 'all' || itemAreas.includes(activeArea);
-
-        item.style.display = (techMatch && areaMatch) ? '' : 'none';
-      });
-    }
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const type = btn.getAttribute('data-type');
-        const tech = btn.getAttribute('data-tech');
-
-        // Desactivar del mismo tipo
-        buttons.forEach(b => {
-          if (b.getAttribute('data-type') === type) {
-            b.classList.remove('active');
-          }
-        });
-        btn.classList.add('active');
-
-        if (type === 'tech') activeTech = tech;
-        if (type === 'area') activeArea = tech;
-
-        applyFilters();
-      });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', initFilters);
-</script>
-
 <style>
   .page-header {
-    padding: 64px 0 40px;
+    padding: 64px 0 32px;
     max-width: 640px;
   }
 
@@ -142,109 +66,32 @@ if (others.length > 0) {
   }
 
   .content-wrapper {
-    display: flex;
-    gap: 40px;
-    padding-bottom: 80px;
-  }
-
-  .sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .filter-group h3 {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
-    margin-bottom: 12px;
-    font-weight: 600;
-  }
-
-  .tech-filters {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .filter-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    padding: 6px 12px;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.15s;
-    width: 100%;
-    font-weight: 500;
-  }
-
-  .filter-btn:hover {
-    background: rgba(255, 255, 255, 0.04);
-    color: var(--text-primary);
-  }
-
-  .filter-btn.active {
-    background: var(--accent-glow);
-    color: var(--accent-soft);
-  }
-
-  .category {
-    margin-top: 4px;
-  }
-
-  .category-label {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    opacity: 0.5;
-    padding: 4px 12px 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .category .filter-btn {
-    padding-left: 20px;
-    font-size: 0.8rem;
+    padding: 0 0 80px;
   }
 
   .projects-grid {
-    flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
+    align-items: stretch;
+  }
+
+  .project-item {
+    display: flex;
+  }
+
+  .project-item :global(.card) {
+    height: 100%;
+    min-height: 280px;
   }
 
   @media (max-width: 768px) {
-    .content-wrapper {
-      flex-direction: column;
-    }
-
-    .sidebar {
-      width: 100%;
-    }
-
-    .tech-filters {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      width: auto;
-    }
-
-    .category .filter-btn {
-      padding-left: 12px;
-    }
-
     .projects-grid {
       grid-template-columns: 1fr;
+    }
+
+    .project-item :global(.card) {
+      min-height: auto;
     }
   }
 </style>

@@ -1,0 +1,154 @@
+---
+interface Props {
+  categories: Record<string, string[]>;
+  areas: string[];
+}
+
+const { categories, areas } = Astro.props;
+---
+
+<div class="filter-pills">
+  <div class="filter-group">
+    <span class="filter-label">Tech</span>
+    <div class="pills">
+      <button class="pill active" data-filter="tech" data-value="all">Todas</button>
+      {Object.entries(categories).map(([category, techs]) => (
+        techs.map(tech => (
+          <button class="pill" data-filter="tech" data-value={tech.toLowerCase()}>{tech}</button>
+        ))
+      ))}
+    </div>
+  </div>
+
+  {areas.length > 0 && (
+    <div class="filter-group">
+      <span class="filter-label">Área</span>
+      <div class="pills">
+        <button class="pill active" data-filter="area" data-value="all">Todas</button>
+        {areas.map(area => (
+          <button class="pill" data-filter="area" data-value={area}>{area}</button>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 0 24px;
+    align-items: center;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pill {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .pill:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+  }
+
+  .pill.active {
+    background: var(--accent-glow);
+    border-color: rgba(124, 58, 237, 0.3);
+    color: var(--accent-soft);
+  }
+
+  .pill.active:hover {
+    background: var(--accent-glow);
+    color: var(--accent-soft);
+  }
+
+  @media (max-width: 640px) {
+    .filter-pills {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-group {
+      flex-shrink: 0;
+    }
+
+    .pill {
+      white-space: nowrap;
+    }
+  }
+</style>
+
+<script>
+  function initFilterPills() {
+    const pills = document.querySelectorAll('.filter-btn, .pill');
+    const items = document.querySelectorAll('.project-item');
+
+    if (items.length === 0) return;
+
+    let activeFilters: Record<string, string> = { tech: 'all', area: 'all' };
+
+    function applyFilters() {
+      items.forEach(item => {
+        const itemTechs = item.getAttribute('data-techs') || '';
+        const itemAreas = item.getAttribute('data-areas') || '';
+
+        const techMatch = activeFilters.tech === 'all' || itemTechs.includes(activeFilters.tech);
+        const areaMatch = activeFilters.area === 'all' || itemAreas.includes(activeFilters.area);
+
+        item.style.display = (techMatch && areaMatch) ? '' : 'none';
+      });
+    }
+
+    pills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || btn.getAttribute('data-type');
+        const value = btn.getAttribute('data-value') || btn.getAttribute('data-tech');
+
+        if (!filter || !value) return;
+
+        // Desactivar del mismo grupo
+        document.querySelectorAll(`[data-filter="${filter}"], [data-type="${filter}"]`).forEach(b => {
+          b.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        activeFilters[filter] = value;
+        applyFilters();
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initFilterPills);
+</script>

@@ -40,8 +40,8 @@ result: >
 
 tech:
   - Rust
-  - sysinfo
-  - serde
+  - CLI
+  - Serialization
 areas:
   - systems
   - cli

@@ -1,55 +1,69 @@
 ---
 title: Debita
-subtitle: Sistema de gestión de deuda y cobros automatizados
-description: Plataforma para automatizar el seguimiento, cálculo y cobro de deudas, reduciendo la fricción operativa entre acreedores y deudores.
+subtitle: Plataforma de gestión financiera centrada en modelado de dominio
+description: Sistema diseñado para estructurar operaciones financieras, centralizar estados de cuenta y representar reglas de deuda mediante una arquitectura desacoplada y orientada al dominio.
 status: finished
 featured: true
 order: 3
 
 problem: >
-  La gestión manual de deuda generaba errores en cálculos, retrasos en cobros
-  y una experiencia opaca para ambas partes. No existía un sistema centralizado
-  que permitiera seguimiento en tiempo real ni automatización de notificaciones.
+  La operación financiera del stakeholder dependía de procesos manuales y
+  herramientas dispersas donde la información se duplicaba constantemente.
+  Los estados de cuenta requerían validaciones manuales, existían dificultades
+  para rastrear cambios históricos y el cálculo de deuda dependía de procesos
+  operativos difíciles de auditar y mantener.
 
 challenge: >
-  Garantizar consistencia de datos en un sistema financiero donde un cobro
-  duplicado o perdido tiene impacto real. La latencia en la actualización de
-  estados de cuenta no podía superar los 2 segundos.
+  Modelar un dominio financiero donde múltiples reglas afectan el estado de una
+  deuda a lo largo del tiempo, garantizando integridad de datos, trazabilidad
+  histórica y consistencia entre operaciones relacionadas. El sistema debía
+  representar correctamente el comportamiento financiero sin reducir el dominio
+  a simples operaciones CRUD.
 
 solution: >
-  Construcción de un sistema end-to-end que modela el ciclo completo de deuda:
-  registro, cálculo dinámico de intereses, generación de estados de cuenta,
-  automatización de cobros y dashboard de seguimiento para ambas partes.
+  Desarrollo de una plataforma centrada en el modelado explícito del ciclo de
+  vida de la deuda y sus operaciones asociadas. El sistema organiza reglas de
+  negocio, cálculos financieros, estados de cuenta y eventos operativos dentro
+  de una arquitectura desacoplada orientada a mantener consistencia y permitir
+  evolución futura del dominio.
 
 decisions:
-  - "Django por velocidad de desarrollo y ORM robusto para un dominio complejo sin reinventar validaciones"
-  - "Modelado de dominio centrado en el ciclo de vida de deuda, no en CRUD"
-  - "Separación entre capa de cálculo financiero y capa de presentación"
-  - "APIs idempotentes para cobros — clave para evitar duplicación en redes inestables"
-  - "Event-driven con Celery+Redis para desacoplar notificaciones del core del sistema"
+  - "Separación estricta entre lógica de dominio e infraestructura"
+  - "Modelado orientado al comportamiento financiero y no únicamente a persistencia"
+  - "Core del sistema desarrollado en Rust para priorizar control y confiabilidad"
+  - "Arquitectura modular preparada para evolución y extensión del dominio"
+  - "Uso de Tauri para construir una aplicación de escritorio ligera y desacoplada"
+  - "Diseño orientado a trazabilidad, validación y auditoría de operaciones"
 
 highlights:
-  - "90% reducción en errores de cálculo manual"
-  - "70% de cobros automatizados sin intervención humana"
-  - "Latencia de estados de cuenta < 2s"
-  - "Sistema en producción real"
+  - "Digitalización estructurada de procesos financieros"
+  - "Trazabilidad completa sobre operaciones y estados"
+  - "Validación continua junto al stakeholder durante el desarrollo"
+  - "Arquitectura centrada en integridad y evolución del dominio"
+  - "Separación clara entre lógica financiera e interfaz"
 
 result: >
-  Sistema en uso productivo. Reducción del 90% en errores de cálculo manual
-  y automatización del flujo de cobros que eliminó la necesidad de intervención
-  humana en el 70% de los casos estándar.
+  Debita permitió transformar un proceso financiero manual en un sistema capaz
+  de representar, validar y centralizar información financiera de manera
+  estructurada. Más allá de automatizar tareas operativas, el proyecto
+  estableció una base arquitectónica enfocada en mantenibilidad, trazabilidad
+  y evolución futura del dominio financiero.
 
 tech:
-  - Django
-  - PostgreSQL
-  - Redis
+  - Rust
+  - Tauri
   - React
-  - Celery
+  - TypeScript
+  - SQLite
+  - PostgreSQL
   - Docker
+
 areas:
   - backend
+  - desktop development
+  - domain modeling
   - system design
-  - data modeling
+  - financial systems
   - automation
 
 repo: "#"
@@ -58,9 +72,16 @@ date: 2025-06-15
 
 ## Arquitectura del sistema
 
-Debita se construyó como un sistema modular donde cada componente tiene una responsabilidad clara:
+Debita fue diseñado como un sistema modular orientado al dominio financiero,
+donde la lógica crítica del sistema se mantiene desacoplada de la interfaz y
+de los mecanismos de persistencia.
 
-- **Core de dominio**: Modela las entidades de deuda, pagos, intereses y estados
-- **Motor de cálculo**: Servicio aislado para cómputo financiero con pruebas exhaustivas
-- **Cola de eventos**: Procesamiento asíncrono de notificaciones y cobros programados
-- **Dashboard**: Interfaz de seguimiento para acreedores y deudores
+- **Core de dominio en Rust**: Encapsula reglas financieras, validaciones y comportamiento del sistema
+- **Capa de aplicación**: Coordina casos de uso y flujo operativo entre módulos
+- **Persistencia desacoplada**: Manejo de almacenamiento preparado para distintos motores y escenarios
+- **Interfaz en React + Tauri**: Cliente de escritorio orientado a productividad operativa
+- **Sistema de automatización**: Responsable de seguimiento operativo y coordinación de eventos internos
+
+La arquitectura prioriza integridad de datos, mantenibilidad y evolución del
+dominio, permitiendo extender funcionalidades sin comprometer la lógica
+financiera central.

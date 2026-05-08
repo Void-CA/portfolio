@@ -43,6 +43,32 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 		--text-secondary: #9CA3AF;
 		--border: rgba(255, 255, 255, 0.08);
 		--border-hover: rgba(124, 58, 237, 0.3);
+
+		/* Personalidad visual por tipo de proyecto */
+		--personality: 'clean';
+		--card-padding: 20px;
+		--card-gap: 16px;
+	}
+
+	/* Terminal personality: systems, cli, monitoring */
+	:global([data-personality="terminal"]) {
+		--personality: 'terminal';
+		--card-padding: 16px;
+		--card-gap: 12px;
+	}
+
+	/* Grid personality: data, time-series */
+	:global([data-personality="grid"]) {
+		--personality: 'grid';
+		--card-padding: 24px;
+		--card-gap: 20px;
+	}
+
+	/* Fluid personality: web, frontend */
+	:global([data-personality="fluid"]) {
+		--personality: 'fluid';
+		--card-padding: 20px;
+		--card-gap: 16px;
 	}
 
 	:global(*) {

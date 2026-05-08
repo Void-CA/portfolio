@@ -1,56 +1,83 @@
 ---
 title: MagicORM
-subtitle: Exploración de diseño de una capa de acceso a datos
-description: ORM desde cero explorando diferentes enfoques para construcción de queries y el control de abstracciones sobre base de datos.
+subtitle: Diseño de un ORM tipado y composicional en Rust
+description: Exploración de arquitectura para una capa de acceso a datos enfocada en composición, seguridad de tipos y control explícito sobre SQL y relaciones.
 status: ongoing
-featured: false
+featured: true
 order: 5
 
 problem: >
-  Los ORMs existentes ocultan complejidad hasta que no pueden más. Cuando necesitas
-  control fino sobre queries, terminas peleando contra la abstracción.
+  Muchos ORMs simplifican el acceso a datos a costa de ocultar comportamiento crítico.
+  A medida que las consultas crecen en complejidad, aparecen problemas de control,
+  rendimiento y trazabilidad del SQL generado. En otros casos, las APIs terminan
+  siendo demasiado verbosas o rígidas para modelar relaciones reales.
 
 challenge: >
-  Diseñar una capa de acceso a datos que balancee flexibilidad, control y simplicidad.
-  El trade-off central: cada nivel de abstracción gana comodidad pero pierde expresividad.
-  ¿Dónde está el punto correcto?
+  Diseñar un ORM que aproveche el sistema de tipos de Rust sin convertir la experiencia
+  de desarrollo en una capa excesivamente compleja. El objetivo es equilibrar:
+  expresividad, seguridad de tipos, composición de queries y transparencia sobre
+  la ejecución real en base de datos.
 
 solution: >
-  Exploración de diseño de un ORM con enfoque en transparencia: cada abstracción tiene
-  un escape hatch claro. Queries construidas composicionalmente, sin magia oculta.
-  El usuario siempre puede bajar al SQL crudo cuando lo necesita.
+  MagicORM es una exploración de diseño centrada en composición y explicitud.
+  Las queries se construyen mediante builders tipados y relaciones declarativas,
+  manteniendo control directo sobre el SQL y permitiendo escape a consultas crudas
+  cuando el caso lo requiere. El diseño busca evitar "magia implícita" y prioriza
+  APIs previsibles y extensibles.
 
 decisions:
-  - "Composición sobre herencia: las queries se construyen combinando piezas, no extendiendo clases"
-  - "Escape hatches explícitos: cada nivel de abstracción documenta cómo salir de él"
-  - "Transparencia sobre conveniencia: preferimos que el usuario sepa qué SQL se genera"
+  - "Composición sobre APIs monolíticas: queries y relaciones se construyen como piezas reutilizables"
+  - "Relaciones explícitas: eager loading y asociaciones declaradas mediante macros y traits"
+  - "Integración profunda con el sistema de tipos de Rust para validación en compile-time"
+  - "Separación clara entre ergonomía y comportamiento implícito"
+  - "Soporte para SQL crudo como parte natural de la arquitectura, no como excepción"
 
 highlights:
-  - "Queries composicionales con escape a SQL crudo"
-  - "Diseño enfocado en transparencia, no en magia"
+  - "Query Builder tipado y composicional"
+  - "Sistema de relaciones y eager loading"
+  - "Transacciones integradas en operaciones del ORM"
+  - "Macros derivadas para modelos y vistas"
+  - "Exportación y transformación de resultados"
+  - "Arquitectura orientada a extensibilidad"
 
 result: >
-  Proyecto de exploración técnica. No busca ser un ORM para producción, sino un
-  ejercicio de diseño que revela los trade-offs ocultos en las capas de acceso a datos.
+  Más que un ORM tradicional, MagicORM funciona como un laboratorio de arquitectura
+  y diseño de APIs en Rust. El proyecto ha servido para explorar trade-offs reales
+  entre ergonomía, control y seguridad de tipos, además de profundizar en temas
+  como metaprogramación, traits avanzados y composición de abstracciones.
 
 tech:
-  - TypeScript
+  - Rust
+  - SQLx
   - PostgreSQL
+  - Macros
+  - Tokio
+
 areas:
   - backend
-  - system design
-  - data modeling
+  - systems programming
+  - database architecture
+  - api design
 
 repo: "#"
 date: 2025-12-01
 ---
 
-## Exploración de diseño
+## Enfoque del proyecto
 
-El proyecto explora tres enfoques:
+MagicORM no intenta replicar exactamente el comportamiento de ORMs tradicionales.
+El foco principal está en explorar cómo diseñar una capa de persistencia moderna
+aprovechando las capacidades del sistema de tipos de Rust.
 
-- **Query Builder**: Construcción composicional de queries con tipos
-- **Active Record**: Entidades que saben persistirse (y cuándo NO usarlo)
-- **Data Mapper**: Separación total entre dominio y persistencia
+Actualmente el proyecto experimenta con:
 
-Cada enfoque se implementa para el mismo caso de uso, permitiendo comparar trade-offs reales.
+- **Query Builders tipados** para composición segura de consultas
+- **Relaciones declarativas** (`has_many`, `belongs_to`, eager loading)
+- **Views y modelos derivados** mediante macros
+- **Transacciones integradas** dentro del flujo del ORM
+- **Comparación entre patrones** como Active Record, Data Mapper y builders composicionales
+- **Mecanismos de escape** hacia SQL crudo sin romper la arquitectura general
+
+El proyecto también funciona como espacio de investigación para evaluar decisiones
+de diseño relacionadas con ergonomía, trazabilidad de queries y límites de las
+abstracciones en acceso a datos.

@@ -38,6 +38,7 @@ result: >
 tech:
   - WebAssembly
   - Rust
+  - React
 areas:
   - data
   - systems
