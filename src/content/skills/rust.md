@@ -40,8 +40,13 @@ narrative:
     - "No para prototipos rápidos: ahí prefiero TypeScript"
     - "Sistemas concurrentes y aplicaciones donde el overhead importa"
 
+
   projects_context: |
-    Rust se ha convertido en mi lenguaje favorito, permite una flexibilidad y control que me ha permitido llevar proyectos de diversos tipos como desktop, CLI, parsers y sistemas concurrentes. Argos es un ejemplo claro de cómo Rust me permitió construir una herramienta eficiente y portable para monitorear procesos, mientras que proyectos como Debita y Magic-ORM se benefician de la seguridad de tipos y el modelado explícito que Rust ofrece.
+    Argos fue el proyecto que definió mi relación inicial con Rust, principalmente por las restricciones de consumo de recursos, concurrencia y portabilidad que requería. Más adelante lo utilicé en PNA para experimentar con WebAssembly y procesamiento offline dentro del navegador. Con el tiempo terminé explorando otras capacidades del lenguaje en proyectos como Magic-ORM, donde trabajé con traits, macros derive y metaprogramación para construir abstracciones más expresivas, y en Debita, donde Rust funciona como base de modelado y lógica dentro de una aplicación desktop construida con Tauri.
+
+
+
+
 
   tradeoffs:
     - "Curva de aprendizaje real: el borrow checker puede ser frustrante al inicio"
