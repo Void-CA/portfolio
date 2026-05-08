@@ -11,6 +11,10 @@ impact_areas:
   - arquitectura
   - reproducibilidad
 
+perspectives:
+  - Tooling
+  - Data
+
 projects:
   - iot-platform
   - debita

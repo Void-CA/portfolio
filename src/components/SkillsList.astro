@@ -8,19 +8,121 @@ interface Props {
 
 const { skills } = Astro.props;
 
-const sorted = skills.sort((a, b) => a.data.order - b.data.order);
+const categories = [
+  "Systems",
+  "Modeling",
+  "Tooling",
+  "Data",
+  "Runtime",
+  "Interfaces",
+];
 ---
 
+<div class="skills-filter">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-link active" data-filter="all">All</button>
+  {categories.map(cat => (
+    <button class="filter-link" data-filter={cat}>{cat}</button>
+  ))}
+</div>
+
 <div class="skills-list">
-  {sorted.map(skill => <SkillCard skill={skill} />)}
+  {skills.sort((a, b) => a.data.order - b.data.order).map(skill => {
+    const perspectives = skill.data.perspectives || skill.data.impact_areas?.slice(0, 2) || [];
+    return (
+      <div class="skill-item" data-perspectives={perspectives.join(",")}>
+        <SkillCard skill={skill} />
+      </div>
+    );
+  })}
 </div>
 
 <style>
+  .skills-filter {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .filter-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.55;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-link:hover {
+    opacity: 1;
+    color: var(--text-primary);
+  }
+
+  .filter-link.active {
+    opacity: 1;
+    color: var(--text-primary);
+  }
+
+  .filter-link::after {
+    content: "·";
+    margin-left: 16px;
+    opacity: 0.3;
+  }
+
+  .filter-link:last-child::after {
+    display: none;
+  }
+
   .skills-list {
     display: flex;
     flex-direction: column;
     max-width: 720px;
-    padding-bottom: 80px;
     gap: 24px;
+    padding-bottom: 80px;
+  }
+
+  .skill-item {
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+
+  .skill-item.hidden {
+    display: none;
   }
 </style>
+
+<script is:inline>
+  function initSkillsFilter() {
+    const links = document.querySelectorAll('.filter-link');
+    const items = document.querySelectorAll('.skill-item');
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        const filter = link.getAttribute('data-filter');
+
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        items.forEach(item => {
+          const perspectives = item.getAttribute('data-perspectives') || '';
+          const shouldShow = filter === 'all' || perspectives.toLowerCase().includes(filter.toLowerCase());
+          item.classList.toggle('hidden', !shouldShow);
+        });
+      });
+    });
+  }
+
+  initSkillsFilter();
+</script>

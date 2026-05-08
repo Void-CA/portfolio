@@ -34,6 +34,7 @@ const skills = defineCollection({
     impact_areas: z.array(z.string()).optional(),
     problems: z.array(z.string()).optional(),
     projects: z.array(z.string()),
+    perspectives: z.array(z.string()).optional(),
     level: z.enum(["expert", "advanced", "intermediate"]).default("intermediate"),
     order: z.number().default(0),
     narrative: z.object({

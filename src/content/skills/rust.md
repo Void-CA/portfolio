@@ -12,6 +12,11 @@ impact_areas:
   - modelado de dominio
   - tooling
 
+perspectives:
+  - Runtime
+  - Systems
+  - Tooling
+
 projects:
   - argos
   - pna

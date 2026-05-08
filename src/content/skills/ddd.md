@@ -11,6 +11,9 @@ impact_areas:
   - patrones
   - consistencia
 
+perspectives:
+  - Modeling
+
 projects:
   - kora
   - debita
