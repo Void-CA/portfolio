@@ -44,17 +44,25 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
       </section>
     )}
 
-    {narrative.what_changed && (
+    {narrative.what_changed && narrative.what_changed.length > 0 && (
       <section class="narrative-section">
         <span class="section-label">Qué cambió en mi forma de pensar</span>
-        <p class="narrative-text">{narrative.what_changed}</p>
+        <ul class="insight-list">
+          {narrative.what_changed.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
       </section>
     )}
 
-    {narrative.how_i_use && (
+    {narrative.how_i_use && narrative.how_i_use.length > 0 && (
       <section class="narrative-section">
         <span class="section-label">Cómo la utilizo</span>
-        <p class="narrative-text">{narrative.how_i_use}</p>
+        <ul class="insight-list">
+          {narrative.how_i_use.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
       </section>
     )}
 
@@ -68,13 +76,20 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
             </a>
           ))}
         </div>
+        {narrative.projects_context && (
+          <p class="projects-context">{narrative.projects_context}</p>
+        )}
       </section>
     )}
 
-    {narrative.tradeoffs && (
+    {narrative.tradeoffs && narrative.tradeoffs.length > 0 && (
       <section class="narrative-section tradeoffs">
         <span class="section-label">Trade-offs y limitaciones</span>
-        <p class="narrative-text">{narrative.tradeoffs}</p>
+        <ul class="insight-list">
+          {narrative.tradeoffs.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
       </section>
     )}
 
@@ -163,13 +178,38 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
     letter-spacing: 0.08em;
     color: var(--accent-soft);
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .narrative-text {
     color: var(--text-secondary);
     line-height: 1.7;
     font-size: 0.95rem;
+  }
+
+  .insight-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .insight-list li {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .insight-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
   }
 
   .projects-section {
@@ -199,6 +239,14 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
 
   .project-link:hover {
     background: rgba(124, 58, 237, 0.25);
+  }
+
+  .projects-context {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-style: italic;
   }
 
   .empty-state {

@@ -38,10 +38,10 @@ const skills = defineCollection({
     order: z.number().default(0),
     narrative: z.object({
       intro: z.string().optional(),
-      what_changed: z.string().optional(),
-      how_i_use: z.string().optional(),
+      what_changed: z.array(z.string()).optional(),
+      how_i_use: z.array(z.string()).optional(),
       projects_context: z.string().optional(),
-      tradeoffs: z.string().optional(),
+      tradeoffs: z.array(z.string()).optional(),
     }).optional(),
   }),
 });
