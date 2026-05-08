@@ -1,10 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SkillCard from '../../components/SkillCard.astro';
+import SkillsList from '../../components/SkillsList.astro';
 import { getCollection } from "astro:content";
 
 const skills = await getCollection("skills");
-const sorted = skills.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout title="Skills" description="Bitácora técnica: herramientas que influyeron en mi forma de diseñar software.">
@@ -16,9 +15,7 @@ const sorted = skills.sort((a, b) => a.data.order - b.data.order);
     </p>
   </section>
 
-  <section class="skills-list">
-    {sorted.map(skill => <SkillCard skill={skill} />)}
-  </section>
+  <SkillsList skills={skills} />
 </Layout>
 
 <style>
@@ -31,12 +28,5 @@ const sorted = skills.sort((a, b) => a.data.order - b.data.order);
     margin-top: 12px;
     font-size: 0.95rem;
     line-height: 1.7;
-  }
-
-  .skills-list {
-    display: flex;
-    flex-direction: column;
-    max-width: 720px;
-    padding-bottom: 80px;
   }
 </style>

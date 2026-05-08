@@ -22,17 +22,45 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
 
 <style>
   .skill-card {
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-    transition: border-color 0.2s;
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .skill-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 32px;
+    bottom: 32px;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
   }
 
   .skill-card:hover {
-    border-color: var(--accent);
+    border-color: rgba(124, 58, 237, 0.2);
+    padding-left: 16px;
+  }
+
+  .skill-card:hover::before {
+    opacity: 1;
   }
 
   .skill-card[data-size="large"] {
-    padding: 32px 0;
+    padding: 40px 0;
+  }
+
+  .skill-card[data-size="large"]::before {
+    top: 40px;
+    bottom: 40px;
+  }
+
+  .skill-card[data-size="large"]:hover {
+    padding-left: 20px;
   }
 
   .skill-card a {
@@ -44,11 +72,16 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
   }
 
   .tech-label {
-    font-size: 0.7rem;
+    font-size: 1.25rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--accent);
+    transition: color 0.25s ease;
+  }
+
+  .skill-card:hover .tech-label {
+    color: var(--text-primary);
   }
 
   .statement {
@@ -60,6 +93,11 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
     padding: 0;
     border: none;
     font-style: normal;
+    transition: color 0.25s ease;
+  }
+
+  .skill-card:hover .statement {
+    color: var(--accent-soft);
   }
 
   .skill-card[data-size="large"] .statement {
@@ -71,11 +109,24 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
     font-size: 0.75rem;
     color: var(--text-secondary);
     opacity: 0.7;
+    transition: opacity 0.25s ease;
+  }
+
+  .skill-card:hover .context {
+    opacity: 1;
   }
 
   @media (max-width: 640px) {
     .skill-card {
-      padding: 20px 0;
+      padding: 24px 0;
+    }
+
+    .skill-card[data-size="large"] {
+      padding: 32px 0;
+    }
+
+    .skill-card:hover {
+      padding-left: 12px;
     }
 
     .statement {

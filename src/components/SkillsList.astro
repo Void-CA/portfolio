@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SkillCard from "./SkillCard.astro";
+
+interface Props {
+  skills: CollectionEntry<"skills">[];
+}
+
+const { skills } = Astro.props;
+
+const sorted = skills.sort((a, b) => a.data.order - b.data.order);
+---
+
+<div class="skills-list">
+  {sorted.map(skill => <SkillCard skill={skill} />)}
+</div>
+
+<style>
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
+    padding-bottom: 80px;
+    gap: 24px;
+  }
+</style>
