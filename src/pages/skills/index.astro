@@ -16,15 +16,15 @@ const sorted = skills.sort((a, b) => a.data.order - b.data.order);
     </p>
   </section>
 
-  <section class="skills-grid">
+  <section class="skills-list">
     {sorted.map(skill => <SkillCard skill={skill} />)}
   </section>
 </Layout>
 
 <style>
   .page-header {
-    padding: 64px 0 40px;
-    max-width: 640px;
+    padding: 64px 0 48px;
+    max-width: 720px;
   }
 
   .desc {
@@ -33,17 +33,10 @@ const sorted = skills.sort((a, b) => a.data.order - b.data.order);
     line-height: 1.7;
   }
 
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
     padding-bottom: 80px;
-    align-items: stretch;
-  }
-
-  @media (max-width: 768px) {
-    .skills-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
