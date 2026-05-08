@@ -6,56 +6,61 @@ interface Props {
 }
 
 const { skill } = Astro.props;
-const { data } = skill;
+const { data, id: slug } = skill;
 
-const levelLabels = {
-  expert: "Experto",
-  advanced: "Avanzado",
-  intermediate: "Intermedio",
-};
-
-const levelColors = {
-  expert: "#10B981",
-  advanced: "#7C3AED",
-  intermediate: "#9CA3AF",
-};
+// Statement: usar el nuevo campo o fallback a description
+const statement = data.statement || data.description;
+const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
 ---
 
 <article class="skill-card">
   <div class="header">
     <h3>{data.name}</h3>
-    <span class="level" style={`color: ${levelColors[data.level]}`}>{levelLabels[data.level]}</span>
   </div>
 
-  <p class="description">{data.description}</p>
+  <p class="statement">{statement}</p>
 
-  <div class="projects">
-    {data.projects.map(p => <a href={`/proyectos/${p}`} class="project-pill">{p}</a>)}
-  </div>
+  {impactAreas.length > 0 && (
+    <div class="impact-areas">
+      {impactAreas.slice(0, 3).map(area => (
+        <span class="impact-pill">{area}</span>
+      ))}
+    </div>
+  )}
+
+  {data.projects && data.projects.length > 0 && (
+    <div class="project-hints">
+      {data.projects.slice(0, 2).map(p => (
+        <a href={`/proyectos/${p}`} class="project-hint" title={p}></a>
+      ))}
+      {data.projects.length > 2 && (
+        <span class="more-hint">+{data.projects.length - 2}</span>
+      )}
+    </div>
+  )}
+
+  <a href={`/skills/${slug}`} class="link">
+    Ver más <span class="arrow">→</span>
+  </a>
 </article>
 
 <style>
   .skill-card {
     background: var(--bg-surface);
     border: 1px solid transparent;
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    height: 100%;
+    min-height: 180px;
     transition: border-color 0.2s, transform 0.2s;
   }
 
   .skill-card:hover {
     border-color: var(--border-hover);
-    transform: translateY(-1px);
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+    transform: translateY(-2px);
   }
 
   .header h3 {
@@ -65,43 +70,69 @@ const levelColors = {
     line-height: 1.3;
   }
 
-  .level {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .description {
-    font-size: 0.85rem;
+  .statement {
+    font-size: 0.9rem;
     line-height: 1.5;
     color: var(--text-secondary);
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .projects {
+  .impact-areas {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin-top: auto;
   }
 
-  .project-pill {
-    font-size: 0.7rem;
+  .impact-pill {
+    font-size: 0.65rem;
     padding: 3px 8px;
     background: rgba(124, 58, 237, 0.1);
     border: 1px solid rgba(124, 58, 237, 0.15);
     border-radius: 4px;
     color: var(--accent-soft);
     font-weight: 500;
-    transition: all 0.15s;
   }
 
-  .project-pill:hover {
-    background: rgba(124, 58, 237, 0.2);
-    border-color: rgba(124, 58, 237, 0.3);
+  .project-hints {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .project-hint {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--border);
+    transition: background 0.15s;
+  }
+
+  .project-hint:hover {
+    background: var(--border-hover);
+  }
+
+  .more-hint {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+  }
+
+  .link {
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-soft);
+    transition: gap 0.2s;
+    margin-top: auto;
+  }
+
+  .link:hover {
+    gap: 6px;
+    color: var(--accent);
   }
 </style>

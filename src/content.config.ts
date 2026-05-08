@@ -29,11 +29,20 @@ const skills = defineCollection({
   schema: z.object({
     name: z.string(),
     icon: z.string().optional(),
+    statement: z.string().optional(),
     description: z.string(),
-    problems: z.array(z.string()),
+    impact_areas: z.array(z.string()).optional(),
+    problems: z.array(z.string()).optional(),
     projects: z.array(z.string()),
     level: z.enum(["expert", "advanced", "intermediate"]).default("intermediate"),
     order: z.number().default(0),
+    narrative: z.object({
+      intro: z.string().optional(),
+      what_changed: z.string().optional(),
+      how_i_use: z.string().optional(),
+      projects_context: z.string().optional(),
+      tradeoffs: z.string().optional(),
+    }).optional(),
   }),
 });
 
