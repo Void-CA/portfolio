@@ -4,11 +4,23 @@ import Layout from '../../layouts/Layout.astro';
 
 <Layout title="Método" description="Cómo construyo sistemas: proceso de análisis, diseño, desarrollo y evolución.">
   <section class="page-header">
-    <h1>Método de trabajo</h1>
-    <p class="desc">
-      Cómo analizo, diseño y construyo sistemas. No es teoría — es el proceso que aplico
-      en cada proyecto para reducir incertidumbre y entregar algo que funcione en producción.
-    </p>
+    <div class="page-header-content">
+      <h1>Método de trabajo</h1>
+      <p class="desc">
+        Cómo analizo, diseño y construyo sistemas. No es teoría — es el proceso que aplico
+        en cada proyecto para reducir incertidumbre y entregar algo que funcione en producción.
+      </p>
+    </div>
+
+    <!--
+      Visual del método — diagrama de flujo, mapa de proceso, esquema de ciclo.
+      Espacio reservado para representar visualmente las 4 fases del método.
+    -->
+    <div class="method-visual" aria-hidden="true">
+      <div class="method-visual-placeholder">
+        <span class="placeholder-icon">⟳</span>
+      </div>
+    </div>
   </section>
 
   <section class="process">
@@ -18,6 +30,15 @@ import Layout from '../../layouts/Layout.astro';
         <h3>Análisis del problema</h3>
         <p>Antes de escribir código, entiendo el problema real. ¿Qué situación motivó esto? ¿Quiénes son los actores? ¿Qué restricciones existen? Especifico requisitos en términos de comportamiento, no de tecnología.</p>
       </div>
+      <!--
+        Diagrama de análisis: mapa de actores, árbol de decisiones,
+        diagrama de contexto, user journey.
+      -->
+      <div class="step-visual" aria-hidden="true">
+        <div class="step-visual-placeholder">
+          <span class="placeholder-icon">◈</span>
+        </div>
+      </div>
     </div>
 
     <div class="step">
@@ -25,6 +46,15 @@ import Layout from '../../layouts/Layout.astro';
       <div class="step-content">
         <h3>Modelado y diseño</h3>
         <p>Identifico las entidades del dominio, sus relaciones y responsabilidades. Defino los límites del sistema y sus interfaces. Las decisiones de arquitectura se documentan con trade-offs, no solo con elecciones.</p>
+      </div>
+      <!--
+        Diagrama de diseño: modelo de dominio, diagrama de componentes,
+        mapa de contexto acotado, esquema de arquitectura.
+      -->
+      <div class="step-visual" aria-hidden="true">
+        <div class="step-visual-placeholder">
+          <span class="placeholder-icon">◇</span>
+        </div>
       </div>
     </div>
 
@@ -34,6 +64,15 @@ import Layout from '../../layouts/Layout.astro';
         <h3>Desarrollo iterativo</h3>
         <p>Construyo en capas: primero el core de dominio, luego las interfaces externas. Cada feature se desarrolla con criterio de reversibilidad — si la decisión era equivocada, debe ser fácil de cambiar. Separación clara entre lógica de negocio y framework.</p>
       </div>
+      <!--
+        Visual de desarrollo: ciclo iterativo, capas de arquitectura,
+        pipeline de integración, estructura de proyecto.
+      -->
+      <div class="step-visual" aria-hidden="true">
+        <div class="step-visual-placeholder">
+          <span class="placeholder-icon">⟳</span>
+        </div>
+      </div>
     </div>
 
     <div class="step">
@@ -41,6 +80,15 @@ import Layout from '../../layouts/Layout.astro';
       <div class="step-content">
         <h3>Evolución del sistema</h3>
         <p>Un sistema no termina cuando se entrega. Pienso en mantenibilidad desde el día uno: tests en lo crítico, documentación de decisiones, interfaces estables. El sistema debe poder evolucionar sin reescribirse.</p>
+      </div>
+      <!--
+        Visual de evolución: timeline de versiones, gráfico de métricas,
+        diagrama de flujo de mantenimiento, esquema de deuda técnica.
+      -->
+      <div class="step-visual" aria-hidden="true">
+        <div class="step-visual-placeholder">
+          <span class="placeholder-icon">◆</span>
+        </div>
       </div>
     </div>
   </section>
@@ -71,6 +119,13 @@ import Layout from '../../layouts/Layout.astro';
 <style>
   .page-header {
     padding: 64px 0 40px;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .page-header-content {
+    flex: 1;
     max-width: 640px;
   }
 
@@ -78,6 +133,39 @@ import Layout from '../../layouts/Layout.astro';
     margin-top: 12px;
     font-size: 0.95rem;
     line-height: 1.7;
+  }
+
+  .method-visual {
+    width: 240px;
+    height: 240px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: border-color .3s;
+  }
+
+  .method-visual:hover {
+    border-color: var(--border-hover);
+  }
+
+  .method-visual-placeholder,
+  .step-visual-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .placeholder-icon {
+    font-size: 2rem;
+    color: var(--border);
+    opacity: .5;
   }
 
   .process {
@@ -126,6 +214,25 @@ import Layout from '../../layouts/Layout.astro';
     max-width: 560px;
   }
 
+  .step-visual {
+    width: 140px;
+    height: 88px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: border-color .3s;
+    margin-top: 4px;
+  }
+
+  .step:hover .step-visual {
+    border-color: var(--border-hover);
+  }
+
   .principles {
     padding-bottom: 80px;
   }
@@ -161,6 +268,16 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .method-visual {
+      width: 100%;
+      height: 200px;
+    }
+
     .step {
       flex-direction: column;
       gap: 8px;
@@ -168,6 +285,12 @@ import Layout from '../../layouts/Layout.astro';
 
     .step-num {
       font-size: 1rem;
+    }
+
+    .step-visual {
+      width: 100%;
+      height: 120px;
+      order: -1;
     }
 
     .principles-grid {
