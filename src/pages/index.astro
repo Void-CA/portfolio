@@ -13,17 +13,33 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
 
 <Layout title="Inicio" description="Ingeniero de sistemas: backend, data, automatización. Proyectos reales, decisiones técnicas, resultados medibles.">
   <section class="hero">
-    <p class="overline">Ingeniería de sistemas</p>
-    <h1>
-      Construyo sistemas que <span class="highlight">resuelven problemas reales</span>.
-    </h1>
-    <p class="hero-desc">
-      Backend, data, automatización y diseño de arquitecturas. No hago demos — 
-      hago sistemas que operan en producción con restricciones reales.
-    </p>
-    <div class="hero-cta">
-      <a href="/proyectos" class="btn btn-primary">Ver proyectos</a>
-      <a href="/skills" class="btn btn-secondary">Habilidades</a>
+    <div class="hero-content">
+      <p class="overline">Ingeniería de sistemas</p>
+      <h1>
+        Construyo sistemas que <span class="highlight">resuelven problemas reales</span>.
+      </h1>
+      <p class="hero-desc">
+        Backend, data, automatización y diseño de arquitecturas. No hago demos — 
+        hago sistemas que operan en producción con restricciones reales.
+      </p>
+      <div class="hero-cta">
+        <a href="/proyectos" class="btn btn-primary">Ver proyectos</a>
+        <a href="/skills" class="btn btn-secondary">Habilidades</a>
+      </div>
+    </div>
+
+    <!--
+      Hero visual — identidad visual técnica.
+      Espacio reservado para:
+      - Foto pequeña (no tradicional, estilo minimalista/tecno)
+      - Visualización de nodos, coordenadas, wireframe
+      - Terminal, métricas, esquemas
+      - O combinación: foto chica + identidad visual alrededor
+    -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual-placeholder">
+        <span class="placeholder-icon">◈</span>
+      </div>
     </div>
   </section>
 
@@ -65,12 +81,16 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
   .hero {
     padding: 80px 0 64px;
     display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 720px;
+    gap: 48px;
+    align-items: center;
   }
 
-  .overline {
+  .hero-content {
+    flex: 1;
+    max-width: 600px;
+  }
+
+  .hero-content .overline {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -78,20 +98,54 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
     font-weight: 600;
   }
 
-  h1 .highlight {
+  .hero-content h1 .highlight {
     color: var(--accent-soft);
   }
 
-  .hero-desc {
+  .hero-content .hero-desc {
     font-size: 1.1rem;
     line-height: 1.7;
     max-width: 560px;
   }
 
-  .hero-cta {
+  .hero-content .hero-cta {
     display: flex;
     gap: 12px;
     margin-top: 8px;
+  }
+
+  /* ── Hero visual: identidad visual técnica ── */
+
+  .hero-visual {
+    width: 260px;
+    height: 260px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .hero-visual:hover {
+    border-color: var(--border-hover);
+  }
+
+  .hero-visual-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .placeholder-icon {
+    font-size: 3rem;
+    color: var(--border);
+    opacity: 0.5;
   }
 
   .btn {
@@ -193,14 +247,21 @@ accent
 
   @media (max-width: 768px) {
     .hero {
+      flex-direction: column;
+      gap: 32px;
       padding: 48px 0 40px;
     }
 
-    .hero-cta {
+    .hero-visual {
+      width: 100%;
+      height: 200px;
+    }
+
+    .hero-content .hero-cta {
       flex-direction: column;
     }
 
-    .btn {
+    .hero-content .btn {
       justify-content: center;
     }
 

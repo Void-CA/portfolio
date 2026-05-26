@@ -17,6 +17,7 @@ const projects = defineCollection({
     result: z.string().optional(),
     tech: z.array(z.string()),
     areas: z.array(z.string()).optional(),
+    image: z.string().optional(),     // ruta a imagen de portada del proyecto
     repo: z.string().optional(),
     live: z.string().optional(),
     date: z.date(),
@@ -53,6 +54,7 @@ const notes = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    image: z.string().optional(),     // ruta a imagen asociada a la nota
     project: z.string().optional(),
     tags: z.array(z.string()).optional(),
     published: z.boolean().default(true),

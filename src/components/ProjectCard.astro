@@ -62,6 +62,11 @@ const statusLabel = statusLabels[data.status] || "";
 ---
 
 <article class="card" data-personality={personality}>
+  {data.image && (
+    <div class="card-image">
+      <img src={data.image} alt="" loading="lazy" />
+    </div>
+  )}
   <h3 class="title">
     <a href={`/proyectos/${slug}`} class="cover-link">{data.title}</a>
   </h3>
@@ -103,6 +108,24 @@ const statusLabel = statusLabels[data.status] || "";
   .card:hover {
     border-color: var(--border-hover);
     box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.12);
+  }
+
+  .card-image {
+    margin: -20px -20px 12px;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   /* Cover link — toda la card es clickeable */
