@@ -42,16 +42,17 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 
 <style>
 	:global(:root) {
-		--bg-primary: #0F0F14;
-		--bg-surface: #1A1A24;
-		--bg-surface-hover: #22222E;
-		--accent: #7C3AED;
-		--accent-soft: #A78BFA;
-		--accent-glow: rgba(124, 58, 237, 0.15);
-		--text-primary: #E5E7EB;
-		--text-secondary: #9CA3AF;
-		--border: rgba(255, 255, 255, 0.08);
-		--border-hover: rgba(124, 58, 237, 0.3);
+		--bg-primary: #0B1020;
+		--bg-surface: #12182B;
+		--bg-surface-hover: #1A2140;
+		--accent: #8B5CF6;
+		--accent-bright: #A855F7;
+		--accent-soft: #b6a7f4;
+		--accent-glow: rgba(139, 92, 246, 0.15);
+		--text-primary: #E8ECF3;
+		--text-secondary: #A7B0C2;
+		--border: #232B45;
+		--border-hover: rgba(139, 92, 246, 0.35);
 
 		/* Personalidad visual por tipo de proyecto */
 		--personality: 'clean';
@@ -60,16 +61,23 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 	}
 
 	:global([data-theme="light"]) {
-		--bg-primary: #F9FAFB;
+		--bg-primary: #F5F7FB;
 		--bg-surface: #FFFFFF;
-		--bg-surface-hover: #F3F4F6;
+		--bg-surface-hover: #F0F2F8;
 		--accent: #7C3AED;
-		--accent-soft: #6D28D9;
+		--accent-bright: #8B5CF6;
+		--accent-soft: #8f64f3;
 		--accent-glow: rgba(124, 58, 237, 0.12);
 		--text-primary: #111827;
-		--text-secondary: #6B7280;
-		--border: rgba(0, 0, 0, 0.08);
+		--text-secondary: #4B5563;
+		--border: #D8DDF0;
 		--border-hover: rgba(124, 58, 237, 0.25);
+	}
+
+	:global([data-theme="light"]) body {
+		background-image:
+			linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
 	}
 
 	/* Terminal personality: systems, cli, monitoring */
@@ -101,11 +109,16 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 
 	:global(body) {
 		background-color: var(--bg-primary);
+		background-image:
+			linear-gradient(rgba(139, 92, 246, 0.025) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(139, 92, 246, 0.025) 1px, transparent 1px);
+		background-size: 64px 64px;
+		background-position: -1px -1px;
 		color: var(--text-primary);
 		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 		line-height: 1.6;
 		-webkit-font-smoothing: antialiased;
-		transition: background-color 0.35s ease, color 0.35s ease;
+		transition: background-color 0.35s ease;
 	}
 
 	:global(.header),
