@@ -3,9 +3,10 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   project: CollectionEntry<"projects">;
+  hasNotes?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, hasNotes = false } = Astro.props;
 const { data, id: slug } = project;
 
 // Determinar personalidad según áreas
@@ -79,6 +80,7 @@ const statusLabel = statusLabels[data.status] || "";
 
     <span class="end">
       {showStatus && <span class="status">{statusLabel}</span>}
+      {hasNotes && <span class="notes-indicator">Nota</span>}
       <span class="arrow">→</span>
     </span>
   </div>
@@ -203,6 +205,18 @@ const statusLabel = statusLabels[data.status] || "";
 
   .card:hover .arrow {
     transform: translateX(3px);
+  }
+
+  .notes-indicator {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--accent-glow);
+    color: var(--accent-soft);
+    white-space: nowrap;
   }
 
   /* Terminal personality: más denso, mono para metadata */

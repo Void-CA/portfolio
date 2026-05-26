@@ -6,6 +6,12 @@ import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 
+// Proyectos que tienen notas técnicas asociadas
+const allNotes = await getCollection("notes");
+const projectsWithNotes = new Set(
+  allNotes.filter(n => n.data.published && n.data.project).map(n => n.data.project)
+);
+
 const sorted = projects.sort((a, b) => a.data.order - b.data.order);
 const featured = sorted.filter(p => p.data.featured);
 const explorations = sorted.filter(p => !p.data.featured);
@@ -50,7 +56,7 @@ if (uncategorized.length > 0) {
             data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
             data-areas={(project.data.areas || []).join(",")}
           >
-            <ProjectCard project={project} />
+            <ProjectCard project={project} hasNotes={projectsWithNotes.has(project.id)} />
           </div>
         ))}
       </div>
@@ -66,7 +72,7 @@ if (uncategorized.length > 0) {
               data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
               data-areas={(project.data.areas || []).join(",")}
             >
-              <ProjectCard project={project} />
+              <ProjectCard project={project} hasNotes={projectsWithNotes.has(project.id)} />
             </div>
           ))}
         </div>
