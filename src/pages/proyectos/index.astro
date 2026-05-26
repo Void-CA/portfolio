@@ -20,16 +20,30 @@ const explorations = sorted.filter(p => !p.data.featured);
 const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
 const allAreas = [...new Set(projects.flatMap(p => p.data.areas || []))].sort();
 
-// Categorización de tecnologías
+// Techs que aparecen como filtros — excluimos dependencias granulares
+// (sysinfo, CLAP, SQLx, Macros, Tokio, Serialization), herramientas
+// transversales (CLI) y metodologías (Domain-Driven Design, Clean Architecture)
+// que no definen un conjunto de proyectos.
+const filterTechs = allTech.filter(t =>
+  !["CLI", "sysinfo", "clap", "Serialization", "Macros", "Tokio", "SQLx",
+    "Domain-Driven Design", "Clean Architecture"].includes(t)
+);
+
+// Áreas que aparecen como filtros — excluimos "system design" porque
+// es base conceptual de todos los proyectos, no un discriminador.
+const filterAreas = allAreas.filter(a => a !== "system design");
+
+// Categorización de tecnologías para los filtros
 const categories: Record<string, string[]> = {
-  "Lenguajes": allTech.filter(t => ["Rust", "TypeScript", "Python"].includes(t)),
-  "Frameworks": allTech.filter(t => ["Django", "React", "Celery", "sysinfo", "serde"].includes(t)),
-  "Infraestructura": allTech.filter(t => ["PostgreSQL", "Redis"].includes(t)),
+  "Lenguajes": filterTechs.filter(t => ["Rust", "TypeScript", "WebAssembly"].includes(t)),
+  "Frameworks": filterTechs.filter(t => ["React", "Tauri", "Node.js"].includes(t)),
+  "Bases de datos": filterTechs.filter(t => ["PostgreSQL", "SQLite", "InfluxDB"].includes(t)),
+  "Infraestructura": filterTechs.filter(t => ["Docker", "MQTT"].includes(t)),
 };
 
-// Si hay tecnologías no categorizadas, agregarlas a "Otros"
+// Si hay tecnologías filtrables no categorizadas, a "Otros"
 const categorized = new Set(Object.values(categories).flat());
-const uncategorized = allTech.filter(t => !categorized.has(t));
+const uncategorized = filterTechs.filter(t => !categorized.has(t));
 if (uncategorized.length > 0) {
   categories["Otros"] = uncategorized;
 }
@@ -45,7 +59,7 @@ if (uncategorized.length > 0) {
   </section>
 
   <div class="content-wrapper" id="projects-view">
-    <FilterPills categories={categories} areas={allAreas} />
+    <FilterPills categories={categories} areas={filterAreas} />
 
     <section class="section-group">
       <h2 class="section-heading">Casos de estudio</h2>
