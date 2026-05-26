@@ -62,11 +62,9 @@ const statusLabel = statusLabels[data.status] || "";
 ---
 
 <article class="card" data-personality={personality}>
-  {data.image && (
-    <div class="card-image">
-      <img src={data.image} alt="" loading="lazy" />
-    </div>
-  )}
+  <div class="card-image">
+    <img src={data.image || "/test.png"} alt="" loading="lazy" />
+  </div>
   <h3 class="title">
     <a href={`/proyectos/${slug}`} class="cover-link">{data.title}</a>
   </h3>

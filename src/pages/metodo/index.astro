@@ -17,9 +17,7 @@ import Layout from '../../layouts/Layout.astro';
       Espacio reservado para representar visualmente las 4 fases del método.
     -->
     <div class="method-visual" aria-hidden="true">
-      <div class="method-visual-placeholder">
-        <span class="placeholder-icon">⟳</span>
-      </div>
+      <img src="/test.png" alt="" />
     </div>
   </section>
 
@@ -35,9 +33,7 @@ import Layout from '../../layouts/Layout.astro';
         diagrama de contexto, user journey.
       -->
       <div class="step-visual" aria-hidden="true">
-        <div class="step-visual-placeholder">
-          <span class="placeholder-icon">◈</span>
-        </div>
+        <img src="/test.png" alt="" />
       </div>
     </div>
 
@@ -52,9 +48,7 @@ import Layout from '../../layouts/Layout.astro';
         mapa de contexto acotado, esquema de arquitectura.
       -->
       <div class="step-visual" aria-hidden="true">
-        <div class="step-visual-placeholder">
-          <span class="placeholder-icon">◇</span>
-        </div>
+        <img src="/test.png" alt="" />
       </div>
     </div>
 
@@ -69,9 +63,7 @@ import Layout from '../../layouts/Layout.astro';
         pipeline de integración, estructura de proyecto.
       -->
       <div class="step-visual" aria-hidden="true">
-        <div class="step-visual-placeholder">
-          <span class="placeholder-icon">⟳</span>
-        </div>
+        <img src="/test.png" alt="" />
       </div>
     </div>
 
@@ -86,9 +78,7 @@ import Layout from '../../layouts/Layout.astro';
         diagrama de flujo de mantenimiento, esquema de deuda técnica.
       -->
       <div class="step-visual" aria-hidden="true">
-        <div class="step-visual-placeholder">
-          <span class="placeholder-icon">◆</span>
-        </div>
+        <img src="/test.png" alt="" />
       </div>
     </div>
   </section>
@@ -153,19 +143,12 @@ import Layout from '../../layouts/Layout.astro';
     border-color: var(--border-hover);
   }
 
-  .method-visual-placeholder,
-  .step-visual-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .method-visual img,
+  .step-visual img {
     width: 100%;
     height: 100%;
-  }
-
-  .placeholder-icon {
-    font-size: 2rem;
-    color: var(--border);
-    opacity: .5;
+    object-fit: cover;
+    display: block;
   }
 
   .process {

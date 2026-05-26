@@ -45,11 +45,13 @@ const statusLabels = {
         Tipos sugeridos: terminal elegante, diagrama de arquitectura,
         visualización de datos, render del sistema, screenshot curado.
       -->
-      {data.image && (
-        <div class="project-image">
-          <img src={data.image} alt={`Portada de ${data.title}`} loading="lazy" />
-        </div>
-      )}
+      <div class="project-image">
+        <img
+          src={data.image || "/test.png"}
+          alt={`Portada de ${data.title}`}
+          loading="lazy"
+        />
+      </div>
 
       <section class="case-study">
         {data.problem && (
