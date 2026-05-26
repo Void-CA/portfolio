@@ -6,6 +6,10 @@ import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 
+const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+const featured = sorted.filter(p => p.data.featured);
+const explorations = sorted.filter(p => !p.data.featured);
+
 // Extraer todos los tech únicos
 const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
 const allAreas = [...new Set(projects.flatMap(p => p.data.areas || []))].sort();
@@ -19,9 +23,9 @@ const categories: Record<string, string[]> = {
 
 // Si hay tecnologías no categorizadas, agregarlas a "Otros"
 const categorized = new Set(Object.values(categories).flat());
-const others = allTech.filter(t => !categorized.has(t));
-if (others.length > 0) {
-  categories["Otros"] = others;
+const uncategorized = allTech.filter(t => !categorized.has(t));
+if (uncategorized.length > 0) {
+  categories["Otros"] = uncategorized;
 }
 ---
 
@@ -37,10 +41,10 @@ if (others.length > 0) {
   <div class="content-wrapper" id="projects-view">
     <FilterPills categories={categories} areas={allAreas} />
 
-    <div class="projects-grid">
-      {projects
-        .sort((a, b) => a.data.order - b.data.order)
-        .map(project => (
+    <section class="section-group">
+      <h2 class="section-heading">Casos de estudio</h2>
+      <div class="projects-grid">
+        {featured.map(project => (
           <div
             class="project-item"
             data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
@@ -49,7 +53,25 @@ if (others.length > 0) {
             <ProjectCard project={project} />
           </div>
         ))}
-    </div>
+      </div>
+    </section>
+
+    {explorations.length > 0 && (
+      <section class="section-group">
+        <h2 class="section-heading">Exploraciones</h2>
+        <div class="projects-grid">
+          {explorations.map(project => (
+            <div
+              class="project-item"
+              data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
+              data-areas={(project.data.areas || []).join(",")}
+            >
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 </Layout>
 
@@ -69,6 +91,24 @@ if (others.length > 0) {
     padding: 0 0 80px;
   }
 
+  .section-group {
+    margin-top: 48px;
+  }
+
+  .section-group:first-of-type {
+    margin-top: 0;
+  }
+
+  .section-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -82,7 +122,7 @@ if (others.length > 0) {
 
   .project-item :global(.card) {
     height: 100%;
-    min-height: 280px;
+    min-height: 160px;
   }
 
   @media (max-width: 768px) {
