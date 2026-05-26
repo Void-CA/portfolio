@@ -11,7 +11,7 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -19,6 +19,15 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Portfolio</title>
+
+		<!-- Init theme BEFORE paint — evita flash -->
+		<script is:inline>
+			(function () {
+				const stored = localStorage.getItem('theme');
+				const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
 	</head>
 	<body>
 		<div class="page">
@@ -48,6 +57,19 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 		--personality: 'clean';
 		--card-padding: 20px;
 		--card-gap: 16px;
+	}
+
+	:global([data-theme="light"]) {
+		--bg-primary: #F9FAFB;
+		--bg-surface: #FFFFFF;
+		--bg-surface-hover: #F3F4F6;
+		--accent: #7C3AED;
+		--accent-soft: #6D28D9;
+		--accent-glow: rgba(124, 58, 237, 0.12);
+		--text-primary: #111827;
+		--text-secondary: #6B7280;
+		--border: rgba(0, 0, 0, 0.08);
+		--border-hover: rgba(124, 58, 237, 0.25);
 	}
 
 	/* Terminal personality: systems, cli, monitoring */
@@ -83,6 +105,16 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 		line-height: 1.6;
 		-webkit-font-smoothing: antialiased;
+		transition: background-color 0.35s ease, color 0.35s ease;
+	}
+
+	:global(.header),
+	:global(.footer),
+	:global(.card),
+	:global(.area-card),
+	:global(.skill-card),
+	:global(.pill) {
+		transition: background-color 0.25s ease, border-color 0.25s ease;
 	}
 
 	.page {
