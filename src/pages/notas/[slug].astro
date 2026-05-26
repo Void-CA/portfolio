@@ -1,0 +1,212 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const notes = await getCollection("notes");
+  return notes
+    .filter(n => n.data.published)
+    .map(note => ({
+      params: { slug: note.id },
+      props: { note },
+    }));
+}
+
+const { note } = Astro.props;
+const { data } = note;
+const { Content } = await render(note);
+---
+
+<Layout title={data.title} description={data.description}>
+  <article class="note-detail">
+    <header class="note-header">
+      <a href={data.project ? `/proyectos/${data.project}` : "/proyectos"} class="back-link">← Volver al proyecto</a>
+      <div class="note-meta">
+        <time class="note-date">
+          {data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}
+        </time>
+        {data.project && (
+          <a href={`/proyectos/${data.project}`} class="note-project">Proyecto relacionado</a>
+        )}
+      </div>
+      <h1>{data.title}</h1>
+      <p class="note-desc">{data.description}</p>
+      {data.tags && data.tags.length > 0 && (
+        <div class="note-tags">
+          {data.tags.map(t => <span class="tag">{t}</span>)}
+        </div>
+      )}
+    </header>
+
+    <div class="note-body">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .note-detail {
+    padding: 48px 0 80px;
+    max-width: 720px;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--accent-soft);
+  }
+
+  .note-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .note-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .note-project {
+    font-size: 0.75rem;
+    color: var(--accent-soft);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .note-project:hover {
+    text-decoration: underline;
+  }
+
+  .note-detail h1 {
+    margin-bottom: 16px;
+  }
+
+  .note-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+
+  .note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-hover);
+    border-radius: 6px;
+    color: var(--accent-soft);
+    font-weight: 500;
+  }
+
+  .note-body {
+    line-height: 1.75;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .note-body :global(h2) {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+
+  .note-body :global(h3) {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .note-body :global(p) {
+    margin-bottom: 16px;
+    line-height: 1.75;
+  }
+
+  .note-body :global(strong) {
+    color: var(--text-primary);
+  }
+
+  .note-body :global(ul), .note-body :global(ol) {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  .note-body :global(li) {
+    margin-bottom: 6px;
+    line-height: 1.7;
+  }
+
+  .note-body :global(code) {
+    background: var(--bg-surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.85em;
+  }
+
+  .note-body :global(pre) {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .note-body :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  .note-body :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin-left: 0;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .note-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+  }
+
+  .note-body :global(th) {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .note-body :global(td) {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .note-body :global(tr:last-child td) {
+    border-bottom: none;
+  }
+</style>
