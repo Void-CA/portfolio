@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import { IDENTITY } from '../components/SiteConfig';
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 const featured = projects
   .filter(p => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
-
-const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
 ---
 
 <Layout title="Inicio" description="Ingeniero de sistemas: backend, data, automatización. Proyectos reales, decisiones técnicas, resultados medibles.">
   <section class="hero">
     <div class="hero-content">
+      <p class="identity-line">{IDENTITY.name} · {IDENTITY.roleTag}</p>
       <p class="overline">Ingeniería de sistemas</p>
       <h1>
         Construyo sistemas que <span class="highlight">resuelven problemas reales</span>.
@@ -24,7 +24,7 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
       </p>
       <div class="hero-cta">
         <a href="/proyectos" class="btn btn-primary">Ver proyectos</a>
-        <a href="/skills" class="btn btn-secondary">Habilidades</a>
+        <a href="mailto:castilloari282@gmail.com" class="btn btn-secondary">Contactar</a>
       </div>
     </div>
 
@@ -96,6 +96,13 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
     font-weight: 600;
   }
 
+  .identity-line {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
   .hero-content h1 .highlight {
     color: var(--accent-soft);
   }
@@ -153,7 +160,7 @@ const skills = ["Rust", "Django", "React", "PostgreSQL", "System Design"];
     background: var(--accent);
     color: white;
   }
-accent
+
   .btn-primary:hover {
     background: #6D28D9;
     color: white;

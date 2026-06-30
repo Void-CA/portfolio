@@ -26,9 +26,9 @@ const personalityMap: Record<string, string> = {
 const personality = personalityMap[data.areas?.[0] || "backend"] || "clean";
 
 const statusLabels: Record<string, string> = {
-  ongoing: "Experimental",
+  ongoing: "En uso",
   finished: "",
-  archived: "Archivado",
+  archived: "Exploración",
 };
 
 // Mapeo de áreas a etiquetas de display (Nivel 1)
@@ -70,6 +70,10 @@ const statusLabel = statusLabels[data.status] || "";
   </h3>
 
   <p class="description">{data.description}</p>
+
+  {data.highlights && data.highlights.length > 0 && (
+    <div class="metric">{data.highlights[0]}</div>
+  )}
 
   <div class="meta">
     <div class="tags">
@@ -238,6 +242,18 @@ const statusLabel = statusLabels[data.status] || "";
     background: var(--accent-glow);
     color: var(--accent-soft);
     white-space: nowrap;
+  }
+
+  .metric {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-soft);
+    background: var(--accent-glow);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    align-self: flex-start;
+    line-height: 1.4;
   }
 
   /* Terminal personality: más denso, mono para metadata */

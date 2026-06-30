@@ -1,0 +1,298 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const skills = await getCollection("skills");
+  return skills.map(skill => ({
+    params: { slug: skill.id },
+    props: { skill },
+  }));
+}
+
+const { skill } = Astro.props;
+const { data, id: slug } = skill;
+
+const narrative = data.narrative || {};
+const projectsList = data.projects || [];
+const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
+
+const allSpecialties = await getCollection("specialties");
+const skillSpecialties = (data.specialties || [])
+  .map(s => allSpecialties.find(spec => spec.id === s))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+---
+
+<Layout title={data.name} description={data.statement || data.description}>
+  <article class="skill-detail">
+    <header class="skill-header">
+      <a href="/skills" class="back-link">← Volver a especialidades</a>
+      <h1>{data.name}</h1>
+      <p class="statement">{data.statement || data.description}</p>
+    </header>
+
+    {skillSpecialties.length > 0 && (
+      <section class="specialties-badges">
+        <span class="section-label">Aparece en</span>
+        <div class="badges">
+          {skillSpecialties.map(spec => (
+            <a href={`/skills/${spec.id}/`} class="specialty-badge">{spec.data.name}</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {impactAreas.length > 0 && (
+      <section class="impact-section">
+        <h2>Áreas de impacto</h2>
+        <div class="impact-tags">
+          {impactAreas.map(area => (
+            <span class="impact-tag">{area}</span>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {narrative.intro && (
+      <section class="narrative-section">
+        <span class="section-label">Introducción</span>
+        <p class="narrative-text">{narrative.intro}</p>
+      </section>
+    )}
+
+    {narrative.what_changed && narrative.what_changed.length > 0 && (
+      <section class="narrative-section">
+        <span class="section-label">Qué cambió en mi forma de pensar</span>
+        <ul class="insight-list">
+          {narrative.what_changed.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {narrative.how_i_use && narrative.how_i_use.length > 0 && (
+      <section class="narrative-section">
+        <span class="section-label">Cómo la utilizo</span>
+        <ul class="insight-list">
+          {narrative.how_i_use.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {projectsList.length > 0 && (
+      <section class="projects-section">
+        <h2>Proyectos relacionados</h2>
+        <div class="project-links">
+          {projectsList.map(projectSlug => (
+            <a href={`/proyectos/${projectSlug}`} class="project-link">
+              {projectSlug}
+            </a>
+          ))}
+        </div>
+        {narrative.projects_context && (
+          <p class="projects-context">{narrative.projects_context}</p>
+        )}
+      </section>
+    )}
+
+    {narrative.tradeoffs && narrative.tradeoffs.length > 0 && (
+      <section class="narrative-section tradeoffs">
+        <span class="section-label">Trade-offs y limitaciones</span>
+        <ul class="insight-list">
+          {narrative.tradeoffs.map(item => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Layout>
+
+<style>
+  .skill-detail {
+    padding: 48px 0 80px;
+    max-width: 720px;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 32px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--accent-soft);
+  }
+
+  .skill-header h1 {
+    margin-bottom: 8px;
+  }
+
+  .statement {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .specialties-badges {
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
+
+  .specialties-badges .section-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .specialty-badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .specialty-badge:hover {
+    border-color: var(--accent);
+    color: var(--accent-soft);
+  }
+
+  .impact-section {
+    margin-top: 32px;
+    margin-bottom: 48px;
+  }
+
+  .impact-section h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .impact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .impact-tag {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-hover);
+    border-radius: 6px;
+    color: var(--accent-soft);
+    font-weight: 500;
+  }
+
+  .narrative-section {
+    margin-bottom: 32px;
+    padding: 24px;
+    background: var(--bg-surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .tradeoffs {
+    border-color: rgba(234, 179, 8, 0.15);
+    background: rgba(234, 179, 8, 0.03);
+  }
+
+  .section-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .narrative-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .insight-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .insight-list li {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .insight-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  .projects-section {
+    margin-bottom: 32px;
+  }
+
+  .projects-section h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .project-link {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    background: var(--accent-glow);
+    border-radius: 6px;
+    color: var(--accent-soft);
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .project-link:hover {
+    background: var(--accent-glow);
+  }
+
+  .projects-context {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
+</style>

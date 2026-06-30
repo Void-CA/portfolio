@@ -17,11 +17,16 @@ perspectives:
   - Systems
   - Tooling
 
+specialties:
+  - ingenieria-de-software
+  - robotics-software
+
 projects:
   - argos
   - pna
   - debita
   - magic-orm
+  - thalos
 
 level: advanced
 
@@ -47,7 +52,7 @@ narrative:
 
 
   projects_context: |
-    Argos fue el proyecto que definió mi relación inicial con Rust, principalmente por las restricciones de consumo de recursos, concurrencia y portabilidad que requería. Más adelante lo utilicé en PNA para experimentar con WebAssembly y procesamiento offline dentro del navegador. Con el tiempo terminé explorando otras capacidades del lenguaje en proyectos como Magic-ORM, donde trabajé con traits, macros derive y metaprogramación para construir abstracciones más expresivas, y en Debita, donde Rust funciona como base de modelado y lógica dentro de una aplicación desktop construida con Tauri.
+    Argos fue el proyecto que definió mi relación inicial con Rust, principalmente por las restricciones de consumo de recursos, concurrencia y portabilidad que requería. Más adelante lo utilicé en PNA para experimentar con WebAssembly y procesamiento offline dentro del navegador. Con el tiempo terminé explorando otras capacidades del lenguaje en proyectos como Magic-ORM, donde trabajé con traits, macros derive y metaprogramación para construir abstracciones más expresivas, y en Debita, donde Rust funciona como base de modelado y lógica dentro de una aplicación desktop construida con Tauri. Thalos llevó a Rust al terreno de la robótica: workspace multi-crate, nalgebra para matemática de base, axum para la API, y separación estricta entre el motion compiler (agnóstico del backend) y el runtime que materializa las trayectorias.
 
 
 

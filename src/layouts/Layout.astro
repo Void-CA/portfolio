@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { IDENTITY, CONTACT, SOCIAL } from '../components/SiteConfig';
 
 interface Props {
   title: string;
@@ -8,6 +9,19 @@ interface Props {
 }
 
 const { title, description = "Portfolio de ingeniería — sistemas reales, decisiones técnicas, resultados." } = Astro.props;
+
+const pageTitle = `${title} | ${IDENTITY.name}`;
+const pageDescription = description;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: IDENTITY.fullName,
+  jobTitle: "Software Developer",
+  email: CONTACT.email,
+  sameAs: [CONTACT.github, CONTACT.linkedin],
+  url: Astro.url.origin,
+};
 ---
 
 <!doctype html>
@@ -15,10 +29,21 @@ const { title, description = "Portfolio de ingeniería — sistemas reales, deci
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content={description} />
+		<meta name="description" content={pageDescription} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title} | Portfolio</title>
+		<title>{pageTitle}</title>
+
+		<!-- Open Graph -->
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={pageDescription} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content={`${Astro.url.origin}${SOCIAL.ogImage}`} />
+		<meta property="og:url" content={Astro.url.href} />
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<!-- JSON-LD Person -->
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 		<!-- Init theme BEFORE paint — evita flash -->
 		<script is:inline>

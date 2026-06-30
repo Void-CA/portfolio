@@ -17,6 +17,7 @@ projects:
   - debita
   - iot-platform
   - magic-orm
+  - sindrome-metabolico
 
 level: advanced
 

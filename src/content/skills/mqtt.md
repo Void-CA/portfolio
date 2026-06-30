@@ -7,6 +7,7 @@ problems:
   - "Reconexión automática en redes inestables"
 projects:
   - iot-platform
+  - thalos
 level: intermediate
 order: 5
 ---

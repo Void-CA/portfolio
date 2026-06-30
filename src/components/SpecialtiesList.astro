@@ -1,0 +1,198 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Specialty = CollectionEntry<"specialties">;
+type Skill = CollectionEntry<"skills">;
+type Project = CollectionEntry<"projects">;
+
+interface Props {
+  specialties: Specialty[];
+  skills: Skill[];
+  projects: Project[];
+}
+
+const { specialties, skills, projects } = Astro.props;
+
+const skillsById = new Map<string, Skill>(skills.map(s => [s.id, s]));
+const projectsById = new Map<string, Project>(projects.map(p => [p.id, p]));
+---
+
+<div class="specialties-list">
+  {specialties.sort((a, b) => a.data.order - b.data.order).map(spec => {
+    const competencies: Skill[] = [];
+    for (const slug of spec.data.competencies) {
+      const skill = skillsById.get(slug);
+      if (skill) competencies.push(skill);
+    }
+    const featuredProjects: Project[] = [];
+    for (const slug of spec.data.featured_projects) {
+      const project = projectsById.get(slug);
+      if (project) featuredProjects.push(project);
+    }
+    return (
+      <article class="specialty-card">
+        <a href={`/skills/${spec.id}/`} class="cover-link">
+          <header>
+            <h2 class="specialty-name">{spec.data.name}</h2>
+            <p class="specialty-desc">{spec.data.description}</p>
+          </header>
+          {competencies.length > 0 && (
+            <section class="competencies">
+              <span class="section-label">Competencias</span>
+              <div class="tags">
+                {competencies.map(skill => (
+                  <span class="tag">{skill.data.name}</span>
+                ))}
+              </div>
+            </section>
+          )}
+          {featuredProjects.length > 0 && (
+            <footer class="featured-projects">
+              <span class="section-label">Proyectos destacados</span>
+              <div class="projects">
+                {featuredProjects.map(project => (
+                  <span class="project-ref">{project.data.title}</span>
+                ))}
+              </div>
+              <span class="arrow" aria-hidden="true">→</span>
+            </footer>
+          )}
+        </a>
+      </article>
+    );
+  })}
+</div>
+
+<style>
+  .specialties-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 80px;
+  }
+
+  .specialty-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+  }
+
+  .specialty-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.12);
+  }
+
+  .cover-link {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cover-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+  }
+
+  .cover-link:focus-visible::after {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .specialty-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .specialty-card:hover .specialty-name {
+    color: var(--accent-soft);
+  }
+
+  .specialty-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .section-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-hover);
+    border-radius: 6px;
+    color: var(--accent-soft);
+    font-weight: 500;
+  }
+
+  .featured-projects {
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    position: relative;
+  }
+
+  .projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .project-ref {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .project-ref::after {
+    content: ",";
+    margin-right: 4px;
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .project-ref:last-child::after {
+    content: "";
+  }
+
+  .arrow {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    font-size: 0.85rem;
+    color: var(--accent-soft);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+
+  .specialty-card:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

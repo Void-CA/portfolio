@@ -3,106 +3,72 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const skills = await getCollection("skills");
-  return skills.map(skill => ({
-    params: { slug: skill.id },
-    props: { skill },
+  const specialties = await getCollection("specialties");
+  return specialties.map(spec => ({
+    params: { slug: spec.id },
+    props: { spec },
   }));
 }
 
-const { skill } = Astro.props;
-const { data, id: slug } = skill;
+const { spec } = Astro.props;
+const { data, id: slug } = spec;
 
-const narrative = data.narrative || {};
-const projectsList = data.projects || [];
-const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
+const allSkills = await getCollection("skills");
+const allProjects = await getCollection("projects");
+
+const competencies = data.competencies
+  .map(s => allSkills.find(skill => skill.id === s))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+const featuredProjects = data.featured_projects
+  .map(p => allProjects.find(project => project.id === p))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
 ---
 
-<Layout title={data.name} description={data.statement || data.description}>
-  <article class="skill-detail">
-    <header class="skill-header">
-      <a href="/skills" class="back-link">← Volver a áreas</a>
+<Layout title={data.name} description={data.description}>
+  <article class="specialty-detail">
+    <header class="specialty-header">
+      <a href="/skills" class="back-link">← Volver a especialidades</a>
       <h1>{data.name}</h1>
-      <p class="statement">{data.statement || data.description}</p>
+      <p class="description">{data.description}</p>
     </header>
 
-    {impactAreas.length > 0 && (
-      <section class="impact-section">
-        <h2>Áreas de impacto</h2>
-        <div class="impact-tags">
-          {impactAreas.map(area => (
-            <span class="impact-tag">{area}</span>
-          ))}
-        </div>
-      </section>
-    )}
-
-    {narrative.intro && (
-      <section class="narrative-section">
-        <span class="section-label">Introducción</span>
-        <p class="narrative-text">{narrative.intro}</p>
-      </section>
-    )}
-
-    {narrative.what_changed && narrative.what_changed.length > 0 && (
-      <section class="narrative-section">
-        <span class="section-label">Qué cambió en mi forma de pensar</span>
-        <ul class="insight-list">
-          {narrative.what_changed.map(item => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    {narrative.how_i_use && narrative.how_i_use.length > 0 && (
-      <section class="narrative-section">
-        <span class="section-label">Cómo la utilizo</span>
-        <ul class="insight-list">
-          {narrative.how_i_use.map(item => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    {projectsList.length > 0 && (
-      <section class="projects-section">
-        <h2>Proyectos relacionados</h2>
-        <div class="project-links">
-          {projectsList.map(projectSlug => (
-            <a href={`/proyectos/${projectSlug}`} class="project-link">
-              {projectSlug}
+    {competencies.length > 0 && (
+      <section class="competencies-section">
+        <h2>Competencias</h2>
+        <div class="skills-grid">
+          {competencies.map(skill => (
+            <a href={`/skills/skill/${skill.id}/`} class="skill-link">
+              <span class="skill-name">{skill.data.name}</span>
+              {skill.data.statement && (
+                <span class="skill-statement">{skill.data.statement}</span>
+              )}
             </a>
           ))}
         </div>
-        {narrative.projects_context && (
-          <p class="projects-context">{narrative.projects_context}</p>
-        )}
       </section>
     )}
 
-    {narrative.tradeoffs && narrative.tradeoffs.length > 0 && (
-      <section class="narrative-section tradeoffs">
-        <span class="section-label">Trade-offs y limitaciones</span>
-        <ul class="insight-list">
-          {narrative.tradeoffs.map(item => (
-            <li>{item}</li>
+    {featuredProjects.length > 0 && (
+      <section class="projects-section">
+        <h2>Proyectos destacados</h2>
+        <div class="projects-list">
+          {featuredProjects.map(project => (
+            <a href={`/proyectos/${project.id}/`} class="project-link">
+              <span class="project-title">{project.data.title}</span>
+              {project.data.subtitle && (
+                <span class="project-subtitle">{project.data.subtitle}</span>
+              )}
+            </a>
           ))}
-        </ul>
-      </section>
-    )}
-
-    {!narrative.intro && !narrative.what_changed && !narrative.how_i_use && !narrative.tradeoffs && (
-      <section class="empty-state">
-        <p>En proceso de documentación...</p>
+        </div>
       </section>
     )}
   </article>
 </Layout>
 
 <style>
-  .skill-detail {
+  .specialty-detail {
     padding: 48px 0 80px;
     max-width: 720px;
   }
@@ -121,138 +87,98 @@ const impactAreas = data.impact_areas || data.problems?.slice(0, 3) || [];
     color: var(--accent-soft);
   }
 
-  .skill-header h1 {
-    margin-bottom: 8px;
-  }
-
-  .statement {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    max-width: 600px;
-  }
-
-  .impact-section {
-    margin-top: 32px;
-    margin-bottom: 48px;
-  }
-
-  .impact-section h2 {
-    font-size: 1rem;
-    margin-bottom: 12px;
-  }
-
-  .impact-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .impact-tag {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    background: var(--accent-glow);
-    border: 1px solid var(--border-hover);
-    border-radius: 6px;
-    color: var(--accent-soft);
-    font-weight: 500;
-  }
-
-  .narrative-section {
-    margin-bottom: 32px;
-    padding: 24px;
-    background: var(--bg-surface);
-    border-radius: 10px;
-    border: 1px solid var(--border);
-  }
-
-  .tradeoffs {
-    border-color: rgba(234, 179, 8, 0.15);
-    background: rgba(234, 179, 8, 0.03);
-  }
-
-  .section-label {
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent-soft);
-    font-weight: 600;
+  .specialty-header h1 {
     margin-bottom: 16px;
   }
 
-  .narrative-text {
-    color: var(--text-secondary);
+  .description {
+    font-size: 1.05rem;
     line-height: 1.7;
-    font-size: 0.95rem;
+    color: var(--text-secondary);
   }
 
-  .insight-list {
-    list-style: none;
+  .competencies-section,
+  .projects-section {
+    margin-top: 48px;
+  }
+
+  .competencies-section h2,
+  .projects-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .skills-grid {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 0;
-    margin: 0;
-  }
-
-  .insight-list li {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-size: 0.9rem;
-    padding-left: 20px;
-    position: relative;
-  }
-
-  .insight-list li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 0.75rem;
-  }
-
-  .projects-section {
-    margin-bottom: 32px;
-  }
-
-  .projects-section h2 {
-    font-size: 1rem;
-    margin-bottom: 12px;
-  }
-
-  .project-links {
-    display: flex;
-    flex-wrap: wrap;
     gap: 8px;
   }
 
-  .project-link {
-    font-size: 0.85rem;
-    padding: 8px 16px;
-    background: var(--accent-glow);
-    border-radius: 6px;
+  .skill-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .skill-link:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-surface-hover);
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--accent-soft);
-    font-weight: 500;
-    transition: all 0.15s;
+  }
+
+  .skill-statement {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .project-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
   }
 
   .project-link:hover {
-    background: var(--accent-glow);
+    border-color: var(--border-hover);
+    background: var(--bg-surface-hover);
+    transform: translateX(2px);
   }
 
-  .projects-context {
-    margin-top: 16px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    font-style: italic;
+  .project-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
-  .empty-state {
-    padding: 32px;
-    text-align: center;
+  .project-subtitle {
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    font-style: italic;
+    line-height: 1.5;
   }
 </style>

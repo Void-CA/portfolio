@@ -1,22 +1,25 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SkillsList from '../../components/SkillsList.astro';
+import SpecialtiesList from '../../components/SpecialtiesList.astro';
 import { getCollection } from "astro:content";
 
+const specialties = await getCollection("specialties");
 const skills = await getCollection("skills");
+const projects = await getCollection("projects");
 ---
 
-<Layout title="Áreas" description="Áreas de competencia técnica: modelado, sistemas, datos y más.">
+<Layout title="Especialidades" description="Capacidades demostradas a través de proyectos. Lo que sé hacer, no solo las tecnologías que conozco.">
   <section class="page-header">
-    <h1>Áreas de competencia</h1>
+    <h1>Especialidades</h1>
     <p class="desc">
-      No es una lista de tecnologías. Son áreas de pensamiento y diseño donde
-      tengo experiencia real resolviendo problemas. Cada una incluye contexto,
-      decisiones y proyectos donde se aplicó.
+      Capacidades demostradas a través de proyectos, no listas de
+      tecnologías. Cada especialidad agrupa competencias y proyectos
+      donde se aplicaron, con énfasis en el tipo de problema que
+      resuelve y la decisión arquitectónica que la sostiene.
     </p>
   </section>
 
-  <SkillsList skills={skills} />
+  <SpecialtiesList specialties={specialties} skills={skills} projects={projects} />
 </Layout>
 
 <style>

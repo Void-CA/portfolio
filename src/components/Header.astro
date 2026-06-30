@@ -1,8 +1,10 @@
 ---
+import { IDENTITY } from './SiteConfig';
+
 const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/proyectos', label: 'Proyectos' },
-  { href: '/skills', label: 'Áreas' },
+  { href: '/skills', label: 'Especialidades' },
   { href: '/metodo', label: 'Método' },
 ];
 
@@ -13,7 +15,8 @@ const currentPath = Astro.url.pathname;
   <div class="inner">
     <a href="/" class="logo">
       <span class="logo-dot"></span>
-      <span class="logo-text">portfolio</span>
+      <span class="identity-name">{IDENTITY.name}</span>
+      <span class="identity-role">{IDENTITY.roleTag}</span>
     </a>
     <nav>
       <ul>
@@ -109,6 +112,28 @@ const currentPath = Astro.url.pathname;
   nav a.active {
     color: var(--accent-soft);
     border-bottom-color: var(--accent-soft);
+  }
+
+  .identity-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .identity-role {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    padding-left: 10px;
+    border-left: 1px solid var(--border);
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .identity-role {
+      display: none;
+    }
   }
 
   .theme-toggle {

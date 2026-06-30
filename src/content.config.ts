@@ -36,6 +36,7 @@ const skills = defineCollection({
     problems: z.array(z.string()).optional(),
     projects: z.array(z.string()),
     perspectives: z.array(z.string()).optional(),
+    specialties: z.array(z.string()).optional(),
     level: z.enum(["expert", "advanced", "intermediate"]).default("intermediate"),
     order: z.number().default(0),
     narrative: z.object({
@@ -45,6 +46,17 @@ const skills = defineCollection({
       projects_context: z.string().optional(),
       tradeoffs: z.array(z.string()).optional(),
     }).optional(),
+  }),
+});
+
+const specialties = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/specialties" }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string(),
+    competencies: z.array(z.string()),
+    featured_projects: z.array(z.string()),
+    order: z.number().default(0),
   }),
 });
 
@@ -64,5 +76,6 @@ const notes = defineCollection({
 export const collections = {
   projects,
   skills,
+  specialties,
   notes,
 };

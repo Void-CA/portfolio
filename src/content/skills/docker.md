@@ -18,6 +18,7 @@ perspectives:
 projects:
   - iot-platform
   - debita
+  - thalos
 
 level: intermediate
 
