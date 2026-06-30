@@ -53,8 +53,6 @@ result: >
 
 tech:
   - Rust
-  - nalgebra
-  - axum
   - Angular
   - Three.js
   - Docker
@@ -62,10 +60,8 @@ tech:
 
 areas:
   - robotics
-  - systems
-  - backend
   - simulation
-  - api design
+  - backend
 
 repo: "https://github.com/Void-CA/Thalos"
 date: 2026-01-15

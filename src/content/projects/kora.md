@@ -53,14 +53,9 @@ tech:
   - Rust
   - PostgreSQL
   - Docker
-  - Domain-Driven Design
-  - Clean Architecture
 
 areas:
   - backend
-  - architecture
-  - domain modeling
-  - system design
   - agriculture technology
 
 repo: "#"

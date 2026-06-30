@@ -48,9 +48,9 @@ tech:
   - PostgreSQL
   - Docker
 areas:
-  - systems
-  - data
   - backend
+  - data
+  - monitoring
 
 repo: "#"
 date: 2025-09-01

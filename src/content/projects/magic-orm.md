@@ -48,16 +48,7 @@ result: >
 
 tech:
   - Rust
-  - SQLx
   - PostgreSQL
-  - Macros
-  - Tokio
-
-areas:
-  - backend
-  - systems programming
-  - database architecture
-  - api design
 
 repo: "#"
 date: 2025-12-01

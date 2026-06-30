@@ -54,17 +54,12 @@ tech:
   - Tauri
   - React
   - TypeScript
-  - SQLite
   - PostgreSQL
   - Docker
 
 areas:
   - backend
-  - desktop development
-  - domain modeling
-  - system design
   - financial systems
-  - automation
 
 repo: "#"
 date: 2025-06-15

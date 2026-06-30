@@ -25,19 +25,17 @@ const allAreas = [...new Set(projects.flatMap(p => p.data.areas || []))].sort();
 // transversales (CLI) y metodologías (Domain-Driven Design, Clean Architecture)
 // que no definen un conjunto de proyectos.
 const filterTechs = allTech.filter(t =>
-  !["CLI", "sysinfo", "clap", "Serialization", "Macros", "Tokio", "SQLx",
+  !["sysinfo", "clap", "Serialization", "Macros", "Tokio", "SQLx",
     "Domain-Driven Design", "Clean Architecture"].includes(t)
 );
 
-// Áreas que aparecen como filtros — excluimos "system design" porque
-// es base conceptual de todos los proyectos, no un discriminador.
-const filterAreas = allAreas.filter(a => a !== "system design");
+const filterAreas = allAreas;
 
 // Categorización de tecnologías para los filtros
 const categories: Record<string, string[]> = {
-  "Lenguajes": filterTechs.filter(t => ["Rust", "TypeScript", "WebAssembly"].includes(t)),
-  "Frameworks": filterTechs.filter(t => ["React", "Tauri", "Node.js"].includes(t)),
-  "Bases de datos": filterTechs.filter(t => ["PostgreSQL", "SQLite", "InfluxDB"].includes(t)),
+  "Lenguajes": filterTechs.filter(t => ["Rust", "TypeScript", "WebAssembly", "R"].includes(t)),
+  "Frameworks": filterTechs.filter(t => ["React", "Tauri", "Node.js", "Angular"].includes(t)),
+  "Bases de datos": filterTechs.filter(t => ["PostgreSQL", "InfluxDB"].includes(t)),
   "Infraestructura": filterTechs.filter(t => ["Docker", "MQTT"].includes(t)),
 };
 

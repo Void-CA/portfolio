@@ -41,7 +41,6 @@ tech:
   - React
 areas:
   - data
-  - systems
   - web
 
 repo: "#"

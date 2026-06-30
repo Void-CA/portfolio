@@ -57,17 +57,11 @@ result: >
 
 tech:
   - R
-  - tidyverse
-  - broom
-  - gtsummary
-  - GLM
   - PostgreSQL
 
 areas:
-  - data analysis
-  - data engineering
-  - statistical modeling
   - research
+  - data
 
 repo: "#"
 date: 2026-02-01

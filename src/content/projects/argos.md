@@ -40,12 +40,8 @@ result: >
 
 tech:
   - Rust
-  - sysinfo
-  - clap
   - CLI
-  - Serialization
 areas:
-  - systems
   - cli
   - monitoring
 
