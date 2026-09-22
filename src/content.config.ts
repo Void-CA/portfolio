@@ -9,6 +9,8 @@ const projects = defineCollection({
     subtitle: z.string().optional(),
     description: z.string(),
     status: z.enum(["ongoing", "finished", "archived"]),
+    kind: z.enum(["client", "own"]).optional(),   // trabajo para cliente vs proyecto propio
+    clientNote: z.string().optional(),            // sector o contexto del cliente, sin nombre
     featured: z.boolean().default(false),
     role: z.string().optional(),       // qué hizo Ari en el proyecto
     problem: z.string().optional(),

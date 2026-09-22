@@ -18,9 +18,17 @@ const { data } = project;
 
 const statusLabels = {
   ongoing: "En desarrollo",
-  finished: "Completado",
-  archived: "Archivado",
+  finished: "Entregado",
+  archived: "Exploración",
+} as const;
+
+const originLabels: Record<string, string> = {
+  client: "Trabajo para cliente",
+  own: "Proyecto propio",
 };
+
+const statusLabel = statusLabels[data.status];
+const originLabel = data.kind ? originLabels[data.kind] : "";
 ---
 
 <Layout title={data.title} description={data.description}>
@@ -31,7 +39,10 @@ const statusLabels = {
       <h1>{data.title}</h1>
       {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
       <div class="meta">
-        <span class="status status-{data.status}">{statusLabels[data.status]}</span>
+        <span class="status status-{data.status}">{statusLabel}</span>
+        {originLabel && (
+          <span class="origin">{originLabel}{data.clientNote && ` · ${data.clientNote}`}</span>
+        )}
         <span class="date">{data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}</span>
       </div>
       {data.role && (
@@ -53,13 +64,6 @@ const statusLabels = {
         </div>
       )}
 
-      {data.challenge && (
-        <div class="case-block">
-          <span class="case-label"><Icon name="sliders" class="case-icon" />Reto técnico</span>
-          <p class="case-text">{data.challenge}</p>
-        </div>
-      )}
-
       {data.solution && (
         <div class="case-block">
           <span class="case-label"><Icon name="cube" class="case-icon" />Solución</span>
@@ -67,19 +71,6 @@ const statusLabels = {
         </div>
       )}
     </section>
-
-    <div class="project-body">
-      <slot />
-    </div>
-
-    {data.decisions && data.decisions.length > 0 && (
-      <section class="decisions">
-        <h2>Decisiones técnicas</h2>
-        <ul>
-          {data.decisions.map(d => <li>{d}</li>)}
-        </ul>
-      </section>
-    )}
 
     {(data.result || (data.highlights && data.highlights.length > 0)) && (
       <section class="result-section">
@@ -107,12 +98,37 @@ const statusLabels = {
       </section>
     )}
 
-    <section class="tech-section">
-      <h2>Stack</h2>
-      <div class="tech-tags">
-        {data.tech.map(t => <span class="tag">{t}</span>)}
+    <details class="technical">
+      <summary>Detalle técnico (arquitectura, decisiones y stack)</summary>
+      <div class="technical-body">
+        {data.challenge && (
+          <div class="case-block">
+            <span class="case-label"><Icon name="sliders" class="case-icon" />Reto técnico</span>
+            <p class="case-text">{data.challenge}</p>
+          </div>
+        )}
+
+        <div class="project-body">
+          <slot />
+        </div>
+
+        {data.decisions && data.decisions.length > 0 && (
+          <section class="decisions">
+            <h2>Decisiones técnicas</h2>
+            <ul>
+              {data.decisions.map(d => <li>{d}</li>)}
+            </ul>
+          </section>
+        )}
+
+        <section class="tech-section">
+          <h2>Stack</h2>
+          <div class="tech-tags">
+            {data.tech.map(t => <span class="tag">{t}</span>)}
+          </div>
+        </section>
       </div>
-    </section>
+    </details>
 
     <footer class="project-footer">
       {data.repo && data.repo !== "#" && (
@@ -209,6 +225,50 @@ const statusLabels = {
   .date {
     font-size: 0.85rem;
     color: var(--text-muted);
+  }
+
+  .origin {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .technical {
+    margin: 40px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .technical summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .technical summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .technical summary::after {
+    content: "+";
+    float: right;
+    font-weight: 400;
+  }
+
+  .technical[open] summary::after {
+    content: "–";
+  }
+
+  .technical summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  .technical-body {
+    padding-bottom: 32px;
   }
 
   .project-image {

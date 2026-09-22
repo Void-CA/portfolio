@@ -2,7 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
-import { IDENTITY, CONTACT } from '../components/SiteConfig';
+import SectionHeader from '../components/SectionHeader.astro';
+import HeroDiagram from '../components/HeroDiagram.astro';
+import { CONTACT } from '../components/SiteConfig';
 import { SERVICES } from '../data/services';
 import { getCollection } from "astro:content";
 
@@ -25,7 +27,7 @@ const steps = [
   {
     icon: "check",
     title: "Entregar",
-    text: "El objetivo no es mostrarte una demo: es dejar un sistema funcionando, documentado y preparado para operar.",
+    text: "El objetivo no es una demo: dejo el sistema funcionando, documentado y con el conocimiento para continuar (código y decisiones explicadas).",
   },
   {
     icon: "trending",
@@ -40,7 +42,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 <Layout title="Inicio" description="Desarrollo software y sistemas personalizados para automatizar procesos, integrar datos y construir herramientas adaptadas a cada operación.">
   <section class="hero" id="propuesta">
     <div class="hero-content">
-      <p class="identity-line">{IDENTITY.name} · {IDENTITY.roleTag}</p>
+      <p class="availability"><span class="availability-dot" aria-hidden="true"></span>Disponible para proyectos freelance</p>
       <h1>
         Software que se adapta a tu operación, <span class="highlight">no al revés</span>.
       </h1>
@@ -53,10 +55,14 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
         <a href="/proyectos" class="btn btn-secondary">Ver proyectos</a>
       </div>
     </div>
+
+    <div class="hero-visual">
+      <HeroDiagram />
+    </div>
   </section>
 
   <section class="services" id="servicios">
-    <h2>Qué puedo hacer</h2>
+    <SectionHeader title="Qué puedo hacer" />
     <p class="services-question">¿Qué necesitás resolver?</p>
     <p class="section-intro">
       No necesitás llegar con una solución definida. Podemos empezar por el problema.
@@ -98,7 +104,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
             <div class="panel-flow" aria-hidden="true">
               {service.flow.map((step, idx) => (
                 <>
-                  <span>{step}</span>
+                  <span class="flow-step">{step}</span>
                   {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
                 </>
               ))}
@@ -114,7 +120,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   </section>
 
   <section class="process" id="como-trabajo">
-    <h2>Cómo trabajo</h2>
+    <SectionHeader title="Cómo trabajo" />
     <p class="section-intro">
       Un proceso claro, de principio a fin. Desde entender el problema hasta
       dejar una solución que pueda evolucionar.
@@ -139,10 +145,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
   {featured.length > 0 && (
     <section class="featured" id="evidencia">
-      <div class="section-header">
-        <h2>Evidencia</h2>
-        <a href="/proyectos" class="link">Ver todos →</a>
-      </div>
+      <SectionHeader title="Evidencia" link={{ href: "/proyectos", label: "Ver todos →" }} />
       <div class="grid">
         {featured.map(project => <ProjectCard project={project} />)}
       </div>
@@ -150,17 +153,18 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   )}
 
   <section class="about" id="sobre-mi">
-    <h2>Sobre mí</h2>
+    <SectionHeader title="Sobre mí" />
     <div class="about-content">
       <p>
-        Soy Ari Castillo, desarrollador de software. Trabajo resolviendo
-        problemas operativos concretos: procesos manuales, información dispersa
-        y herramientas que ya no se ajustan a cómo trabaja una organización.
+        Soy Ari Castillo, desarrollador de software. Trabajo con organizaciones
+        que tienen procesos específicos que las herramientas genéricas no cubren
+        bien: procesos manuales, información dispersa o sistemas que ya no se
+        ajustan a cómo opera el negocio.
       </p>
       <p>
-        Me interesa construir sistemas claros, mantenibles y preparados para
-        evolucionar, sobre todo cuando existen restricciones que una solución
-        genérica no puede resolver.
+        Construyo sistemas claros, mantenibles y preparados para evolucionar,
+        sobre todo cuando hay restricciones que una solución estándar no puede
+        resolver.
       </p>
       <div class="tech-line">
         <span class="tech-label">Tecnologías que uso</span>
@@ -173,12 +177,26 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
   <section class="contact" id="contacto">
     <div class="contact-inner">
-      <h2>Contame qué necesitás</h2>
+      <SectionHeader title="Contame qué necesitás" />
       <p>
         Si tenés un proceso que se puede automatizar, datos dispersos que deberían
         hablar entre sí o una herramienta que no encaja, escribime. Te respondo con
         un diagnóstico honesto, aunque no sea lo que querés escuchar.
       </p>
+
+      <ol class="contact-steps">
+        <li>Me escribís</li>
+        <li>Entiendo el problema</li>
+        <li>Primera conversación</li>
+        <li>Definimos si avanzar</li>
+      </ol>
+
+      <p class="contact-note">
+        No necesitás preparar una especificación técnica ni saber exactamente qué
+        solución necesitás. Trabajo por proyecto o por etapas, según el problema y
+        su alcance.
+      </p>
+
       <div class="contact-cta">
         <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">
           <Icon name="mail" class="btn-icon" />{CONTACT.email}
@@ -204,11 +222,29 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     max-width: 620px;
   }
 
-  .identity-line {
-    font-size: 0.85rem;
+  .availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
     font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+  }
+
+  .availability-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hero-visual {
+    flex-shrink: 0;
+    width: 260px;
+    display: flex;
+    justify-content: center;
   }
 
   .hero-content h1 .highlight {
@@ -272,14 +308,14 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   }
 
   .services {
-    padding: 72px 0;
+    padding: 96px 0 80px;
   }
 
   .services-question {
     font-size: 1.15rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-top: 12px;
+    margin-top: 0;
   }
 
   .services-widget {
@@ -299,6 +335,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
   .service-head {
     grid-column: 1;
+    position: relative;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -312,6 +349,28 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     font-family: inherit;
     color: var(--text-secondary);
     transition: color 0.15s;
+  }
+
+  .service-head::before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 2px;
+    background: transparent;
+    transition: background-color 0.15s;
+  }
+
+  .service-head.is-active::before {
+    background: var(--accent);
+  }
+
+  .service-head:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 
   .service:first-child .service-head {
@@ -446,11 +505,26 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-top: 24px;
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
+  }
+
+  .flow-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .flow-step::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
   }
 
   .flow-sep {
@@ -466,8 +540,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   }
 
   .process {
-    padding: 72px 0;
-    border-top: 1px solid var(--border);
+    padding: 96px 0 88px;
   }
 
   .timeline {
@@ -481,7 +554,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--border);
+    background: rgba(15, 118, 110, 0.18);
   }
 
   .timeline-progress {
@@ -514,7 +587,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     height: 12px;
     border-radius: 50%;
     background: var(--bg-primary);
-    border: 2px solid var(--border);
+    border: 2px solid rgba(15, 118, 110, 0.35);
     transition: background-color 0.2s, border-color 0.2s;
   }
 
@@ -561,20 +634,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   }
 
   .featured {
-    padding: 72px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 32px;
-  }
-
-  .section-header .link {
-    font-size: 0.85rem;
-    font-weight: 500;
+    padding: 104px 0 88px;
   }
 
   .grid {
@@ -584,12 +644,11 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   }
 
   .about {
-    padding: 72px 0;
-    border-top: 1px solid var(--border);
+    padding: 64px 0;
   }
 
   .about-content {
-    margin-top: 24px;
+    margin-top: 0;
     max-width: 640px;
     display: flex;
     flex-direction: column;
@@ -626,14 +685,14 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     font-size: 0.8rem;
     padding: 5px 12px;
     border-radius: 6px;
-    background: var(--accent-tint);
+    background: var(--bg-surface);
     border: 1px solid var(--border);
-    color: var(--accent);
+    color: var(--text-secondary);
     font-weight: 500;
   }
 
   .contact {
-    padding: 72px 0 88px;
+    padding: 80px 0 104px;
   }
 
   .contact-inner {
@@ -651,6 +710,38 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     font-size: 0.95rem;
     line-height: 1.7;
     max-width: 560px;
+  }
+
+  .contact-steps {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .contact-steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .contact-steps li::after {
+    content: "→";
+    color: var(--accent);
+    margin-left: 4px;
+  }
+
+  .contact-steps li:last-child::after {
+    content: "";
+    margin-left: 0;
+  }
+
+  .contact-note {
+    font-size: 0.9rem !important;
   }
 
   .contact-cta {
@@ -714,6 +805,10 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
     .hero-content .hero-cta {
       flex-direction: column;
+    }
+
+    .hero-visual {
+      width: 100%;
     }
 
     .hero-content .btn {
