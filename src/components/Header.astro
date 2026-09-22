@@ -65,6 +65,8 @@ const isActive = (href: string) =>
     font-weight: 600;
     letter-spacing: -0.01em;
     color: var(--text-primary);
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .logo-dot {
@@ -78,6 +80,7 @@ const isActive = (href: string) =>
     display: flex;
     gap: 24px;
     list-style: none;
+    flex-wrap: nowrap;
   }
 
   nav a {
@@ -87,6 +90,7 @@ const isActive = (href: string) =>
     padding: 4px 0;
     border-bottom: 1px solid transparent;
     transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
   }
 
   nav a:hover {
@@ -123,15 +127,19 @@ const isActive = (href: string) =>
   @media (max-width: 640px) {
     .inner {
       padding: 14px 16px;
-      gap: 12px;
+      gap: 10px;
     }
 
     nav ul {
-      gap: 14px;
+      gap: 12px;
     }
 
     nav a {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
+    }
+
+    .identity-name {
+      font-size: 0.9rem;
     }
   }
 </style>

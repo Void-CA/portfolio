@@ -10,13 +10,18 @@ const { project } = Astro.props;
 const { data, id: slug } = project;
 
 const statusLabels: Record<string, string> = {
-  ongoing: "En uso",
-  finished: "",
+  ongoing: "En desarrollo",
+  finished: "Entregado",
   archived: "Exploración",
 };
 
-const showStatus = data.status !== "finished";
+const originLabels: Record<string, string> = {
+  client: "Trabajo para cliente",
+  own: "Proyecto propio",
+};
+
 const statusLabel = statusLabels[data.status] || "";
+const originLabel = data.kind ? originLabels[data.kind] : "";
 ---
 
 <article class="card">
@@ -38,10 +43,12 @@ const statusLabel = statusLabels[data.status] || "";
   )}
 
   <div class="meta">
-    <span class="end">
-      {showStatus && <span class="status">{statusLabel}</span>}
-      <span class="arrow">→</span>
+    <span class="origin">
+      {originLabel}
+      {originLabel && statusLabel && <span class="sep">·</span>}
+      {statusLabel}
     </span>
+    <span class="arrow">→</span>
   </div>
 </article>
 
@@ -132,31 +139,33 @@ const statusLabel = statusLabels[data.status] || "";
   .meta {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+    gap: 12px;
     margin-top: auto;
-    padding-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
   }
 
-  .end {
+  .origin {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-    color: var(--text-muted);
-  }
-
-  .status {
-    font-size: 0.65rem;
+    gap: 6px;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
     color: var(--text-muted);
-    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .origin .sep {
+    opacity: 0.5;
   }
 
   .arrow {
     font-size: 0.85rem;
     color: var(--accent);
+    flex-shrink: 0;
     transition: transform 0.2s ease;
   }
 
