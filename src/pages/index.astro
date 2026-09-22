@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
 import { IDENTITY, CONTACT } from '../components/SiteConfig';
 import { SERVICES } from '../data/services';
 import { getCollection } from "astro:content";
@@ -12,20 +13,24 @@ const featured = projects
 
 const steps = [
   {
+    icon: "target",
     title: "Entender",
-    text: "Primero entiendo cómo funciona realmente tu proceso: qué problema existe, qué restricciones hay y qué se espera lograr.",
+    text: "Antes de hablar de tecnología, entiendo cómo funciona realmente tu operación, qué problema existe y qué restricciones tenemos.",
   },
   {
+    icon: "cube",
     title: "Construir",
-    text: "Defino una solución concreta, la desarrollo por etapas y validamos que cada parte resuelva lo que tiene que resolver.",
+    text: "Definimos una solución concreta y la desarrollamos por etapas, validando que cada parte resuelva el problema real.",
   },
   {
+    icon: "check",
     title: "Entregar",
-    text: "Dejo el sistema funcionando, documentado y preparado para mantenerse y evolucionar.",
+    text: "El objetivo no es mostrarte una demo: es dejar un sistema funcionando, documentado y preparado para operar.",
   },
   {
-    title: "Acompañar",
-    text: "Si el sistema sigue creciendo, puedo seguir trabajando sobre él.",
+    icon: "trending",
+    title: "Evolucionar",
+    text: "El negocio cambia. El sistema también puede hacerlo sin empezar de cero.",
   },
 ];
 
@@ -52,38 +57,84 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
   <section class="services" id="servicios">
     <h2>Qué puedo hacer</h2>
+    <p class="services-question">¿Qué necesitás resolver?</p>
     <p class="section-intro">
-      Cinco formas concretas en las que puedo resolverte un problema.
+      No necesitás llegar con una solución definida. Podemos empezar por el problema.
     </p>
-    <ol class="services-list">
+
+    <div class="services-widget" data-services>
       {SERVICES.map((service, i) => (
-        <li class="service-item">
-          <span class="service-num">{String(i + 1).padStart(2, "0")}</span>
-          <div class="service-body">
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-          </div>
-        </li>
+        <div class="service">
+          <button
+            type="button"
+            class="service-head"
+            data-index={i}
+            aria-expanded={i === 0 ? "true" : "false"}
+            aria-controls={`svc-${service.id}`}
+          >
+            <span class="service-num">{service.num}</span>
+            <Icon name={service.icon} class="service-icon" />
+            <span class="service-problem">{service.problem}</span>
+          </button>
+
+          <article
+            id={`svc-${service.id}`}
+            class:list={["service-panel", { "is-active": i === 0, "is-open": i === 0 }]}
+            data-index={i}
+            role="region"
+          >
+            <span class="panel-num" aria-hidden="true">{service.num}</span>
+            <Icon name={service.icon} class="panel-icon" />
+            <h3 class="panel-title">{service.title}</h3>
+            <p class="panel-desc">{service.description}</p>
+
+            <div class="panel-changes">
+              <span class="panel-label">Qué cambia</span>
+              <ul>
+                {service.changes.map(change => <li>{change}</li>)}
+              </ul>
+            </div>
+
+            <div class="panel-flow" aria-hidden="true">
+              {service.flow.map((step, idx) => (
+                <>
+                  <span>{step}</span>
+                  {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
+                </>
+              ))}
+            </div>
+
+            <a class="panel-evidence" href={service.evidence.href}>
+              Ejemplo: {service.evidence.label} →
+            </a>
+          </article>
+        </div>
       ))}
-    </ol>
+    </div>
   </section>
 
   <section class="process" id="como-trabajo">
     <h2>Cómo trabajo</h2>
     <p class="section-intro">
-      Un proceso claro, de principio a fin. Sin sorpresas y sin cajas negras.
+      Un proceso claro, de principio a fin. Desde entender el problema hasta
+      dejar una solución que pueda evolucionar.
     </p>
-    <ol class="steps">
-      {steps.map((step, i) => (
-        <li class="step">
-          <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
-          <div class="step-content">
-            <h3>{step.title}</h3>
+
+    <div class="timeline" data-timeline>
+      <div class="timeline-rail" aria-hidden="true">
+        <div class="timeline-progress"></div>
+      </div>
+      <ol class="timeline-steps">
+        {steps.map((step, i) => (
+          <li class="milestone">
+            <span class="milestone-dot" aria-hidden="true"></span>
+            <span class="milestone-num">{String(i + 1).padStart(2, "0")}</span>
+            <h3><Icon name={step.icon} class="milestone-icon" />{step.title}</h3>
             <p>{step.text}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+          </li>
+        ))}
+      </ol>
+    </div>
   </section>
 
   {featured.length > 0 && (
@@ -129,8 +180,12 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
         un diagnóstico honesto, aunque no sea lo que querés escuchar.
       </p>
       <div class="contact-cta">
-        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">{CONTACT.email}</a>
-        <a href={CONTACT.linkedin} class="btn btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">
+          <Icon name="mail" class="btn-icon" />{CONTACT.email}
+        </a>
+        <a href={CONTACT.linkedin} class="btn btn-secondary" target="_blank" rel="noopener">
+          <Icon name="linkedin" class="btn-icon" />LinkedIn
+        </a>
       </div>
     </div>
   </section>
@@ -181,6 +236,11 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     transition: background-color 0.2s, border-color 0.2s, color 0.2s;
     display: inline-flex;
     align-items: center;
+    gap: 8px;
+  }
+
+  .btn-icon {
+    font-size: 1.15rem;
   }
 
   .btn-primary {
@@ -215,43 +275,194 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     padding: 72px 0;
   }
 
-  .services-list {
-    list-style: none;
-    margin-top: 32px;
-    border-top: 1px solid var(--border);
+  .services-question {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 12px;
   }
 
-  .service-item {
+  .services-widget {
+    margin-top: 32px;
+    background: var(--accent-tint);
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    column-gap: 44px;
+    align-items: start;
+  }
+
+  .service {
+    display: contents;
+  }
+
+  .service-head {
+    grid-column: 1;
     display: flex;
-    gap: 24px;
-    align-items: baseline;
-    padding: 22px 0;
-    border-bottom: 1px solid var(--border);
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid rgba(15, 118, 110, 0.15);
+    padding: 18px 0;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text-secondary);
+    transition: color 0.15s;
+  }
+
+  .service:first-child .service-head {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .service-head:hover .service-problem {
+    color: var(--text-primary);
+  }
+
+  .service-head.is-active .service-problem {
+    color: var(--accent);
+    font-weight: 600;
   }
 
   .service-num {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--accent);
-    min-width: 32px;
+    flex-shrink: 0;
   }
 
-  .service-body {
+  .service-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .service-head.is-active .service-icon {
+    color: var(--accent);
+  }
+
+  .service-problem {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+
+  .service-panel {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+    position: relative;
+    display: none;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px 40px 32px;
+  }
+
+  .service-panel.is-active {
+    display: block;
+  }
+
+  .panel-num {
+    position: absolute;
+    top: -28px;
+    right: 20px;
+    font-size: clamp(80px, 10vw, 128px);
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(15, 118, 110, 0.08);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .panel-icon {
+    position: relative;
+    display: block;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .panel-title {
+    position: relative;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .panel-desc {
+    position: relative;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .panel-changes {
+    position: relative;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .panel-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .panel-changes ul {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
   }
 
-  .service-body h3 {
-    color: var(--text-primary);
-    font-size: 1.05rem;
-  }
-
-  .service-body p {
+  .panel-changes li {
+    position: relative;
+    padding-left: 20px;
     font-size: 0.9rem;
-    line-height: 1.6;
-    max-width: 620px;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .panel-changes li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .panel-flow {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .flow-sep {
+    color: var(--accent);
+  }
+
+  .panel-evidence {
+    position: relative;
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
   .process {
@@ -259,43 +470,94 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     border-top: 1px solid var(--border);
   }
 
-  .steps {
+  .timeline {
+    position: relative;
+    margin-top: 56px;
+  }
+
+  .timeline-rail {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(var(--progress, 0) * 100%);
+    background: var(--accent);
+    transition: width 0.15s linear;
+  }
+
+  .timeline-steps {
     list-style: none;
-    margin-top: 32px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 28px 40px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 24px;
   }
 
-  .step {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
+  .milestone {
+    position: relative;
+    padding-top: 44px;
   }
 
-  .step-num {
+  .milestone-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid var(--border);
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .milestone.is-reached .milestone-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .milestone-num {
+    display: block;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--accent);
-    min-width: 32px;
-    padding-top: 3px;
+    margin-bottom: 8px;
   }
 
-  .step-content {
+  .milestone-icon {
+    font-size: 1.2rem;
+    color: var(--accent);
+  }
+
+  .milestone h3 {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .step-content h3 {
+    align-items: center;
+    gap: 8px;
     color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
   }
 
-  .step-content p {
+  .milestone p {
     font-size: 0.85rem;
     line-height: 1.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-progress,
+    .milestone-dot {
+      transition: none;
+    }
   }
 
   .featured {
@@ -398,6 +660,51 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     margin-top: 8px;
   }
 
+  @media (max-width: 860px) {
+    .services-widget {
+      display: block;
+      padding: 8px 20px;
+    }
+
+    .service {
+      display: block;
+      border-top: 1px solid rgba(15, 118, 110, 0.15);
+    }
+
+    .service:first-child {
+      border-top: 0;
+    }
+
+    .service-head {
+      border-top: 0;
+      padding: 18px 0;
+    }
+
+    .service:first-child .service-head {
+      padding-top: 18px;
+    }
+
+    .service-panel {
+      grid-row: auto;
+      margin: 0 0 20px;
+      padding: 24px 20px 20px;
+    }
+
+    .service-panel.is-active {
+      display: none;
+    }
+
+    .service-panel.is-open {
+      display: block;
+    }
+
+    .panel-num {
+      font-size: 72px;
+      top: -10px;
+      right: 16px;
+    }
+  }
+
   @media (max-width: 768px) {
     .hero {
       flex-direction: column;
@@ -417,8 +724,36 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
       grid-template-columns: 1fr;
     }
 
-    .steps {
+    .timeline-rail {
+      top: 0;
+      bottom: 0;
+      left: 5px;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+
+    .timeline-progress {
+      width: 100%;
+      height: calc(var(--progress, 0) * 100%);
+      transition: height 0.15s linear;
+    }
+
+    .timeline-steps {
       grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .milestone {
+      padding: 0 0 32px 36px;
+    }
+
+    .milestone:last-child {
+      padding-bottom: 0;
+    }
+
+    .milestone-dot {
+      top: 4px;
     }
 
     .contact-inner {
@@ -436,3 +771,79 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     }
   }
 </style>
+
+<script>
+  const widget = document.querySelector('[data-services]');
+  if (widget) {
+    const heads = Array.from(widget.querySelectorAll<HTMLButtonElement>('.service-head'));
+    const panels = Array.from(widget.querySelectorAll<HTMLElement>('.service-panel'));
+    const mq = window.matchMedia('(min-width: 861px)');
+
+    const setActive = (index: number) => {
+      heads.forEach((head, i) => {
+        const active = i === index;
+        head.classList.toggle('is-active', active);
+        head.setAttribute('aria-expanded', active ? 'true' : 'false');
+      });
+      panels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
+    };
+
+    const toggleOpen = (index: number) => {
+      const panel = panels[index];
+      const wasOpen = panel.classList.contains('is-open');
+      panels.forEach(p => p.classList.remove('is-open'));
+      if (!wasOpen) panel.classList.add('is-open');
+      heads.forEach((head, i) => {
+        head.setAttribute('aria-expanded', !wasOpen && i === index ? 'true' : 'false');
+      });
+    };
+
+    heads.forEach((head, i) => {
+      head.addEventListener('click', () => {
+        if (mq.matches) setActive(i);
+        else toggleOpen(i);
+      });
+    });
+
+    setActive(0);
+    mq.addEventListener('change', () => setActive(0));
+  }
+
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  if (timeline) {
+    const items = Array.from(timeline.querySelectorAll<HTMLElement>('.milestone'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+
+    const paint = () => {
+      ticking = false;
+      const rect = timeline.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const start = vh * 0.85;
+      const end = vh * 0.25;
+      const span = start - end + rect.height;
+      const progress = span > 0 ? (start - rect.top) / span : 1;
+      const clamped = Math.max(0, Math.min(1, progress));
+      timeline.style.setProperty('--progress', reduce ? '1' : clamped.toFixed(3));
+      items.forEach((item, i) => {
+        const threshold = (i + 0.5) / items.length;
+        item.classList.toggle('is-reached', reduce || clamped >= threshold);
+      });
+    };
+
+    const request = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    if (reduce) {
+      paint();
+    } else {
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      paint();
+    }
+  }
+</script>

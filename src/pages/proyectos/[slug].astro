@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
 import { CONTACT } from '../../components/SiteConfig';
 import { getCollection } from "astro:content";
 
@@ -47,21 +48,21 @@ const statusLabels = {
     <section class="case-study">
       {data.problem && (
         <div class="case-block">
-          <span class="case-label">Reto</span>
+          <span class="case-label"><Icon name="target" class="case-icon" />Reto</span>
           <p class="case-text">{data.problem}</p>
         </div>
       )}
 
       {data.challenge && (
         <div class="case-block">
-          <span class="case-label">Reto técnico</span>
+          <span class="case-label"><Icon name="sliders" class="case-icon" />Reto técnico</span>
           <p class="case-text">{data.challenge}</p>
         </div>
       )}
 
       {data.solution && (
         <div class="case-block">
-          <span class="case-label">Solución</span>
+          <span class="case-label"><Icon name="cube" class="case-icon" />Solución</span>
           <p class="case-text">{data.solution}</p>
         </div>
       )}
@@ -82,7 +83,7 @@ const statusLabels = {
 
     {(data.result || (data.highlights && data.highlights.length > 0)) && (
       <section class="result-section">
-        <h2>Resultado</h2>
+        <h2><Icon name="trending" class="heading-icon" />Resultado</h2>
         {data.result && <p class="case-text result-text">{data.result}</p>}
         {data.highlights && data.highlights.length > 0 && (
           <div class="highlights-list">
@@ -240,11 +241,22 @@ const statusLabels = {
   }
 
   .case-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--accent);
     font-weight: 700;
+  }
+
+  .case-icon {
+    font-size: 0.9rem;
+  }
+
+  .heading-icon {
+    font-size: 1.1rem;
   }
 
   .case-text {
@@ -315,6 +327,9 @@ const statusLabels = {
   }
 
   .result-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 16px;
     font-size: 1.25rem;
   }

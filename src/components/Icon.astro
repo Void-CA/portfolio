@@ -1,0 +1,32 @@
+---
+import { ICONS } from '../data/icons';
+
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const { name, label } = Astro.props;
+const svg = ICONS[name];
+
+const svgWithTitle = label
+  ? svg.replace('>', ` role="img" aria-label="${label}">`)
+  : svg.replace('<svg', '<svg aria-hidden="true"');
+---
+
+{svg && <span class:list={["icon", Astro.props.class]} set:html={svgWithTitle} />}
+
+<style>
+  .icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  .icon :global(svg) {
+    width: 1em;
+    height: 1em;
+    display: block;
+  }
+</style>
