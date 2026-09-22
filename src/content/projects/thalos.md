@@ -1,10 +1,12 @@
 ---
-title: Thalos
-subtitle: Plataforma de modelado, análisis y visualización de sistemas robóticos
-description: Plataforma modular para experimentación con planificación de movimiento, simulación y ejecución de robots seriales. Diseñada con separación explícita entre planning y execution, permitiendo que un mismo programa opere sobre simulación, ROS2 o backends de hardware sin modificar el dominio.
+title: Monitoreo y ejecución robótica industrial
+brand: Thalos
+subtitle: Plataforma de modelado, análisis y ejecución de sistemas robóticos
+description: Plataforma que planifica trayectorias y las ejecuta sobre simulación o hardware real. La generación de movimiento está desacoplada del backend, de modo que el mismo sistema opera sobre simulación, ROS2 o controladores físicos sin reescribir el dominio.
 status: ongoing
 featured: true
-order: 1
+order: 3
+role: Arquitectura y desarrollo del núcleo de dominio y el motion compiler.
 
 problem: >
   No existía una plataforma ligera y modular para experimentar con planificación

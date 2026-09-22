@@ -1,10 +1,12 @@
 ---
-title: Debita
-subtitle: Plataforma de gestión financiera centrada en modelado de dominio
-description: Sistema diseñado para estructurar operaciones financieras, centralizar estados de cuenta y representar reglas de deuda mediante una arquitectura desacoplada y orientada al dominio.
+title: Gestión de deuda y cobros automatizados
+brand: Debita
+subtitle: Plataforma financiera centrada en modelado de dominio
+description: Sistema que modela reglas de deuda, centraliza estados de cuenta y automatiza cobros. Reemplaza procesos manuales por una fuente única de información, con trazabilidad y auditoría sobre cada operación.
 status: finished
 featured: true
-order: 3
+order: 2
+role: Modelado de dominio, arquitectura y desarrollo del core del sistema.
 
 problem: >
   La operación financiera del stakeholder dependía de procesos manuales y
@@ -36,11 +38,11 @@ decisions:
   - "Diseño orientado a trazabilidad, validación y auditoría de operaciones"
 
 highlights:
+  - "90% de reducción en errores de cálculo manual"
+  - "70% de los cobros automatizados"
   - "Digitalización estructurada de procesos financieros"
   - "Trazabilidad completa sobre operaciones y estados"
-  - "Validación continua junto al stakeholder durante el desarrollo"
   - "Arquitectura centrada en integridad y evolución del dominio"
-  - "Separación clara entre lógica financiera e interfaz"
 
 result: >
   Debita permitió transformar un proceso financiero manual en un sistema capaz

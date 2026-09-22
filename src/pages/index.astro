@@ -1,71 +1,108 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { IDENTITY } from '../components/SiteConfig';
+import { IDENTITY, CONTACT } from '../components/SiteConfig';
+import { SERVICES } from '../data/services';
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 const featured = projects
   .filter(p => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
+
+const steps = [
+  {
+    title: "Problema",
+    text: "Entiendo la situación real antes de proponer nada. Qué está pasando, a quién afecta y qué restricciones existen.",
+  },
+  {
+    title: "Entendimiento",
+    text: "Traduzco el problema a requisitos de comportamiento: qué tiene que hacer el sistema, no con qué tecnología.",
+  },
+  {
+    title: "Propuesta",
+    text: "Defino alcance, arquitectura y entregables. Cada decisión técnica se explica con su trade-off, no solo con la elección.",
+  },
+  {
+    title: "Implementación",
+    text: "Construyo en capas, con el dominio separado de la infraestructura. Cada avance queda verificable durante el proceso.",
+  },
+  {
+    title: "Entrega",
+    text: "El sistema llega funcionando, documentado y listo para operar. Nada que solo yo sepa mantener.",
+  },
+  {
+    title: "Mantenimiento",
+    text: "Acompaño la evolución: ajustes, nuevas capacidades y soporte. El sistema debe poder crecer sin reescribirse.",
+  },
+];
+
+const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebAssembly"];
 ---
 
-<Layout title="Inicio" description="Ingeniero de sistemas: backend, data, automatización. Proyectos reales, decisiones técnicas, resultados medibles.">
-  <section class="hero">
+<Layout title="Inicio" description="Desarrollo software y sistemas personalizados para automatizar procesos, integrar datos y construir herramientas adaptadas a cada operación.">
+  <section class="hero" id="propuesta">
     <div class="hero-content">
       <p class="identity-line">{IDENTITY.name} · {IDENTITY.roleTag}</p>
-      <p class="overline">Ingeniería de sistemas</p>
       <h1>
-        Construyo sistemas que <span class="highlight">resuelven problemas reales</span>.
+        Software que se adapta a tu operación, <span class="highlight">no al revés</span>.
       </h1>
       <p class="hero-desc">
-        Backend, data, automatización y diseño de arquitecturas. No hago demos — 
-        hago sistemas que operan en producción con restricciones reales.
+        Desarrollo sistemas personalizados para automatizar procesos, integrar datos
+        y construir herramientas adaptadas a necesidades específicas. Del problema
+        a la solución funcionando en producción.
       </p>
       <div class="hero-cta">
-        <a href="/proyectos" class="btn btn-primary">Ver proyectos</a>
-        <a href="mailto:castilloari282@gmail.com" class="btn btn-secondary">Contactar</a>
+        <a href="#contacto" class="btn btn-primary">Contame tu proyecto</a>
+        <a href="/proyectos" class="btn btn-secondary">Ver proyectos</a>
       </div>
     </div>
 
-    <!--
-      Hero visual — identidad visual técnica.
-      Espacio reservado para:
-      - Foto pequeña (no tradicional, estilo minimalista/tecno)
-      - Visualización de nodos, coordenadas, wireframe
-      - Terminal, métricas, esquemas
-      - O combinación: foto chica + identidad visual alrededor
-    -->
     <div class="hero-visual" aria-hidden="true">
       <img src="/test.png" alt="" class="hero-visual-img" />
     </div>
   </section>
 
-  <section class="areas">
-    <h2>Qué tipo de problemas abordo</h2>
-    <div class="areas-grid">
-      <div class="area-card">
-        <span class="area-icon">⚙</span>
-        <h3>Backend & APIs</h3>
-        <p>Sistemas que procesan datos, gestionan estados y exponen interfaces robustas para consumo programático.</p>
-      </div>
-      <div class="area-card">
-        <span class="area-icon">◈</span>
-        <h3>Data & Modelado</h3>
-        <p>Diseño de esquemas, flujos de transformación de datos y sistemas donde la integridad no es negociable.</p>
-      </div>
-      <div class="area-card">
-        <span class="area-icon">⟳</span>
-        <h3>Automatización</h3>
-        <p>Flujos operativos que eliminan intervención manual, desde cobros recurrentes hasta monitoreo de infraestructura.</p>
-      </div>
-    </div>
+  <section class="services" id="servicios">
+    <h2>Qué puedo hacer</h2>
+    <p class="section-intro">
+      Cinco formas concretas en las que puedo resolverte un problema.
+    </p>
+    <ol class="services-list">
+      {SERVICES.map((service, i) => (
+        <li class="service-item">
+          <span class="service-num">{String(i + 1).padStart(2, "0")}</span>
+          <div class="service-body">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="process" id="como-trabajo">
+    <h2>Cómo trabajo</h2>
+    <p class="section-intro">
+      Un proceso claro, de principio a fin. Sin sorpresas y sin cajas negras.
+    </p>
+    <ol class="steps">
+      {steps.map((step, i) => (
+        <li class="step">
+          <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
+          <div class="step-content">
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
   </section>
 
   {featured.length > 0 && (
-    <section class="featured">
+    <section class="featured" id="evidencia">
       <div class="section-header">
-        <h2>Proyectos destacados</h2>
+        <h2>Evidencia</h2>
         <a href="/proyectos" class="link">Ver todos →</a>
       </div>
       <div class="grid">
@@ -73,6 +110,43 @@ const featured = projects
       </div>
     </section>
   )}
+
+  <section class="about" id="sobre-mi">
+    <h2>Sobre mí</h2>
+    <div class="about-content">
+      <p>
+        Soy Ari Castillo, ingeniero de sistemas. Construyo software que resuelve
+        problemas operativos concretos: modelado de dominio, automatización de
+        procesos, integración de datos y sistemas que tienen que funcionar con
+        restricciones reales.
+      </p>
+      <p>
+        Trabajo con foco en claridad y mantenibilidad. Prefiero un sistema que se
+        entienda y evolucione antes que uno que solo funcione hoy.
+      </p>
+      <div class="tech-line">
+        <span class="tech-label">Trabajo habitualmente con</span>
+        <div class="tech-tags">
+          {techLine.map(t => <span class="tech-tag">{t}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="contact-inner">
+      <h2>Contame qué necesitás</h2>
+      <p>
+        Si tenés un proceso que se puede automatizar, datos dispersos que deberían
+        hablar entre sí o una herramienta que no encaja, escribime. Te respondo con
+        un diagnóstico honesto, aunque no sea lo que querés escuchar.
+      </p>
+      <div class="contact-cta">
+        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">{CONTACT.email}</a>
+        <a href={CONTACT.linkedin} class="btn btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -85,41 +159,32 @@ const featured = projects
 
   .hero-content {
     flex: 1;
-    max-width: 600px;
-  }
-
-  .hero-content .overline {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-soft);
-    font-weight: 600;
+    max-width: 620px;
   }
 
   .identity-line {
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
   }
 
   .hero-content h1 .highlight {
-    color: var(--accent-soft);
+    color: var(--accent);
   }
 
   .hero-content .hero-desc {
     font-size: 1.1rem;
     line-height: 1.7;
     max-width: 560px;
+    margin-top: 16px;
   }
 
   .hero-content .hero-cta {
     display: flex;
     gap: 12px;
-    margin-top: 8px;
+    margin-top: 28px;
   }
-
-  /* ── Hero visual: identidad visual técnica ── */
 
   .hero-visual {
     width: 260px;
@@ -132,11 +197,6 @@ const featured = projects
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    transition: border-color 0.3s;
-  }
-
-  .hero-visual:hover {
-    border-color: var(--border-hover);
   }
 
   .hero-visual-img {
@@ -151,78 +211,129 @@ const featured = projects
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
     display: inline-flex;
     align-items: center;
   }
 
   .btn-primary {
     background: var(--accent);
-    color: white;
+    color: #FFFFFF;
   }
 
   .btn-primary:hover {
-    background: #6D28D9;
-    color: white;
-    box-shadow: 0 4px 20px var(--accent-glow);
+    background: var(--accent-bright);
+    color: #FFFFFF;
   }
 
   .btn-secondary {
     border: 1px solid var(--border);
     color: var(--text-primary);
-    background: var(--bg-surface);
+    background: var(--bg-primary);
   }
 
   .btn-secondary:hover {
     border-color: var(--accent);
-    color: var(--accent-soft);
+    color: var(--accent);
   }
 
-  .areas {
-    padding: 64px 0;
+  .section-intro {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-top: 8px;
   }
 
-  .areas h2 {
-    margin-bottom: 32px;
+  .services {
+    padding: 72px 0;
   }
 
-  .areas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
+  .services-list {
+    list-style: none;
+    margin-top: 32px;
+    border-top: 1px solid var(--border);
   }
 
-  .area-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
+  .service-item {
+    display: flex;
+    gap: 24px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .service-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 32px;
+  }
+
+  .service-body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    transition: border-color 0.2s;
+    gap: 4px;
   }
 
-  .area-card:hover {
-    border-color: var(--border-hover);
-  }
-
-  .area-icon {
-    font-size: 1.5rem;
-    opacity: 0.7;
-  }
-
-  .area-card h3 {
+  .service-body h3 {
     color: var(--text-primary);
+    font-size: 1.05rem;
   }
 
-  .area-card p {
+  .service-body p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 620px;
+  }
+
+  .process {
+    padding: 72px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .steps {
+    list-style: none;
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px 40px;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 32px;
+    padding-top: 3px;
+  }
+
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .step-content h3 {
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .step-content p {
     font-size: 0.85rem;
     line-height: 1.6;
   }
 
   .featured {
-    padding: 64px 0;
+    padding: 72px 0;
+    border-top: 1px solid var(--border);
   }
 
   .section-header {
@@ -239,8 +350,85 @@ const featured = projects
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
+  }
+
+  .about {
+    padding: 72px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-content {
+    margin-top: 24px;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about-content p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .tech-line {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tech-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-tag {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: var(--accent-tint);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .contact {
+    padding: 72px 0 88px;
+  }
+
+  .contact-inner {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .contact-inner p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .contact-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
   }
 
   @media (max-width: 768px) {
@@ -265,6 +453,24 @@ const featured = projects
 
     .grid {
       grid-template-columns: 1fr;
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-inner {
+      padding: 28px;
+    }
+
+    .contact-cta {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .contact-cta .btn {
+      justify-content: center;
+      width: 100%;
     }
   }
 </style>

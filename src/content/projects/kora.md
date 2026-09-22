@@ -1,10 +1,12 @@
 ---
-title: Kora
-subtitle: Sistema de planificación y control operativo agrícola
-description: Plataforma de gestión agrícola orientada al modelado preciso de operaciones de cultivo, diseñada bajo principios de Domain-Driven Design y separación explícita entre planificación y ejecución real.
+title: Planificación y control operativo agrícola
+brand: Kora
+subtitle: Sistema de gestión operativa de cultivos
+description: Plataforma que separa la planificación de la ejecución real en campo, para contrastar lo programado con lo que efectivamente ocurrió. Modela ciclos de cultivo, actividades, costos y trazabilidad histórica.
 status: ongoing
-featured: true
-order: 3
+featured: false
+order: 4
+role: Modelado de dominio y diseño de la arquitectura.
 
 problem: >
   Los sistemas agrícolas tradicionales suelen tratar la planificación y la ejecución

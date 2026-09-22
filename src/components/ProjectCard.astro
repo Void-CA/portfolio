@@ -1,29 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 
 interface Props {
   project: CollectionEntry<"projects">;
-  hasNotes?: boolean;
 }
 
-const { project, hasNotes = false } = Astro.props;
+const { project } = Astro.props;
 const { data, id: slug } = project;
-
-// Determinar personalidad según áreas
-const personalityMap: Record<string, string> = {
-  systems: "terminal",
-  cli: "terminal",
-  monitoring: "terminal",
-  backend: "clean",
-  api: "clean",
-  domain: "clean",
-  data: "grid",
-  "time-series": "grid",
-  web: "fluid",
-  frontend: "fluid",
-};
-
-const personality = personalityMap[data.areas?.[0] || "backend"] || "clean";
 
 const statusLabels: Record<string, string> = {
   ongoing: "En uso",
@@ -31,40 +15,18 @@ const statusLabels: Record<string, string> = {
   archived: "Exploración",
 };
 
-// Mapeo de áreas a etiquetas de display (Nivel 1)
-const areaLabels: Record<string, string> = {
-  systems: "Sistemas",
-  cli: "CLI",
-  monitoring: "Observabilidad",
-  backend: "Backend",
-  "desktop development": "Desktop",
-  "domain modeling": "Modelado de Dominio",
-  "system design": "Diseño de Sistemas",
-  "financial systems": "Fintech",
-  automation: "Automatización",
-  "systems programming": "Sistemas",
-  "database architecture": "Bases de Datos",
-  "api design": "APIs",
-  data: "Data",
-  web: "Web",
-  architecture: "Arquitectura",
-  "agriculture technology": "AgriTech",
-};
-
-// Tags visibles en Nivel 1: priorizar áreas, completar con tech, max 3
-const domainTags = (data.areas || []).slice(0, 2).map(a => areaLabels[a] || a);
-const techLimit = Math.max(0, 3 - domainTags.length);
-const techTags = data.tech.slice(0, techLimit);
-const displayTags = [...domainTags, ...techTags];
-
 const showStatus = data.status !== "finished";
 const statusLabel = statusLabels[data.status] || "";
 ---
 
-<article class="card" data-personality={personality}>
+<article class="card">
   <div class="card-image">
-    <img src={data.image || "/test.png"} alt="" loading="lazy" />
+    {data.image
+      ? <Image src={data.image} alt="" loading="lazy" />
+      : <img src="/test.png" alt="" loading="lazy" />}
   </div>
+
+  {data.brand && <span class="brand">{data.brand}</span>}
   <h3 class="title">
     <a href={`/proyectos/${slug}`} class="cover-link">{data.title}</a>
   </h3>
@@ -76,18 +38,8 @@ const statusLabel = statusLabels[data.status] || "";
   )}
 
   <div class="meta">
-    <div class="tags">
-      {displayTags.map((tag, i) => (
-        <>
-          <span class="tag">{tag}</span>
-          {i < displayTags.length - 1 && <span class="sep">·</span>}
-        </>
-      ))}
-    </div>
-
     <span class="end">
       {showStatus && <span class="status">{statusLabel}</span>}
-      {hasNotes && <span class="notes-indicator">Nota</span>}
       <span class="arrow">→</span>
     </span>
   </div>
@@ -96,20 +48,19 @@ const statusLabel = statusLabels[data.status] || "";
 <style>
   .card {
     position: relative;
-    background: var(--bg-surface);
+    background: var(--bg-primary);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    transition: border-color 0.25s ease;
     height: 100%;
   }
 
   .card:hover {
     border-color: var(--border-hover);
-    box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.12);
   }
 
   .card-image {
@@ -117,7 +68,7 @@ const statusLabel = statusLabels[data.status] || "";
     border-radius: 12px 12px 0 0;
     overflow: hidden;
     aspect-ratio: 16 / 9;
-    background: var(--bg-primary);
+    background: var(--bg-surface);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,7 +81,6 @@ const statusLabel = statusLabels[data.status] || "";
     display: block;
   }
 
-  /* Cover link — toda la card es clickeable */
   .cover-link {
     color: inherit;
     text-decoration: none;
@@ -148,6 +98,15 @@ const statusLabel = statusLabels[data.status] || "";
     outline-offset: 2px;
   }
 
+  .brand {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: -4px;
+  }
+
   .title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -157,7 +116,7 @@ const statusLabel = statusLabels[data.status] || "";
   }
 
   .card:hover .title {
-    color: var(--accent-soft);
+    color: var(--accent);
   }
 
   .description {
@@ -173,44 +132,17 @@ const statusLabel = statusLabels[data.status] || "";
   .meta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: flex-end;
     margin-top: auto;
-    padding-top: 2px;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px;
-    min-width: 0;
-  }
-
-  .tag {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  .sep {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    opacity: 0.4;
+    padding-top: 6px;
   }
 
   .end {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
-    opacity: 0.5;
-    transition: opacity 0.2s ease;
-  }
-
-  .card:hover .end {
-    opacity: 1;
+    color: var(--text-muted);
   }
 
   .status {
@@ -218,13 +150,13 @@ const statusLabel = statusLabels[data.status] || "";
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     white-space: nowrap;
   }
 
   .arrow {
     font-size: 0.85rem;
-    color: var(--accent-soft);
+    color: var(--accent);
     transition: transform 0.2s ease;
   }
 
@@ -232,23 +164,11 @@ const statusLabel = statusLabels[data.status] || "";
     transform: translateX(3px);
   }
 
-  .notes-indicator {
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 4px;
-    background: var(--accent-glow);
-    color: var(--accent-soft);
-    white-space: nowrap;
-  }
-
   .metric {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--accent-soft);
-    background: var(--accent-glow);
+    color: var(--accent);
+    background: var(--accent-tint);
     padding: 6px 12px;
     border-radius: 6px;
     display: inline-block;
@@ -256,32 +176,13 @@ const statusLabel = statusLabels[data.status] || "";
     line-height: 1.4;
   }
 
-  /* Terminal personality: más denso, mono para metadata */
-  .card[data-personality="terminal"] {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  }
-
-  .card[data-personality="terminal"] .title {
-    font-size: 1rem;
-  }
-
-  .card[data-personality="terminal"] .tag,
-  .card[data-personality="terminal"] .status {
-    font-size: 0.65rem;
-  }
-
-  /* Fluid personality: transiciones suaves */
-  .card[data-personality="fluid"] {
-    transition: all 0.3s ease;
-  }
-
   @media (max-width: 480px) {
     .card {
       padding: 16px;
     }
 
-    .meta {
-      flex-wrap: wrap;
+    .card-image {
+      margin: -16px -16px 12px;
     }
   }
 </style>

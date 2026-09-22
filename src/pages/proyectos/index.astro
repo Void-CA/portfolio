@@ -1,96 +1,26 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import FilterPills from '../../components/FilterPills.astro';
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
-
-// Proyectos que tienen notas técnicas asociadas
-const allNotes = await getCollection("notes");
-const projectsWithNotes = new Set(
-  allNotes.filter(n => n.data.published && n.data.project).map(n => n.data.project)
-);
-
 const sorted = projects.sort((a, b) => a.data.order - b.data.order);
-const featured = sorted.filter(p => p.data.featured);
-const explorations = sorted.filter(p => !p.data.featured);
-
-// Extraer todos los tech únicos
-const allTech = [...new Set(projects.flatMap(p => p.data.tech))].sort();
-const allAreas = [...new Set(projects.flatMap(p => p.data.areas || []))].sort();
-
-// Techs que aparecen como filtros — excluimos dependencias granulares
-// (sysinfo, CLAP, SQLx, Macros, Tokio, Serialization), herramientas
-// transversales (CLI) y metodologías (Domain-Driven Design, Clean Architecture)
-// que no definen un conjunto de proyectos.
-const filterTechs = allTech.filter(t =>
-  !["sysinfo", "clap", "Serialization", "Macros", "Tokio", "SQLx",
-    "Domain-Driven Design", "Clean Architecture"].includes(t)
-);
-
-const filterAreas = allAreas;
-
-// Categorización de tecnologías para los filtros
-const categories: Record<string, string[]> = {
-  "Lenguajes": filterTechs.filter(t => ["Rust", "TypeScript", "WebAssembly", "R"].includes(t)),
-  "Frameworks": filterTechs.filter(t => ["React", "Tauri", "Node.js", "Angular"].includes(t)),
-  "Bases de datos": filterTechs.filter(t => ["PostgreSQL", "InfluxDB"].includes(t)),
-  "Infraestructura": filterTechs.filter(t => ["Docker", "MQTT"].includes(t)),
-};
-
-// Si hay tecnologías filtrables no categorizadas, a "Otros"
-const categorized = new Set(Object.values(categories).flat());
-const uncategorized = filterTechs.filter(t => !categorized.has(t));
-if (uncategorized.length > 0) {
-  categories["Otros"] = uncategorized;
-}
 ---
 
-<Layout title="Proyectos" description="Casos de estudio: problemas reales, decisiones técnicas, resultados.">
+<Layout title="Proyectos" description="Casos de estudio: problemas reales, qué construí y qué resultado dejó.">
   <section class="page-header">
     <h1>Proyectos</h1>
     <p class="desc">
-      No son listas. Son casos de estudio. Cada uno responde: qué problema existía,
-      qué reto técnico implicó, qué se construyó y qué resultado tuvo.
+      Casos de estudio, no un catálogo. Cada uno responde qué problema existía,
+      qué se construyó y qué resultado dejó. Menos proyectos, más claridad.
     </p>
   </section>
 
-  <div class="content-wrapper" id="projects-view">
-    <FilterPills categories={categories} areas={filterAreas} />
-
-    <section class="section-group">
-      <h2 class="section-heading">Casos de estudio</h2>
-      <div class="projects-grid">
-        {featured.map(project => (
-          <div
-            class="project-item"
-            data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
-            data-areas={(project.data.areas || []).join(",")}
-          >
-            <ProjectCard project={project} hasNotes={projectsWithNotes.has(project.id)} />
-          </div>
-        ))}
-      </div>
-    </section>
-
-    {explorations.length > 0 && (
-      <section class="section-group">
-        <h2 class="section-heading">Exploraciones</h2>
-        <div class="projects-grid">
-          {explorations.map(project => (
-            <div
-              class="project-item"
-              data-techs={project.data.tech.map(t => t.toLowerCase()).join(",")}
-              data-areas={(project.data.areas || []).join(",")}
-            >
-              <ProjectCard project={project} hasNotes={projectsWithNotes.has(project.id)} />
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
-  </div>
+  <section class="content-wrapper">
+    <div class="projects-grid">
+      {sorted.map(project => <ProjectCard project={project} />)}
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -106,25 +36,7 @@ if (uncategorized.length > 0) {
   }
 
   .content-wrapper {
-    padding: 0 0 80px;
-  }
-
-  .section-group {
-    margin-top: 48px;
-  }
-
-  .section-group:first-of-type {
-    margin-top: 0;
-  }
-
-  .section-heading {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    letter-spacing: -0.01em;
-    margin-bottom: 20px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    padding: 16px 0 80px;
   }
 
   .projects-grid {
@@ -134,22 +46,9 @@ if (uncategorized.length > 0) {
     align-items: stretch;
   }
 
-  .project-item {
-    display: flex;
-  }
-
-  .project-item :global(.card) {
-    height: 100%;
-    min-height: 160px;
-  }
-
   @media (max-width: 768px) {
     .projects-grid {
       grid-template-columns: 1fr;
-    }
-
-    .project-item :global(.card) {
-      min-height: auto;
     }
   }
 </style>
