@@ -6,6 +6,7 @@ description: Plataforma que planifica trayectorias y las ejecuta sobre simulaciÃ
 status: ongoing
 featured: true
 order: 3
+kind: own
 role: Arquitectura y desarrollo del nÃºcleo de dominio y el motion compiler.
 
 problem: >

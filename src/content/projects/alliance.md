@@ -6,6 +6,8 @@ description: Conjunto de aplicaciones que digitalizan la operación administrati
 status: ongoing
 featured: true
 order: 1
+kind: client
+clientNote: sector transporte
 role: Diseño y desarrollo del ecosistema completo (facturación, viajes y la capa compartida de impresión).
 
 problem: >

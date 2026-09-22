@@ -6,6 +6,8 @@ description: Sistema que modela reglas de deuda, centraliza estados de cuenta y 
 status: finished
 featured: true
 order: 2
+kind: client
+clientNote: sector financiero
 role: Modelado de dominio, arquitectura y desarrollo del core del sistema.
 
 problem: >

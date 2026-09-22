@@ -6,6 +6,7 @@ description: Plataforma que separa la planificación de la ejecución real en ca
 status: ongoing
 featured: false
 order: 4
+kind: own
 role: Modelado de dominio y diseño de la arquitectura.
 
 problem: >

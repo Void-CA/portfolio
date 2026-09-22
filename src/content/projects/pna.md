@@ -6,6 +6,7 @@ description: Plataforma que toma las planillas de notas que los docentes ya usan
 status: finished
 featured: false
 order: 5
+kind: own
 role: Diseño y desarrollo completo — motor de procesamiento, aplicación web y de escritorio.
 
 problem: >
