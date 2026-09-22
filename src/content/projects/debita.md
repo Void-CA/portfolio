@@ -5,7 +5,7 @@ subtitle: Plataforma financiera centrada en modelado de dominio
 description: Sistema que modela reglas de deuda, centraliza estados de cuenta y automatiza cobros. Reemplaza procesos manuales por una fuente única de información, con trazabilidad y auditoría sobre cada operación.
 status: finished
 featured: true
-order: 2
+order: 1
 kind: client
 clientNote: sector financiero
 role: Modelado de dominio, arquitectura y desarrollo del core del sistema.
@@ -40,9 +40,7 @@ decisions:
   - "Diseño orientado a trazabilidad, validación y auditoría de operaciones"
 
 highlights:
-  - "90% de reducción en errores de cálculo manual"
-  - "70% de los cobros automatizados"
-  - "Digitalización estructurada de procesos financieros"
+  - "Proceso financiero manual digitalizado y auditable"
   - "Trazabilidad completa sobre operaciones y estados"
   - "Arquitectura centrada en integridad y evolución del dominio"
 

@@ -5,7 +5,7 @@ subtitle: Sistema de gestión operativa de cultivos
 description: Plataforma que separa la planificación de la ejecución real en campo, para contrastar lo programado con lo que efectivamente ocurrió. Modela ciclos de cultivo, actividades, costos y trazabilidad histórica.
 status: ongoing
 featured: false
-order: 4
+order: 5
 kind: own
 role: Modelado de dominio y diseño de la arquitectura.
 

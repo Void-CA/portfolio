@@ -166,6 +166,12 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
         sobre todo cuando hay restricciones que una solución estándar no puede
         resolver.
       </p>
+      <p>
+        Trabajo de forma independiente desde Nicaragua. Puedo trabajar de manera
+        virtual con clientes de todo el país y de forma presencial cuando el
+        proyecto lo requiere, especialmente en la zona occidental.
+      </p>
+      <p class="provider-meta">Español · Inglés · UTC−6</p>
       <div class="tech-line">
         <span class="tech-label">Tecnologías que uso</span>
         <div class="tech-tags">
@@ -193,8 +199,22 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
       <p class="contact-note">
         No necesitás preparar una especificación técnica ni saber exactamente qué
-        solución necesitás. Trabajo por proyecto o por etapas, según el problema y
-        su alcance.
+        solución necesitás.
+      </p>
+
+      <div class="contact-dimension">
+        <span class="contact-label">Cómo se dimensiona</span>
+        <p>
+          Los proyectos se cotizan según alcance y complejidad. Cuando el problema
+          todavía no está definido, podemos empezar por una etapa de diagnóstico y
+          definición antes de comprometer el desarrollo completo.
+        </p>
+      </div>
+
+      <p class="contact-note">
+        La entrega incluye documentación y el conocimiento necesario para continuar
+        el sistema. Después podemos acordar mantenimiento o nuevas etapas según lo
+        que necesites.
       </p>
 
       <div class="contact-cta">
@@ -660,6 +680,12 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     line-height: 1.75;
   }
 
+  .provider-meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
   .tech-line {
     margin-top: 8px;
     display: flex;
@@ -742,6 +768,31 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
   .contact-note {
     font-size: 0.9rem !important;
+  }
+
+  .contact-dimension {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 20px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    max-width: 560px;
+  }
+
+  .contact-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .contact-dimension p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
   }
 
   .contact-cta {

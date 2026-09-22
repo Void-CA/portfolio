@@ -4,8 +4,8 @@ brand: Alliance
 subtitle: Facturación, viajes y liquidaciones en aplicaciones autónomas
 description: Conjunto de aplicaciones que digitalizan la operación administrativa de una empresa de transporte. Facturación, registro de viajes y liquidaciones viven en módulos independientes que se integran por API en lugar de compartir tablas.
 status: ongoing
-featured: true
-order: 1
+featured: false
+order: 4
 kind: client
 clientNote: sector transporte
 role: Diseño y desarrollo del ecosistema completo (facturación, viajes y la capa compartida de impresión).

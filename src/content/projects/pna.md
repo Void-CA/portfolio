@@ -4,9 +4,10 @@ brand: PNA
 subtitle: Convertir formatos institucionales en información útil para decidir
 description: Plataforma que toma las planillas de notas que los docentes ya usan y las convierte en analítica por grupo, evaluación y estudiante, sin cambiar el flujo institucional.
 status: finished
-featured: false
-order: 5
-kind: own
+featured: true
+order: 2
+kind: client
+clientNote: sector educación
 role: Diseño y desarrollo completo — motor de procesamiento, aplicación web y de escritorio.
 
 problem: >
