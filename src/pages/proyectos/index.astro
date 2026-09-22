@@ -7,12 +7,12 @@ const projects = await getCollection("projects");
 const sorted = projects.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title="Proyectos" description="Casos de estudio: problemas reales, qué construí y qué resultado dejó.">
+<Layout title="Proyectos" description="Proyectos reales: qué problema había, qué se construyó y qué resultado dejó.">
   <section class="page-header">
     <h1>Proyectos</h1>
     <p class="desc">
-      Casos de estudio, no un catálogo. Cada uno responde qué problema existía,
-      qué se construyó y qué resultado dejó. Menos proyectos, más claridad.
+      Sistemas que construí para resolver problemas concretos. De cada uno cuento
+      qué problema había, qué se construyó y qué resultado dejó.
     </p>
   </section>
 

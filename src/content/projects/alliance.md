@@ -38,6 +38,7 @@ decisions:
   - "Despliegue reproducible con Docker Compose en desarrollo y producción"
 
 highlights:
+  - "Operación administrativa digitalizada de punta a punta"
   - "Facturación digitalizada con exportación a PDF y Excel"
   - "Registro de viajes y liquidaciones como módulo independiente"
   - "Infraestructura de impresión compartida y desacoplada del dominio"

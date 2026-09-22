@@ -40,12 +40,12 @@ decisions:
   - "Scene graph desacoplado de la matemática: visualización y simulación son consumidores, no productores de verdad"
 
 highlights:
-  - "Workspace multi-crate en Rust con responsabilidades aisladas por capa"
+  - "Un mismo sistema opera sobre simulación y equipos robóticos reales, sin reescribirse"
+  - "Arquitectura preparada para múltiples backends: simulación, ROS2, comunicación serial, otros"
   - "Runtime desacoplado del backend físico mediante motion compiler independiente"
   - "Visualización 3D con scene graph que no contamina el dominio"
   - "API HTTP para integración con sistemas externos sin acoplar al core"
-  - "Arquitectura preparada para múltiples backends: simulación, ROS2, comunicación serial, otros"
-  - "Documentación arquitectónica y de dominio generada con Quarto desde etapas tempranas"
+  - "Workspace multi-crate en Rust con responsabilidades aisladas por capa"
 
 result: >
   Plataforma en desarrollo activo con núcleo de dominio y motion compiler

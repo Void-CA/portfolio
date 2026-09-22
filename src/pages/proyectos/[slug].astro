@@ -38,11 +38,11 @@ const statusLabels = {
       )}
     </header>
 
-    <figure class="project-image">
-      {data.image
-        ? <Image src={data.image} alt={`Captura de ${data.title}`} loading="eager" />
-        : <img src="/test.png" alt="" />}
-    </figure>
+    {data.image && (
+      <figure class="project-image">
+        <Image src={data.image} alt={`Captura de ${data.title}`} loading="eager" />
+      </figure>
+    )}
 
     <section class="case-study">
       {data.problem && (
@@ -430,7 +430,7 @@ const statusLabels = {
   }
 
   .btn:hover {
-    background: var(--accent-bright);
+    background: var(--accent-strong);
     color: #FFFFFF;
   }
 

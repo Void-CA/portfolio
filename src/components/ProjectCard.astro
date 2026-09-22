@@ -20,11 +20,11 @@ const statusLabel = statusLabels[data.status] || "";
 ---
 
 <article class="card">
-  <div class="card-image">
-    {data.image
-      ? <Image src={data.image} alt="" loading="lazy" />
-      : <img src="/test.png" alt="" loading="lazy" />}
-  </div>
+  {data.image && (
+    <div class="card-image">
+      <Image src={data.image} alt="" loading="lazy" />
+    </div>
+  )}
 
   {data.brand && <span class="brand">{data.brand}</span>}
   <h3 class="title">

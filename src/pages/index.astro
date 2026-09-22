@@ -12,28 +12,20 @@ const featured = projects
 
 const steps = [
   {
-    title: "Problema",
-    text: "Entiendo la situación real antes de proponer nada. Qué está pasando, a quién afecta y qué restricciones existen.",
+    title: "Entender",
+    text: "Primero entiendo cómo funciona realmente tu proceso: qué problema existe, qué restricciones hay y qué se espera lograr.",
   },
   {
-    title: "Entendimiento",
-    text: "Traduzco el problema a requisitos de comportamiento: qué tiene que hacer el sistema, no con qué tecnología.",
+    title: "Construir",
+    text: "Defino una solución concreta, la desarrollo por etapas y validamos que cada parte resuelva lo que tiene que resolver.",
   },
   {
-    title: "Propuesta",
-    text: "Defino alcance, arquitectura y entregables. Cada decisión técnica se explica con su trade-off, no solo con la elección.",
+    title: "Entregar",
+    text: "Dejo el sistema funcionando, documentado y preparado para mantenerse y evolucionar.",
   },
   {
-    title: "Implementación",
-    text: "Construyo en capas, con el dominio separado de la infraestructura. Cada avance queda verificable durante el proceso.",
-  },
-  {
-    title: "Entrega",
-    text: "El sistema llega funcionando, documentado y listo para operar. Nada que solo yo sepa mantener.",
-  },
-  {
-    title: "Mantenimiento",
-    text: "Acompaño la evolución: ajustes, nuevas capacidades y soporte. El sistema debe poder crecer sin reescribirse.",
+    title: "Acompañar",
+    text: "Si el sistema sigue creciendo, puedo seguir trabajando sobre él.",
   },
 ];
 
@@ -48,18 +40,13 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
         Software que se adapta a tu operación, <span class="highlight">no al revés</span>.
       </h1>
       <p class="hero-desc">
-        Desarrollo sistemas personalizados para automatizar procesos, integrar datos
-        y construir herramientas adaptadas a necesidades específicas. Del problema
-        a la solución funcionando en producción.
+        Desarrollo software para automatizar procesos, conectar información y
+        resolver operaciones que las herramientas existentes no cubren.
       </p>
       <div class="hero-cta">
         <a href="#contacto" class="btn btn-primary">Contame tu proyecto</a>
         <a href="/proyectos" class="btn btn-secondary">Ver proyectos</a>
       </div>
-    </div>
-
-    <div class="hero-visual" aria-hidden="true">
-      <img src="/test.png" alt="" class="hero-visual-img" />
     </div>
   </section>
 
@@ -115,17 +102,17 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     <h2>Sobre mí</h2>
     <div class="about-content">
       <p>
-        Soy Ari Castillo, ingeniero de sistemas. Construyo software que resuelve
-        problemas operativos concretos: modelado de dominio, automatización de
-        procesos, integración de datos y sistemas que tienen que funcionar con
-        restricciones reales.
+        Soy Ari Castillo, desarrollador de software. Trabajo resolviendo
+        problemas operativos concretos: procesos manuales, información dispersa
+        y herramientas que ya no se ajustan a cómo trabaja una organización.
       </p>
       <p>
-        Trabajo con foco en claridad y mantenibilidad. Prefiero un sistema que se
-        entienda y evolucione antes que uno que solo funcione hoy.
+        Me interesa construir sistemas claros, mantenibles y preparados para
+        evolucionar, sobre todo cuando existen restricciones que una solución
+        genérica no puede resolver.
       </p>
       <div class="tech-line">
-        <span class="tech-label">Trabajo habitualmente con</span>
+        <span class="tech-label">Tecnologías que uso</span>
         <div class="tech-tags">
           {techLine.map(t => <span class="tech-tag">{t}</span>)}
         </div>
@@ -186,26 +173,6 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     margin-top: 28px;
   }
 
-  .hero-visual {
-    width: 260px;
-    height: 260px;
-    flex-shrink: 0;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: var(--bg-surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .hero-visual-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
   .btn {
     padding: 12px 24px;
     border-radius: 8px;
@@ -222,7 +189,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
   }
 
   .btn-primary:hover {
-    background: var(--accent-bright);
+    background: var(--accent-strong);
     color: #FFFFFF;
   }
 
@@ -436,11 +403,6 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
       flex-direction: column;
       gap: 32px;
       padding: 48px 0 40px;
-    }
-
-    .hero-visual {
-      width: 100%;
-      height: 200px;
     }
 
     .hero-content .hero-cta {
