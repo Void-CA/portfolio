@@ -11,27 +11,3 @@ const { title, link } = Astro.props;
   <h2>{title}</h2>
   {link && <a href={link.href} class="section-link">{link.label}</a>}
 </div>
-
-<style>
-  .section-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  .section-link {
-    font-size: 0.85rem;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  @media (max-width: 480px) {
-    .section-head {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 8px;
-    }
-  }
-</style>

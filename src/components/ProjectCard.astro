@@ -39,7 +39,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   <p class="description">{data.description}</p>
 
   {data.highlights && data.highlights.length > 0 && (
-    <div class="metric">{data.highlights[0]}</div>
+    <div class="chip chip--data">{data.highlights[0]}</div>
   )}
 
   <div class="meta">
@@ -173,16 +173,8 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     transform: translateX(3px);
   }
 
-  .metric {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--accent);
-    background: var(--accent-tint);
-    padding: 6px 12px;
-    border-radius: 6px;
-    display: inline-block;
+  .card :global(.chip) {
     align-self: flex-start;
-    line-height: 1.4;
   }
 
   @media (max-width: 480px) {

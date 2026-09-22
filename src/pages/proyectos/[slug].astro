@@ -78,7 +78,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
         {data.result && <p class="case-text result-text">{data.result}</p>}
         {data.highlights && data.highlights.length > 0 && (
           <div class="highlights-list">
-            {data.highlights.map(h => <span class="highlight-badge">{h}</span>)}
+            {data.highlights.map(h => <span class="chip chip--data">{h}</span>)}
           </div>
         )}
       </section>
@@ -124,7 +124,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
         <section class="tech-section">
           <h2>Stack</h2>
           <div class="tech-tags">
-            {data.tech.map(t => <span class="tag">{t}</span>)}
+            {data.tech.map(t => <span class="chip chip--tech">{t}</span>)}
           </div>
         </section>
       </div>
@@ -137,7 +137,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
       {data.live && data.live !== "#" && (
         <a href={data.live} class="btn btn-secondary" target="_blank" rel="noopener">Demo en vivo</a>
       )}
-      <a href={`mailto:${CONTACT.email}`} class="btn">¿Un problema similar? Escribime</a>
+      <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">¿Un problema similar? Escribime</a>
     </footer>
   </article>
 </Layout>
@@ -407,14 +407,10 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     margin-top: 16px;
   }
 
-  .highlight-badge {
+  .result-section .chip--data {
     background: var(--bg-primary);
-    border: 1px solid var(--border);
-    color: var(--accent);
+    border-color: var(--border);
     font-size: 0.82rem;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
   }
 
   .gallery {
@@ -473,50 +469,11 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     gap: 8px;
   }
 
-  .tag {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 500;
-  }
-
   .project-footer {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     padding-top: 24px;
     border-top: 1px solid var(--border);
-  }
-
-  .btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #FFFFFF;
-  }
-
-  .btn:hover {
-    background: var(--accent-strong);
-    color: #FFFFFF;
-  }
-
-  .btn-secondary {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
   }
 </style>

@@ -101,7 +101,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
               </ul>
             </div>
 
-            <div class="panel-flow" aria-hidden="true">
+            <div class="flow" aria-hidden="true">
               {service.flow.map((step, idx) => (
                 <>
                   <span class="flow-step">{step}</span>
@@ -175,7 +175,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
       <div class="tech-line">
         <span class="tech-label">Tecnologías que uso</span>
         <div class="tech-tags">
-          {techLine.map(t => <span class="tech-tag">{t}</span>)}
+          {techLine.map(t => <span class="chip chip--tech">{t}</span>)}
         </div>
       </div>
     </div>
@@ -282,49 +282,6 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     display: flex;
     gap: 12px;
     margin-top: 28px;
-  }
-
-  .btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .btn-icon {
-    font-size: 1.15rem;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #FFFFFF;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-strong);
-    color: #FFFFFF;
-  }
-
-  .btn-secondary {
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    background: var(--bg-primary);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .section-intro {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    max-width: 560px;
-    margin-top: 8px;
   }
 
   .services {
@@ -520,35 +477,9 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     color: var(--accent);
   }
 
-  .panel-flow {
+  .service-panel .flow {
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
     margin-top: 24px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-  }
-
-  .flow-step {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .flow-step::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .flow-sep {
-    color: var(--accent);
   }
 
   .panel-evidence {
@@ -705,16 +636,6 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-  }
-
-  .tech-tag {
-    font-size: 0.8rem;
-    padding: 5px 12px;
-    border-radius: 6px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-weight: 500;
   }
 
   .contact {
