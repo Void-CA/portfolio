@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import { CONTACT } from '../components/SiteConfig';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebAssembly"];
+---
+
+<Layout title="Sobre mí" description="Ari Castillo — desarrollador de software independiente. Sistemas a medida, automatización e integración de datos.">
+  <section class="py-16">
+    <div class="max-w-[720px]">
+      <h1>Sobre mí</h1>
+      <div class="mt-6 flex flex-col gap-4">
+        <p class="text-base leading-[1.75]">
+          Soy Ari Castillo, desarrollador de software. Trabajo con organizaciones
+          que tienen procesos específicos que las herramientas genéricas no cubren
+          bien: procesos manuales, información dispersa o sistemas que ya no se
+          ajustan a cómo opera el negocio.
+        </p>
+        <p class="text-base leading-[1.75]">
+          Construyo sistemas claros, mantenibles y preparados para evolucionar,
+          sobre todo cuando hay restricciones que una solución estándar no puede
+          resolver.
+        </p>
+        <p class="text-base leading-[1.75]">
+          Trabajo de forma independiente desde Nicaragua. Puedo trabajar de manera
+          virtual con clientes de todo el país y de forma presencial cuando el
+          proyecto lo requiere, especialmente en la zona occidental.
+        </p>
+        <p class="font-mono text-meta text-muted">Español · Inglés · UTC−6</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section">
+    <SectionHeader title="Experiencia" link={{ href: '/proyectos', label: 'Ver todos →' }} />
+    <ul class="flex list-none flex-col divide-y divide-border">
+      {projects.map(project => (
+        <li>
+          <a href={`/proyectos/${project.id}`} class="group flex flex-col gap-1 py-5">
+            {project.data.brand && (
+              <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{project.data.brand}</span>
+            )}
+            <span class="text-lead font-semibold text-primary transition-colors group-hover:text-accent">
+              {project.data.title}
+            </span>
+            <span class="text-ui leading-[1.6] text-secondary">{project.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="py-section">
+    <SectionHeader title="Tecnologías que uso" />
+    <div class="flex flex-wrap gap-2">
+      {techLine.map(t => <span class="chip chip--tech">{t}</span>)}
+    </div>
+  </section>
+
+  <section class="pt-20 pb-26">
+    <div class="flex flex-col items-start gap-4 rounded-lg border border-border bg-surface p-7 md:p-12">
+      <h2>Contame qué necesitás</h2>
+      <p class="max-w-[560px] text-base leading-[1.7]">
+        Si tenés un proceso que se puede automatizar, datos dispersos que deberían
+        hablar entre sí o una herramienta que no encaja, escribime.
+      </p>
+      <div class="mt-2 flex flex-col gap-3 md:flex-row">
+        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary w-full justify-center shadow-subtle md:w-auto">
+          <Icon name="mail" class="btn-icon" />{CONTACT.email}
+        </a>
+        <a href={CONTACT.linkedin} class="btn btn-secondary w-full justify-center md:w-auto" target="_blank" rel="noopener">
+          <Icon name="linkedin" class="btn-icon" />LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
