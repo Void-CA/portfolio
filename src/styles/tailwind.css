@@ -26,6 +26,11 @@
 @source "../";
 
 @theme static {
+  /* Elimina la paleta default de Tailwind: solo existen los colores del sistema.
+     Se conserva `transparent` porque `.chip` usa border-transparent. */
+  --color-*: initial;
+  --color-transparent: transparent;
+
   /* Color — semántico */
   --color-primary: #10201f;        /* texto principal */
   --color-secondary: #4b5f5e;      /* texto secundario */
