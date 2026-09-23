@@ -10,28 +10,10 @@ const featured = projects
 ---
 
 {featured.length > 0 && (
-  <section class="featured" id="evidencia">
+  <section id="evidencia" class="py-section">
     <SectionHeader title="Evidencia" link={{ href: "/proyectos", label: "Ver todos →" }} />
-    <div class="grid">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
       {featured.map(project => <ProjectCard project={project} />)}
     </div>
   </section>
 )}
-
-<style>
-  .featured {
-    padding: var(--section-gap) 0;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-  }
-
-  @media (max-width: 768px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

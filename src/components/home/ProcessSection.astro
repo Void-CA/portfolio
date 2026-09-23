@@ -26,24 +26,26 @@ const steps = [
 ];
 ---
 
-<section class="process" id="como-trabajo">
+<section id="como-trabajo" class="py-section">
   <SectionHeader title="Cómo trabajo" />
   <p class="section-intro">
     Un proceso claro, de principio a fin. Desde entender el problema hasta
     dejar una solución que pueda evolucionar.
   </p>
 
-  <div class="timeline" data-timeline>
+  <div class="relative mt-14" data-timeline>
     <div class="timeline-rail" aria-hidden="true">
       <div class="timeline-progress"></div>
     </div>
-    <ol class="timeline-steps">
+    <ol class="grid list-none grid-cols-4 gap-x-6 max-md:grid-cols-1 max-md:gap-0">
       {steps.map((step, i) => (
-        <li class="milestone">
+        <li class="milestone relative pt-11 max-md:pt-0 max-md:pr-0 max-md:pb-8 max-md:pl-9 max-md:last:pb-0">
           <span class="milestone-dot" aria-hidden="true"></span>
-          <span class="milestone-num">{String(i + 1).padStart(2, "0")}</span>
-          <h3><Icon name={step.icon} class="milestone-icon" />{step.title}</h3>
-          <p>{step.text}</p>
+          <span class="mb-2 block font-mono text-[0.8rem] font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="mb-2 flex items-center gap-2 text-[0.95rem] uppercase tracking-[0.06em] text-primary">
+            <Icon name={step.icon} class="milestone-icon" />{step.title}
+          </h3>
+          <p class="text-[0.85rem] leading-[1.6]">{step.text}</p>
         </li>
       ))}
     </ol>
@@ -51,13 +53,11 @@ const steps = [
 </section>
 
 <style>
-  .process {
-    padding: var(--section-gap) 0;
-  }
-
-  .timeline {
-    position: relative;
-    margin-top: 56px;
+  /* Composición del timeline: riel con progreso por scroll y nodos de estado.
+     No es expresable con utilidades; vive en el mismo componente. */
+  .milestone-icon {
+    font-size: 1.2rem;
+    color: var(--color-accent);
   }
 
   .timeline-rail {
@@ -75,20 +75,8 @@ const steps = [
     left: 0;
     height: 100%;
     width: calc(var(--progress, 0) * 100%);
-    background: var(--accent);
+    background: var(--color-accent);
     transition: width 0.15s linear;
-  }
-
-  .timeline-steps {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0 24px;
-  }
-
-  .milestone {
-    position: relative;
-    padding-top: 44px;
   }
 
   .milestone-dot {
@@ -98,44 +86,14 @@ const steps = [
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--bg-primary);
+    background: var(--color-background);
     border: 2px solid rgba(15, 118, 110, 0.35);
     transition: background-color 0.2s, border-color 0.2s;
   }
 
   .milestone.is-reached .milestone-dot {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .milestone-num {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .milestone-icon {
-    font-size: 1.2rem;
-    color: var(--accent);
-  }
-
-  .milestone h3 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-primary);
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-  }
-
-  .milestone p {
-    font-size: 0.85rem;
-    line-height: 1.6;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -145,7 +103,7 @@ const steps = [
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767.98px) {
     .timeline-rail {
       top: 0;
       bottom: 0;
@@ -159,19 +117,6 @@ const steps = [
       width: 100%;
       height: calc(var(--progress, 0) * 100%);
       transition: height 0.15s linear;
-    }
-
-    .timeline-steps {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-
-    .milestone {
-      padding: 0 0 32px 36px;
-    }
-
-    .milestone:last-child {
-      padding-bottom: 0;
     }
 
     .milestone-dot {

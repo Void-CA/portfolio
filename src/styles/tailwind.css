@@ -61,33 +61,8 @@
 }
 
 /* ----------------------------------------------------------------------------
-   Puente de migración.
-   Alias de los nombres antiguos (--accent, --text-primary, …) hacia los tokens
-   del sistema. Permiten migrar de a poco sin romper el CSS existente.
-   Se eliminan cuando ninguna regla los consuma.
+   Variables de layout que no son namespaces de Tailwind.
    ---------------------------------------------------------------------------- */
 :root {
-  --bg-primary: var(--color-background);
-  --bg-surface: var(--color-surface);
-  --accent: var(--color-accent);
-  --accent-strong: var(--color-accent-strong);
-  --accent-tint: var(--color-accent-tint);
-  --text-primary: var(--color-primary);
-  --text-secondary: var(--color-secondary);
-  --text-muted: var(--color-muted);
-  --border: var(--color-border);
-  --border-hover: var(--color-border-hover);
-  --section-gap: var(--spacing-section);
-
-  /* Escala de espaciado y layout (no son namespaces de Tailwind). */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4rem;
   --container-max: 1200px;
-  --content-max: 720px;
 }

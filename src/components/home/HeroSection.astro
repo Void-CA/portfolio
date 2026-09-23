@@ -2,99 +2,25 @@
 import HeroDiagram from '../HeroDiagram.astro';
 ---
 
-<section class="hero" id="propuesta">
-  <div class="hero-content">
-    <p class="availability"><span class="availability-dot" aria-hidden="true"></span>Disponible para proyectos freelance</p>
+<section id="propuesta" class="flex flex-col gap-8 pt-12 pb-10 md:flex-row md:items-center md:gap-12 md:pt-20 md:pb-16">
+  <div class="max-w-[620px] flex-1">
+    <p class="mb-[18px] inline-flex items-center gap-2 text-[0.8rem] font-medium text-secondary">
+      <span class="size-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>Disponible para proyectos freelance
+    </p>
     <h1>
-      Software que se adapta a tu operación, <span class="highlight">no al revés</span>.
+      Software que se adapta a tu operación, <span class="text-accent">no al revés</span>.
     </h1>
-    <p class="hero-desc">
+    <p class="mt-4 max-w-[560px] text-[1.1rem] leading-[1.7]">
       Desarrollo software para automatizar procesos, conectar información y
       resolver operaciones que las herramientas existentes no cubren.
     </p>
-    <div class="hero-cta">
-      <a href="#contacto" class="btn btn-primary">Contame tu proyecto</a>
-      <a href="/proyectos" class="btn btn-secondary">Ver proyectos</a>
+    <div class="mt-7 flex flex-col gap-3 md:flex-row">
+      <a href="#contacto" class="btn btn-primary justify-center">Contame tu proyecto</a>
+      <a href="/proyectos" class="btn btn-secondary justify-center">Ver proyectos</a>
     </div>
   </div>
 
-  <div class="hero-visual">
+  <div class="flex w-full shrink-0 justify-center md:w-[260px]">
     <HeroDiagram />
   </div>
 </section>
-
-<style>
-  .hero {
-    padding: 80px 0 64px;
-    display: flex;
-    gap: 48px;
-    align-items: center;
-  }
-
-  .hero-content {
-    flex: 1;
-    max-width: 620px;
-  }
-
-  .availability {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 18px;
-  }
-
-  .availability-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .hero-visual {
-    flex-shrink: 0;
-    width: 260px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .hero-content h1 .highlight {
-    color: var(--accent);
-  }
-
-  .hero-content .hero-desc {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    max-width: 560px;
-    margin-top: 16px;
-  }
-
-  .hero-content .hero-cta {
-    display: flex;
-    gap: 12px;
-    margin-top: 28px;
-  }
-
-  @media (max-width: 768px) {
-    .hero {
-      flex-direction: column;
-      gap: 32px;
-      padding: 48px 0 40px;
-    }
-
-    .hero-content .hero-cta {
-      flex-direction: column;
-    }
-
-    .hero-visual {
-      width: 100%;
-    }
-
-    .hero-content .btn {
-      justify-content: center;
-    }
-  }
-</style>

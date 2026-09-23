@@ -39,7 +39,7 @@ const resolvedServices = SERVICES.map(service => {
 });
 ---
 
-<section class="services" id="servicios">
+<section id="servicios" class="py-section">
   <SectionHeader title="¿Qué necesitás resolver?" />
   <p class="section-intro">
     No necesitás llegar con una solución definida. Podemos empezar por el problema.
@@ -108,13 +108,9 @@ const resolvedServices = SERVICES.map(service => {
 </section>
 
 <style>
-  .services {
-    padding: var(--section-gap) 0;
-  }
-
   .services-widget {
     margin-top: 32px;
-    background: var(--accent-tint);
+    background: var(--color-accent-tint);
     border-radius: 16px;
     padding: 40px;
     display: grid;
@@ -141,7 +137,7 @@ const resolvedServices = SERVICES.map(service => {
     padding: 18px 0;
     cursor: pointer;
     font-family: inherit;
-    color: var(--text-secondary);
+    color: var(--color-secondary);
     transition: color 0.15s;
   }
 
@@ -158,11 +154,11 @@ const resolvedServices = SERVICES.map(service => {
   }
 
   .service-head.is-active::before {
-    background: var(--accent);
+    background: var(--color-accent);
   }
 
   .service-head:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--color-accent);
     outline-offset: 4px;
     border-radius: 4px;
   }
@@ -173,11 +169,11 @@ const resolvedServices = SERVICES.map(service => {
   }
 
   .service-head:hover .service-problem {
-    color: var(--text-primary);
+    color: var(--color-primary);
   }
 
   .service-head.is-active .service-problem {
-    color: var(--accent);
+    color: var(--color-accent);
     font-weight: 600;
   }
 
@@ -185,18 +181,18 @@ const resolvedServices = SERVICES.map(service => {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--color-accent);
     flex-shrink: 0;
   }
 
   .service-icon {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: var(--color-muted);
     transition: color 0.15s;
   }
 
   .service-head.is-active .service-icon {
-    color: var(--accent);
+    color: var(--color-accent);
   }
 
   .service-problem {
@@ -210,8 +206,8 @@ const resolvedServices = SERVICES.map(service => {
     grid-row: 1 / span 5;
     position: relative;
     display: none;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
     border-radius: 12px;
     padding: 36px 36px 32px;
   }
@@ -250,10 +246,10 @@ const resolvedServices = SERVICES.map(service => {
     position: relative;
     width: 100%;
     margin: 24px 0;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 10px;
     overflow: hidden;
-    background: var(--bg-surface);
+    background: var(--color-surface);
     box-shadow: var(--shadow-subtle);
   }
 
@@ -279,7 +275,7 @@ const resolvedServices = SERVICES.map(service => {
     position: relative;
     display: block;
     font-size: 1.6rem;
-    color: var(--accent);
+    color: var(--color-accent);
     margin-bottom: 14px;
   }
 
@@ -287,7 +283,7 @@ const resolvedServices = SERVICES.map(service => {
     position: relative;
     font-size: 1.25rem;
     letter-spacing: -0.01em;
-    color: var(--text-primary);
+    color: var(--color-primary);
     margin-bottom: 12px;
   }
 
@@ -295,14 +291,14 @@ const resolvedServices = SERVICES.map(service => {
     position: relative;
     font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--text-secondary);
+    color: var(--color-secondary);
   }
 
   .panel-changes {
     position: relative;
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border);
   }
 
   .panel-label {
@@ -311,7 +307,7 @@ const resolvedServices = SERVICES.map(service => {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--color-accent);
     margin-bottom: 12px;
   }
 
@@ -327,14 +323,14 @@ const resolvedServices = SERVICES.map(service => {
     padding-left: 20px;
     font-size: 0.9rem;
     line-height: 1.5;
-    color: var(--text-primary);
+    color: var(--color-primary);
   }
 
   .panel-changes li::before {
     content: "—";
     position: absolute;
     left: 0;
-    color: var(--accent);
+    color: var(--color-accent);
   }
 
   .service-panel .flow {
@@ -349,7 +345,7 @@ const resolvedServices = SERVICES.map(service => {
     gap: 6px;
     margin-top: 24px;
     padding: 9px 14px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -357,8 +353,8 @@ const resolvedServices = SERVICES.map(service => {
   }
 
   .panel-evidence:hover {
-    border-color: var(--accent);
-    background: var(--accent-tint);
+    border-color: var(--color-accent);
+    background: var(--color-accent-tint);
   }
 
   @media (max-width: 860px) {
