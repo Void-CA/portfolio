@@ -477,6 +477,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     border-radius: 10px;
     overflow: hidden;
     background: var(--bg-surface);
+    box-shadow: var(--shadow-subtle);
   }
 
   .panel-media img {
@@ -834,6 +835,11 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 8px;
+  }
+
+  /* La acción terminal del sitio es la que más peso visual necesita. */
+  .contact-cta .btn-primary {
+    box-shadow: var(--shadow-subtle);
   }
 
   @media (max-width: 860px) {

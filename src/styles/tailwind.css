@@ -1,0 +1,90 @@
+/* ============================================================================
+   acastillo.net — Entrada de Tailwind + sistema visual
+   ----------------------------------------------------------------------------
+   CONVENCIÓN
+   - @theme es la ÚNICA fuente de verdad: color, tipografía, radios, sombras,
+     ritmo de secciones. Cambiar la identidad = tocar solo este bloque.
+   - Tailwind utilities: layout, spacing, responsive, tipografía, bordes, estados.
+   - Componentes Astro: composición y estructura.
+   - CSS custom: solo lo que no es expresable con utilidades (diagramas, rails,
+     números fantasma, composiciones complejas).
+   - No usar escalas por defecto de Tailwind (teal-700, gray-800, shadow-lg).
+     Usar los nombres del sistema: accent, surface, primary, secondary, muted,
+     border, shadow-card, rounded-lg, p-section.
+   - Preflight desactivado durante la migración: el reset vive en global.css.
+     Se reevalúa cuando el CSS antiguo ya no tenga consumidores.
+   ============================================================================ */
+
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Deja que Tailwind detecte las plantillas del proyecto. */
+@source "../";
+
+@theme static {
+  /* Color — semántico */
+  --color-primary: #10201f;        /* texto principal */
+  --color-secondary: #4b5f5e;      /* texto secundario */
+  --color-muted: #5f7372;          /* texto terciario */
+  --color-background: #ffffff;     /* fondo de página */
+  --color-surface: #f5f8f8;        /* superficies */
+  --color-surface-hover: #edf2f2;
+  --color-accent: #0f766e;
+  --color-accent-strong: #115e59;
+  --color-accent-bright: #0d9488;
+  --color-accent-soft: #14b8a6;
+  --color-accent-tint: #e6f4f2;
+  --color-border: #dce6e5;
+  --color-border-hover: rgba(15, 118, 110, 0.35);
+
+  /* Tipografía */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Radios */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Sombras */
+  --shadow-subtle: 0 1px 2px rgba(16, 32, 31, 0.06);
+  --shadow-card: 0 1px 2px rgba(16, 32, 31, 0.05), 0 4px 12px rgba(16, 32, 31, 0.05);
+  --shadow-floating: 0 2px 6px rgba(16, 32, 31, 0.06), 0 8px 24px rgba(16, 32, 31, 0.06);
+
+  /* Ritmo de secciones → p-section, gap-section, py-section */
+  --spacing-section: 6rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Puente de migración.
+   Alias de los nombres antiguos (--accent, --text-primary, …) hacia los tokens
+   del sistema. Permiten migrar de a poco sin romper el CSS existente.
+   Se eliminan cuando ninguna regla los consuma.
+   ---------------------------------------------------------------------------- */
+:root {
+  --bg-primary: var(--color-background);
+  --bg-surface: var(--color-surface);
+  --accent: var(--color-accent);
+  --accent-strong: var(--color-accent-strong);
+  --accent-tint: var(--color-accent-tint);
+  --text-primary: var(--color-primary);
+  --text-secondary: var(--color-secondary);
+  --text-muted: var(--color-muted);
+  --border: var(--color-border);
+  --border-hover: var(--color-border-hover);
+  --section-gap: var(--spacing-section);
+
+  /* Escala de espaciado y layout (no son namespaces de Tailwind). */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --container-max: 1200px;
+  --content-max: 720px;
+}

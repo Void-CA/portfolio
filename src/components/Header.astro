@@ -39,11 +39,19 @@ const isActive = (href: string) =>
 </header>
 
 <script>
+  const header = document.querySelector<HTMLElement>('.header');
+
+  // Elevación contextual: al scrollear, el header se separa del contenido que pasa por debajo.
+  if (header) {
+    const setScrolled = () => header.classList.toggle('is-scrolled', window.scrollY > 4);
+    window.addEventListener('scroll', setScrolled, { passive: true });
+    setScrolled();
+  }
+
   const path = window.location.pathname;
   const isHome = path === '/' || path === '/index.html';
 
-  if (isHome) {
-    const header = document.querySelector<HTMLElement>('.header');
+  if (isHome && header) {
     const targets = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.header nav a[href*="#"]')
     )
@@ -54,7 +62,7 @@ const isActive = (href: string) =>
       })
       .filter((t): t is { a: HTMLAnchorElement; el: HTMLElement } => t !== null);
 
-    if (header && targets.length > 0) {
+    if (targets.length > 0) {
       const offset = header.getBoundingClientRect().height + 16;
 
       const update = () => {
@@ -95,6 +103,11 @@ const isActive = (href: string) =>
     border-bottom: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(12px);
+    transition: box-shadow 0.25s ease;
+  }
+
+  .header.is-scrolled {
+    box-shadow: var(--shadow-floating);
   }
 
   .inner {

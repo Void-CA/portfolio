@@ -62,12 +62,14 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     display: flex;
     flex-direction: column;
     gap: 10px;
-    transition: border-color 0.25s ease;
+    box-shadow: var(--shadow-subtle);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
     height: 100%;
   }
 
   .card:hover {
     border-color: var(--border-hover);
+    box-shadow: var(--shadow-card);
   }
 
   .card-image {
