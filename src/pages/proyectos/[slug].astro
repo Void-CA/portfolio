@@ -150,7 +150,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .back-link {
-    font-size: 0.85rem;
+    font-size: var(--text-ui);
     color: var(--color-secondary);
     display: inline-flex;
     align-items: center;
@@ -164,7 +164,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .brand {
-    font-size: 0.7rem;
+    font-size: var(--text-micro);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 700;
@@ -177,7 +177,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .subtitle {
-    font-size: 1.1rem;
+    font-size: var(--text-lead);
     color: var(--color-secondary);
     margin-bottom: 16px;
   }
@@ -190,7 +190,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .status {
-    font-size: 0.7rem;
+    font-size: var(--text-micro);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 4px 8px;
@@ -204,7 +204,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   .status-archived { border-color: var(--color-border); color: var(--color-muted); }
 
   .role {
-    font-size: 0.85rem;
+    font-size: var(--text-ui);
     color: var(--color-secondary);
     padding: 12px 16px;
     background: var(--color-surface);
@@ -214,7 +214,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
   .role-label {
     display: inline-block;
-    font-size: 0.68rem;
+    font-size: var(--text-micro);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 700;
@@ -223,12 +223,12 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .date {
-    font-size: 0.85rem;
+    font-size: var(--text-ui);
     color: var(--color-muted);
   }
 
   .origin {
-    font-size: 0.78rem;
+    font-size: var(--text-meta);
     color: var(--color-secondary);
   }
 
@@ -242,7 +242,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     list-style: none;
     cursor: pointer;
     padding: 20px 0;
-    font-size: 0.85rem;
+    font-size: var(--text-ui);
     font-weight: 600;
     color: var(--color-accent);
   }
@@ -304,7 +304,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.7rem;
+    font-size: var(--text-micro);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-accent);
@@ -322,12 +322,12 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   .case-text {
     color: var(--color-secondary);
     line-height: 1.75;
-    font-size: 0.95rem;
+    font-size: var(--text-base);
   }
 
   .project-body :global(h2) {
     margin: 32px 0 16px;
-    font-size: 1.25rem;
+    font-size: var(--text-title);
   }
 
   .project-body :global(p) {
@@ -354,7 +354,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
   .decisions h2 {
     margin-bottom: 20px;
-    font-size: 1.25rem;
+    font-size: var(--text-title);
   }
 
   .decisions ul {
@@ -368,7 +368,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     padding-left: 22px;
     position: relative;
     color: var(--color-secondary);
-    font-size: 0.92rem;
+    font-size: var(--text-base);
     line-height: 1.65;
   }
 
@@ -391,13 +391,13 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     align-items: center;
     gap: 8px;
     margin-bottom: 16px;
-    font-size: 1.25rem;
+    font-size: var(--text-title);
   }
 
   .result-text {
     color: var(--color-primary);
     line-height: 1.75;
-    font-size: 0.95rem;
+    font-size: var(--text-base);
   }
 
   .highlights-list {
@@ -410,7 +410,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   .result-section .chip--data {
     background: var(--color-background);
     border-color: var(--color-border);
-    font-size: 0.82rem;
+    font-size: var(--text-ui);
   }
 
   .gallery {
@@ -421,7 +421,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
   .gallery h2 {
     margin-bottom: 20px;
-    font-size: 1.25rem;
+    font-size: var(--text-title);
   }
 
   .gallery-list {
@@ -445,7 +445,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
   }
 
   .gallery-item figcaption {
-    font-size: 0.82rem;
+    font-size: var(--text-ui);
     line-height: 1.55;
     color: var(--color-secondary);
     padding: 12px 16px;
@@ -460,7 +460,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
   .tech-section h2 {
     margin-bottom: 16px;
-    font-size: 1.25rem;
+    font-size: var(--text-title);
   }
 
   .tech-tags {

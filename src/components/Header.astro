@@ -124,7 +124,7 @@ const isActive = (href: string) =>
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 1rem;
+    font-size: var(--text-lead);
     font-weight: 600;
     letter-spacing: -0.01em;
     color: var(--color-primary);
@@ -148,7 +148,7 @@ const isActive = (href: string) =>
 
   nav a {
     color: var(--color-secondary);
-    font-size: 0.9rem;
+    font-size: var(--text-base);
     font-weight: 500;
     padding: 4px 0;
     border-bottom: 1px solid transparent;
@@ -166,13 +166,13 @@ const isActive = (href: string) =>
   }
 
   .identity-name {
-    font-size: 1rem;
+    font-size: var(--text-lead);
     font-weight: 600;
     color: var(--color-primary);
   }
 
   .identity-role {
-    font-size: 0.75rem;
+    font-size: var(--text-meta);
     font-weight: 400;
     color: var(--color-muted);
     padding-left: 10px;
@@ -198,11 +198,11 @@ const isActive = (href: string) =>
     }
 
     nav a {
-      font-size: 0.78rem;
+      font-size: var(--text-meta);
     }
 
     .identity-name {
-      font-size: 0.9rem;
+      font-size: var(--text-base);
     }
   }
 </style>

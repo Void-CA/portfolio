@@ -9,13 +9,13 @@ const steps = ["Me escribís", "Entiendo el problema", "Primera conversación", 
 <section id="contacto" class="pt-20 pb-26">
   <div class="flex flex-col items-start gap-4 rounded-lg border border-border bg-surface p-7 md:p-12">
     <SectionHeader title="Contame qué necesitás" />
-    <p class="max-w-[560px] text-[0.95rem] leading-[1.7]">
+    <p class="max-w-[560px] text-base leading-[1.7]">
       Si tenés un proceso que se puede automatizar, datos dispersos que deberían
       hablar entre sí o una herramienta que no encaja, escribime. Te respondo con
       un diagnóstico honesto, aunque no sea lo que querés escuchar.
     </p>
 
-    <ol class="flex list-none flex-wrap items-center gap-2 font-mono text-[0.75rem] text-secondary">
+    <ol class="flex list-none flex-wrap items-center gap-2 font-mono text-meta text-secondary">
       {steps.map((step, i) => (
         <li class="inline-flex items-center gap-1">
           {step}
@@ -33,21 +33,21 @@ const steps = ["Me escribís", "Entiendo el problema", "Primera conversación", 
       </a>
     </div>
 
-    <p class="max-w-[560px] text-[0.9rem] leading-[1.7]">
+    <p class="max-w-[560px] text-base leading-[1.7]">
       No necesitás preparar una especificación técnica ni saber exactamente qué
       solución necesitás.
     </p>
 
     <div class="flex max-w-[560px] flex-col gap-2 rounded-md border border-border bg-background px-5 py-4">
-      <span class="text-[0.7rem] font-bold uppercase tracking-[0.08em] text-accent">Cómo se dimensiona</span>
-      <p class="text-[0.9rem] leading-[1.65] text-secondary">
+      <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">Cómo se dimensiona</span>
+      <p class="text-base leading-[1.65] text-secondary">
         Los proyectos se cotizan según alcance y complejidad. Cuando el problema
         todavía no está definido, podemos empezar por una etapa de diagnóstico y
         definición antes de comprometer el desarrollo completo.
       </p>
     </div>
 
-    <p class="max-w-[560px] text-[0.9rem] leading-[1.7]">
+    <p class="max-w-[560px] text-base leading-[1.7]">
       La entrega incluye documentación y el conocimiento necesario para continuar
       el sistema. Después podemos acordar mantenimiento o nuevas etapas según lo
       que necesites.

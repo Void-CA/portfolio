@@ -41,11 +41,11 @@ const steps = [
       {steps.map((step, i) => (
         <li class="milestone relative pt-11 max-md:pt-0 max-md:pr-0 max-md:pb-8 max-md:pl-9 max-md:last:pb-0">
           <span class="milestone-dot" aria-hidden="true"></span>
-          <span class="mb-2 block font-mono text-[0.8rem] font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
-          <h3 class="mb-2 flex items-center gap-2 text-[0.95rem] uppercase tracking-[0.06em] text-primary">
+          <span class="mb-2 block font-mono text-ui font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="mb-2 flex items-center gap-2 text-base uppercase tracking-[0.06em] text-primary">
             <Icon name={step.icon} class="milestone-icon" />{step.title}
           </h3>
-          <p class="text-[0.85rem] leading-[1.6]">{step.text}</p>
+          <p class="text-ui leading-[1.6]">{step.text}</p>
         </li>
       ))}
     </ol>
