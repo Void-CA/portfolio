@@ -58,6 +58,11 @@
 
   /* Ritmo de secciones → p-section, gap-section, py-section */
   --spacing-section: 6rem;
+
+  /* Breakpoints — tres tiers intencionales (no se usan los 7 valores previos). */
+  --breakpoint-sm: 40rem;   /* 640 */
+  --breakpoint-md: 48rem;   /* 768 */
+  --breakpoint-lg: 64rem;   /* 1024 */
 }
 
 /* ----------------------------------------------------------------------------

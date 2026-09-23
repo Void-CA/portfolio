@@ -86,7 +86,7 @@
     color: var(--color-accent);
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 639.98px) {
     .section-head {
       @apply flex-col items-start gap-2;
     }

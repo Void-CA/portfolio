@@ -223,7 +223,7 @@ const resolvedServices = SERVICES.map(service => {
 
   /* Con evidencia visual, el panel se compone en dos columnas: texto y captura.
      Sin media, se mantiene en una sola columna. */
-  @media (min-width: 861px) {
+  @media (min-width: 1024px) {
     .panel-body.has-media {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -357,7 +357,7 @@ const resolvedServices = SERVICES.map(service => {
     background: var(--color-accent-tint);
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 1023.98px) {
     .services-widget {
       display: block;
       padding: 8px 20px;
@@ -409,7 +409,7 @@ const resolvedServices = SERVICES.map(service => {
   if (widget) {
     const heads = Array.from(widget.querySelectorAll<HTMLButtonElement>('.service-head'));
     const panels = Array.from(widget.querySelectorAll<HTMLElement>('.service-panel'));
-    const mq = window.matchMedia('(min-width: 861px)');
+    const mq = window.matchMedia('(min-width: 1024px)');
 
     const setActive = (index: number) => {
       heads.forEach((head, i) => {
