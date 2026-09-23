@@ -9,17 +9,17 @@ const year = new Date().getFullYear();
 <footer class="footer">
   <div class="inner">
     <div class="contact-row">
-      <a href={`mailto:${email}`} class="contact-link">
+      <a href={`mailto:${email}`} class="contact-link" aria-label={`Escribime a ${email}`}>
         <Icon name="mail" class="contact-icon" />
         <span>{email}</span>
       </a>
       <span class="contact-sep" aria-hidden="true">·</span>
-      <a href={github} class="contact-link" target="_blank" rel="noopener">
+      <a href={github} class="contact-link" target="_blank" rel="noopener" aria-label="GitHub">
         <Icon name="github" class="contact-icon" />
         <span>GitHub</span>
       </a>
       <span class="contact-sep" aria-hidden="true">·</span>
-      <a href={linkedin} class="contact-link" target="_blank" rel="noopener">
+      <a href={linkedin} class="contact-link" target="_blank" rel="noopener" aria-label="LinkedIn">
         <Icon name="linkedin" class="contact-icon" />
         <span>LinkedIn</span>
       </a>

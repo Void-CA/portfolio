@@ -40,6 +40,10 @@
   --container-max: 1200px;
   --content-max: 720px;
 
+  /* Ritmo vertical — separación estándar entre secciones.
+     Hero, Sobre mí y Contacto usan valores propios por necesidad compositiva. */
+  --section-gap: 6rem;
+
   /* Radios */
   --radius-sm: 6px;
   --radius-md: 10px;
