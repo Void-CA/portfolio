@@ -52,7 +52,7 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
     {data.image && (
       <figure class="project-image">
-        <Image src={data.image} alt={`Captura de ${data.title}`} loading="eager" />
+        <Image src={data.image} alt={data.imageAlt ?? `Captura de ${data.title}`} loading="eager" />
       </figure>
     )}
 

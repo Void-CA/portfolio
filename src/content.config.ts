@@ -22,7 +22,9 @@ const projects = defineCollection({
     tech: z.array(z.string()),
     areas: z.array(z.string()).optional(),
     image: image().optional(),        // imagen de portada del proyecto
+    imageAlt: z.string().optional(),  // alt de la portada; el proyecto es dueño de sus assets
     images: z.array(z.object({        // galería del case study
+      key: z.string(),                // clave semántica estable para referenciar la imagen
       src: image(),
       alt: z.string(),
       caption: z.string().optional(),

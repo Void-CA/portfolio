@@ -56,26 +56,31 @@ tech:
   - Tauri
 
 image: ../../assets/pna/pna-home.png
+imageAlt: Vista general del grupo en PNA
 
 images:
-  - src: ../../assets/pna/pna-starting-data.png
+  - key: starting-data
+    src: ../../assets/pna/pna-starting-data.png
     alt: Planilla institucional de notas en formato de hoja de cálculo
     caption: >
       Punto de partida: la planilla institucional que los docentes ya usan. Poco
       legible por sí misma y difícil de analizar sin procesarla.
-  - src: ../../assets/pna/pna-home.png
+  - key: home
+    src: ../../assets/pna/pna-home.png
     alt: Vista general del grupo en PNA
     caption: >
       Vista general del grupo: número de estudiantes, evaluaciones, puntos
       acumulados, promedio, distribución de notas y estado respecto a la nota de
       aprobación.
-  - src: ../../assets/pna/pna-evaluation-detail.png
+  - key: evaluation-detail
+    src: ../../assets/pna/pna-evaluation-detail.png
     alt: Detalle de una evaluación con distribución de resultados
     caption: >
       Detalle por evaluación: composición de resultados (bien, regular, mal),
       promedio, entregas y distribución. Pensado para detectar en qué evaluaciones
       el grupo tuvo dificultades.
-  - src: ../../assets/pna/pna-student-detail.png
+  - key: student-detail
+    src: ../../assets/pna/pna-student-detail.png
     alt: Detalle individual de un estudiante con su historial de rendimiento
     caption: >
       Seguimiento por estudiante: puntaje, percentil, esfuerzo requerido y

@@ -6,12 +6,45 @@ import SectionHeader from '../components/SectionHeader.astro';
 import HeroDiagram from '../components/HeroDiagram.astro';
 import { CONTACT } from '../components/SiteConfig';
 import { SERVICES } from '../data/services';
+import { Image } from 'astro:assets';
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 const featured = projects
   .filter(p => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
+
+const projectsById = new Map(projects.map(p => [p.id, p]));
+
+// El servicio declara qué evidencia lo respalda; el proyecto es dueño de sus assets.
+// `evidence.image` es una clave semántica de la galería del proyecto; si falta,
+// se usa la portada. Un proyecto sin imagen no recibe placeholder.
+const resolvedServices = SERVICES.map(service => {
+  const project = projectsById.get(service.evidence.project);
+  if (!project) return { service, evidence: null };
+
+  const { data } = project;
+  let image = data.image;
+  let imageAlt = data.imageAlt ?? `Captura de ${data.title}`;
+
+  if (service.evidence.image && data.images) {
+    const match = data.images.find(img => img.key === service.evidence.image);
+    if (match) {
+      image = match.src;
+      imageAlt = match.alt;
+    }
+  }
+
+  return {
+    service,
+    evidence: {
+      href: `/proyectos/${project.id}`,
+      label: data.brand ?? data.title,
+      image,
+      imageAlt,
+    },
+  };
+});
 
 const steps = [
   {
@@ -69,7 +102,7 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     </p>
 
     <div class="services-widget" data-services>
-      {SERVICES.map((service, i) => (
+      {resolvedServices.map(({ service, evidence }, i) => (
         <div class="service">
           <button
             type="button"
@@ -89,30 +122,40 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
             data-index={i}
             role="region"
           >
-            <span class="panel-num" aria-hidden="true">{service.num}</span>
-            <Icon name={service.icon} class="panel-icon" />
-            <h3 class="panel-title">{service.title}</h3>
-            <p class="panel-desc">{service.description}</p>
+            <div class="panel-body">
+              <span class="panel-num" aria-hidden="true">{service.num}</span>
+              <Icon name={service.icon} class="panel-icon" />
+              <h3 class="panel-title">{service.title}</h3>
+              <p class="panel-desc">{service.description}</p>
 
-            <div class="panel-changes">
-              <span class="panel-label">Qué cambia</span>
-              <ul>
-                {service.changes.map(change => <li>{change}</li>)}
-              </ul>
+              {evidence?.image && (
+                <figure class="panel-media">
+                  <Image src={evidence.image} alt={evidence.imageAlt} loading="lazy" />
+                </figure>
+              )}
+
+              <div class="panel-changes">
+                <span class="panel-label">Qué cambia</span>
+                <ul>
+                  {service.changes.map(change => <li>{change}</li>)}
+                </ul>
+              </div>
+
+              <div class="flow" aria-hidden="true">
+                {service.flow.map((step, idx) => (
+                  <>
+                    <span class="flow-step">{step}</span>
+                    {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
+                  </>
+                ))}
+              </div>
+
+              {evidence && (
+                <a class="panel-evidence" href={evidence.href}>
+                  Ejemplo: {evidence.label} →
+                </a>
+              )}
             </div>
-
-            <div class="flow" aria-hidden="true">
-              {service.flow.map((step, idx) => (
-                <>
-                  <span class="flow-step">{step}</span>
-                  {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
-                </>
-              ))}
-            </div>
-
-            <a class="panel-evidence" href={service.evidence.href}>
-              Ejemplo: {service.evidence.label} →
-            </a>
           </article>
         </div>
       ))}
@@ -301,8 +344,8 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     border-radius: 16px;
     padding: 40px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
-    column-gap: 44px;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.75fr);
+    column-gap: 36px;
     align-items: start;
   }
 
@@ -396,17 +439,38 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     background: var(--bg-primary);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 40px 40px 32px;
+    padding: 36px 36px 32px;
   }
 
   .service-panel.is-active {
     display: block;
   }
 
+  .panel-body {
+    position: relative;
+    min-width: 0;
+  }
+
+  .panel-media {
+    position: relative;
+    width: 100%;
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+
+  .panel-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
   .panel-num {
     position: absolute;
-    top: -28px;
-    right: 20px;
+    top: -18px;
+    right: 4px;
     font-size: clamp(80px, 10vw, 128px);
     font-weight: 700;
     line-height: 1;
@@ -763,8 +827,9 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
 
     .panel-num {
       font-size: 72px;
-      top: -10px;
-      right: 16px;
+      top: -12px;
+      right: 0;
+      left: auto;
     }
   }
 
