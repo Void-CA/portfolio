@@ -1,0 +1,160 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../Icon.astro';
+import { CONTACT } from '../SiteConfig';
+---
+
+<section class="contact" id="contacto">
+  <div class="contact-inner">
+    <SectionHeader title="Contame qué necesitás" />
+    <p>
+      Si tenés un proceso que se puede automatizar, datos dispersos que deberían
+      hablar entre sí o una herramienta que no encaja, escribime. Te respondo con
+      un diagnóstico honesto, aunque no sea lo que querés escuchar.
+    </p>
+
+    <ol class="contact-steps">
+      <li>Me escribís</li>
+      <li>Entiendo el problema</li>
+      <li>Primera conversación</li>
+      <li>Definimos si avanzar</li>
+    </ol>
+
+    <div class="contact-cta">
+      <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">
+        <Icon name="mail" class="btn-icon" />{CONTACT.email}
+      </a>
+      <a href={CONTACT.linkedin} class="btn btn-secondary" target="_blank" rel="noopener">
+        <Icon name="linkedin" class="btn-icon" />LinkedIn
+      </a>
+    </div>
+
+    <p class="contact-note">
+      No necesitás preparar una especificación técnica ni saber exactamente qué
+      solución necesitás.
+    </p>
+
+    <div class="contact-dimension">
+      <span class="contact-label">Cómo se dimensiona</span>
+      <p>
+        Los proyectos se cotizan según alcance y complejidad. Cuando el problema
+        todavía no está definido, podemos empezar por una etapa de diagnóstico y
+        definición antes de comprometer el desarrollo completo.
+      </p>
+    </div>
+
+    <p class="contact-note">
+      La entrega incluye documentación y el conocimiento necesario para continuar
+      el sistema. Después podemos acordar mantenimiento o nuevas etapas según lo
+      que necesites.
+    </p>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 80px 0 104px;
+  }
+
+  .contact-inner {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .contact-inner p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .contact-steps {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .contact-steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .contact-steps li::after {
+    content: "→";
+    color: var(--accent);
+    margin-left: 4px;
+  }
+
+  .contact-steps li:last-child::after {
+    content: "";
+    margin-left: 0;
+  }
+
+  .contact-inner .contact-note {
+    font-size: 0.9rem;
+  }
+
+  .contact-dimension {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 20px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    max-width: 560px;
+  }
+
+  .contact-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .contact-dimension p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .contact-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  /* La acción terminal del sitio es la que más peso visual necesita. */
+  .contact-cta .btn-primary {
+    box-shadow: var(--shadow-subtle);
+  }
+
+  @media (max-width: 768px) {
+    .contact-inner {
+      padding: 28px;
+    }
+
+    .contact-cta {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .contact-cta .btn {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>

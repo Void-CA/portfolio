@@ -1,0 +1,221 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../Icon.astro';
+
+const steps = [
+  {
+    icon: "target",
+    title: "Entender",
+    text: "Antes de hablar de tecnología, entiendo cómo funciona realmente tu operación, qué problema existe y qué restricciones tenemos.",
+  },
+  {
+    icon: "cube",
+    title: "Construir",
+    text: "Definimos una solución concreta y la desarrollamos por etapas, validando que cada parte resuelva el problema real.",
+  },
+  {
+    icon: "check",
+    title: "Entregar",
+    text: "El objetivo no es una demo: dejo el sistema funcionando, documentado y con el conocimiento para continuar (código y decisiones explicadas).",
+  },
+  {
+    icon: "trending",
+    title: "Evolucionar",
+    text: "El negocio cambia. El sistema también puede hacerlo sin empezar de cero.",
+  },
+];
+---
+
+<section class="process" id="como-trabajo">
+  <SectionHeader title="Cómo trabajo" />
+  <p class="section-intro">
+    Un proceso claro, de principio a fin. Desde entender el problema hasta
+    dejar una solución que pueda evolucionar.
+  </p>
+
+  <div class="timeline" data-timeline>
+    <div class="timeline-rail" aria-hidden="true">
+      <div class="timeline-progress"></div>
+    </div>
+    <ol class="timeline-steps">
+      {steps.map((step, i) => (
+        <li class="milestone">
+          <span class="milestone-dot" aria-hidden="true"></span>
+          <span class="milestone-num">{String(i + 1).padStart(2, "0")}</span>
+          <h3><Icon name={step.icon} class="milestone-icon" />{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    padding: var(--section-gap) 0;
+  }
+
+  .timeline {
+    position: relative;
+    margin-top: 56px;
+  }
+
+  .timeline-rail {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(15, 118, 110, 0.18);
+  }
+
+  .timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(var(--progress, 0) * 100%);
+    background: var(--accent);
+    transition: width 0.15s linear;
+  }
+
+  .timeline-steps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 24px;
+  }
+
+  .milestone {
+    position: relative;
+    padding-top: 44px;
+  }
+
+  .milestone-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid rgba(15, 118, 110, 0.35);
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .milestone.is-reached .milestone-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .milestone-num {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .milestone-icon {
+    font-size: 1.2rem;
+    color: var(--accent);
+  }
+
+  .milestone h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .milestone p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-progress,
+    .milestone-dot {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .timeline-rail {
+      top: 0;
+      bottom: 0;
+      left: 5px;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+
+    .timeline-progress {
+      width: 100%;
+      height: calc(var(--progress, 0) * 100%);
+      transition: height 0.15s linear;
+    }
+
+    .timeline-steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .milestone {
+      padding: 0 0 32px 36px;
+    }
+
+    .milestone:last-child {
+      padding-bottom: 0;
+    }
+
+    .milestone-dot {
+      top: 4px;
+    }
+  }
+</style>
+
+<script>
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  if (timeline) {
+    const items = Array.from(timeline.querySelectorAll<HTMLElement>('.milestone'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+
+    const paint = () => {
+      ticking = false;
+      const rect = timeline.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const start = vh * 0.85;
+      const end = vh * 0.25;
+      const span = start - end + rect.height;
+      const progress = span > 0 ? (start - rect.top) / span : 1;
+      const clamped = Math.max(0, Math.min(1, progress));
+      timeline.style.setProperty('--progress', reduce ? '1' : clamped.toFixed(3));
+      items.forEach((item, i) => {
+        const threshold = (i + 0.5) / items.length;
+        item.classList.toggle('is-reached', reduce || clamped >= threshold);
+      });
+    };
+
+    const request = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    if (reduce) {
+      paint();
+    } else {
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      paint();
+    }
+  }
+</script>

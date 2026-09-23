@@ -1,0 +1,447 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../Icon.astro';
+import { SERVICES } from '../../data/services';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const projectsById = new Map(projects.map(p => [p.id, p]));
+
+// El servicio declara qué evidencia lo respalda; el proyecto es dueño de sus assets.
+// `evidence.image` es una clave semántica de la galería del proyecto; si falta,
+// se usa la portada. Un proyecto sin imagen no recibe placeholder.
+const resolvedServices = SERVICES.map(service => {
+  const project = projectsById.get(service.evidence.project);
+  if (!project) return { service, evidence: null };
+
+  const { data } = project;
+  let image = data.image;
+  let imageAlt = data.imageAlt ?? `Captura de ${data.title}`;
+
+  if (service.evidence.image && data.images) {
+    const match = data.images.find(img => img.key === service.evidence.image);
+    if (match) {
+      image = match.src;
+      imageAlt = match.alt;
+    }
+  }
+
+  return {
+    service,
+    evidence: {
+      href: `/proyectos/${project.id}`,
+      label: data.brand ?? data.title,
+      image,
+      imageAlt,
+    },
+  };
+});
+---
+
+<section class="services" id="servicios">
+  <SectionHeader title="¿Qué necesitás resolver?" />
+  <p class="section-intro">
+    No necesitás llegar con una solución definida. Podemos empezar por el problema.
+  </p>
+
+  <div class="services-widget" data-services>
+    {resolvedServices.map(({ service, evidence }, i) => (
+      <div class="service">
+        <button
+          type="button"
+          class="service-head"
+          data-index={i}
+          aria-expanded={i === 0 ? "true" : "false"}
+          aria-controls={`svc-${service.id}`}
+        >
+          <span class="service-num">{service.num}</span>
+          <Icon name={service.icon} class="service-icon" />
+          <span class="service-problem">{service.problem}</span>
+        </button>
+
+        <article
+          id={`svc-${service.id}`}
+          class:list={["service-panel", { "is-active": i === 0, "is-open": i === 0 }]}
+          data-index={i}
+          role="region"
+          aria-labelledby={`svc-${service.id}-title`}
+        >
+          <div class:list={["panel-body", { "has-media": Boolean(evidence?.image) }]}>
+            <span class="panel-num" aria-hidden="true">{service.num}</span>
+            <Icon name={service.icon} class="panel-icon" />
+            <h3 class="panel-title" id={`svc-${service.id}-title`}>{service.title}</h3>
+            <p class="panel-desc">{service.description}</p>
+
+            {evidence?.image && (
+              <figure class="panel-media">
+                <Image src={evidence.image} alt={evidence.imageAlt} loading="lazy" />
+              </figure>
+            )}
+
+            <div class="panel-changes">
+              <span class="panel-label">Qué cambia</span>
+              <ul>
+                {service.changes.map(change => <li>{change}</li>)}
+              </ul>
+            </div>
+
+            <div class="flow" aria-hidden="true">
+              {service.flow.map((step, idx) => (
+                <>
+                  <span class="flow-step">{step}</span>
+                  {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
+                </>
+              ))}
+            </div>
+
+            {evidence && (
+              <a class="panel-evidence" href={evidence.href}>
+                Ejemplo: {evidence.label} →
+              </a>
+            )}
+          </div>
+        </article>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: var(--section-gap) 0;
+  }
+
+  .services-widget {
+    margin-top: 32px;
+    background: var(--accent-tint);
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.75fr);
+    column-gap: 36px;
+    align-items: start;
+  }
+
+  .service {
+    display: contents;
+  }
+
+  .service-head {
+    grid-column: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid rgba(15, 118, 110, 0.15);
+    padding: 18px 0;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text-secondary);
+    transition: color 0.15s;
+  }
+
+  .service-head::before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 2px;
+    background: transparent;
+    transition: background-color 0.15s;
+  }
+
+  .service-head.is-active::before {
+    background: var(--accent);
+  }
+
+  .service-head:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  .service:first-child .service-head {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .service-head:hover .service-problem {
+    color: var(--text-primary);
+  }
+
+  .service-head.is-active .service-problem {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .service-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .service-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .service-head.is-active .service-icon {
+    color: var(--accent);
+  }
+
+  .service-problem {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+
+  .service-panel {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+    position: relative;
+    display: none;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 36px 32px;
+  }
+
+  .service-panel.is-active {
+    display: block;
+  }
+
+  .panel-body {
+    position: relative;
+    min-width: 0;
+  }
+
+  /* Con evidencia visual, el panel se compone en dos columnas: texto y captura.
+     Sin media, se mantiene en una sola columna. */
+  @media (min-width: 861px) {
+    .panel-body.has-media {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 36px;
+      align-items: start;
+    }
+
+    .panel-body.has-media > :not(.panel-media) {
+      grid-column: 1;
+    }
+
+    .panel-body.has-media > .panel-media {
+      grid-column: 2;
+      grid-row: 1 / span 6;
+      margin: 0;
+    }
+  }
+
+  .panel-media {
+    position: relative;
+    width: 100%;
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .panel-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .panel-num {
+    position: absolute;
+    top: -18px;
+    right: 4px;
+    font-size: clamp(80px, 10vw, 128px);
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(15, 118, 110, 0.08);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .panel-icon {
+    position: relative;
+    display: block;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .panel-title {
+    position: relative;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .panel-desc {
+    position: relative;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .panel-changes {
+    position: relative;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .panel-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .panel-changes ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .panel-changes li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .panel-changes li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .service-panel .flow {
+    position: relative;
+    margin-top: 24px;
+  }
+
+  .panel-evidence {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 24px;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+  }
+
+  .panel-evidence:hover {
+    border-color: var(--accent);
+    background: var(--accent-tint);
+  }
+
+  @media (max-width: 860px) {
+    .services-widget {
+      display: block;
+      padding: 8px 20px;
+    }
+
+    .service {
+      display: block;
+      border-top: 1px solid rgba(15, 118, 110, 0.15);
+    }
+
+    .service:first-child {
+      border-top: 0;
+    }
+
+    .service-head {
+      border-top: 0;
+      padding: 18px 0;
+    }
+
+    .service:first-child .service-head {
+      padding-top: 18px;
+    }
+
+    .service-panel {
+      grid-row: auto;
+      margin: 0 0 20px;
+      padding: 24px 20px 20px;
+    }
+
+    .service-panel.is-active {
+      display: none;
+    }
+
+    .service-panel.is-open {
+      display: block;
+    }
+
+    .panel-num {
+      font-size: 72px;
+      top: -12px;
+      right: 0;
+      left: auto;
+    }
+  }
+</style>
+
+<script>
+  const widget = document.querySelector('[data-services]');
+  if (widget) {
+    const heads = Array.from(widget.querySelectorAll<HTMLButtonElement>('.service-head'));
+    const panels = Array.from(widget.querySelectorAll<HTMLElement>('.service-panel'));
+    const mq = window.matchMedia('(min-width: 861px)');
+
+    const setActive = (index: number) => {
+      heads.forEach((head, i) => {
+        const active = i === index;
+        head.classList.toggle('is-active', active);
+        head.setAttribute('aria-expanded', active ? 'true' : 'false');
+      });
+      panels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
+    };
+
+    const toggleOpen = (index: number) => {
+      const panel = panels[index];
+      const wasOpen = panel.classList.contains('is-open');
+      panels.forEach(p => p.classList.remove('is-open'));
+      if (!wasOpen) panel.classList.add('is-open');
+      heads.forEach((head, i) => {
+        head.setAttribute('aria-expanded', !wasOpen && i === index ? 'true' : 'false');
+      });
+    };
+
+    heads.forEach((head, i) => {
+      head.addEventListener('click', () => {
+        if (mq.matches) setActive(i);
+        else toggleOpen(i);
+      });
+    });
+
+    setActive(0);
+    mq.addEventListener('change', () => setActive(0));
+  }
+</script>

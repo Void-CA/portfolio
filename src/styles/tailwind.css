@@ -19,6 +19,8 @@
 
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+@import "./global.css" layer(base);
+@import "./components.css" layer(components);
 
 /* Deja que Tailwind detecte las plantillas del proyecto. */
 @source "../";
@@ -36,6 +38,7 @@
   --color-accent-bright: #0d9488;
   --color-accent-soft: #14b8a6;
   --color-accent-tint: #e6f4f2;
+  --color-on-accent: #ffffff;
   --color-border: #dce6e5;
   --color-border-hover: rgba(15, 118, 110, 0.35);
 

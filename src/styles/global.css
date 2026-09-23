@@ -1,93 +1,96 @@
-/* Acastillo.net — Global
-   Reset/base, elementos HTML y contenedores. Estructura general, no componentes. */
+/* Acastillo.net — Base
+   Reset/base, elementos HTML y contenedores. Vive en @layer base para que los
+   componentes (layer components) y las utilidades de Tailwind puedan sobrescribir. */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
 
-img {
-  max-width: 100%;
-}
+  img {
+    max-width: 100%;
+  }
 
-h1 {
-  font-size: clamp(2.25rem, 5vw, 3.25rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
 
-h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-}
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
 
-h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
 
-p {
-  color: var(--text-secondary);
-}
+  p {
+    color: var(--color-secondary);
+  }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.2s;
-}
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
 
-a:hover {
-  color: var(--accent-strong);
-}
+  a:hover {
+    color: var(--color-accent-strong);
+  }
 
-code {
-  background: var(--bg-surface);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-}
+  code {
+    background: var(--color-surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
 
-::selection {
-  background: var(--accent-tint);
-  color: var(--text-primary);
-}
+  ::selection {
+    background: var(--color-accent-tint);
+    color: var(--color-primary);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-main {
-  flex: 1;
-  width: 100%;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 24px;
-}
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
 
-/* Superficies que transicionan al cambiar de estado */
-.header,
-.footer,
-.card {
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  /* Superficies que transicionan al cambiar de estado */
+  .header,
+  .footer,
+  .card {
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
 }

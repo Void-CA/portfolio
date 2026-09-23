@@ -1,0 +1,37 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const featured = projects
+  .filter(p => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+{featured.length > 0 && (
+  <section class="featured" id="evidencia">
+    <SectionHeader title="Evidencia" link={{ href: "/proyectos", label: "Ver todos →" }} />
+    <div class="grid">
+      {featured.map(project => <ProjectCard project={project} />)}
+    </div>
+  </section>
+)}
+
+<style>
+  .featured {
+    padding: var(--section-gap) 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
