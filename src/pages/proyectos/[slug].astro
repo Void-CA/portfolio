@@ -113,21 +113,6 @@ const hasDecisions = decisions.length > 0;
           </div>
         )}
 
-        {hasHighlights && (
-          <div class="evidence-block">
-            <span class="evidence-heading">Evidencia</span>
-            <div class="evidence-list">
-              {highlights.slice(0, 3).map(h => (
-                <span class="evidence-item">
-                  <span class="evidence-item-label">{typeof h === "string" ? h : h.label}</span>
-                  {typeof h !== "string" && h.detail && (
-                    <span class="evidence-item-detail">{h.detail}</span>
-                  )}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
       </section>
     )}
 
