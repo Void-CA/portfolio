@@ -28,7 +28,12 @@ const projects = defineCollection({
       value: z.string(),
       label: z.string(),
     })).optional(),
-    highlights: z.array(z.string()).optional(), // métricas/logros destacados
+    highlights: z.array(   // evidencia: label corto + detalle breve (máx. 3)
+      z.union([
+        z.string(),
+        z.object({ label: z.string(), detail: z.string().optional() }),
+      ])
+    ).optional(),
     result: z.string().optional(),
     tech: z.array(z.string()),
     areas: z.array(z.string()).optional(),

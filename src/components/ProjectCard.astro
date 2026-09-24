@@ -22,6 +22,11 @@ const originLabels: Record<string, string> = {
 
 const statusLabel = statusLabels[data.status] || "";
 const originLabel = data.kind ? originLabels[data.kind] : "";
+
+const firstHighlight = data.highlights?.[0];
+const highlightChip = firstHighlight
+  ? (typeof firstHighlight === "string" ? firstHighlight : firstHighlight.label)
+  : "";
 ---
 
 <article class="card">
@@ -38,8 +43,8 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
 
   <p class="description">{data.description}</p>
 
-  {data.highlights && data.highlights.length > 0 && (
-    <div class="chip chip--data">{data.highlights[0]}</div>
+  {highlightChip && (
+    <div class="chip chip--data">{highlightChip}</div>
   )}
 
   <div class="meta">

@@ -10,10 +10,8 @@ kind: own
 role: Modelado de dominio y diseño de la arquitectura.
 
 problem: >
-  Los sistemas agrícolas tradicionales suelen tratar la planificación y la ejecución
-  como si fueran la misma realidad. Esto provoca inconsistencias operativas,
-  dificultades para auditar decisiones y poca capacidad de análisis sobre lo que
-  realmente ocurrió en campo frente a lo presupuestado o programado.
+  Los sistemas agrícolas suelen tratar la planificación y la ejecución como una
+  misma realidad, lo que dificulta auditar qué ocurrió realmente en campo.
 
 challenge: >
   Diseñar un sistema capaz de representar operaciones agrícolas reales con precisión,
@@ -22,11 +20,9 @@ challenge: >
   modelo a simples operaciones CRUD.
 
 solution: >
-  Kora aplica Domain-Driven Design para construir un modelo agrícola centrado en
-  comportamiento y reglas de negocio. El sistema separa explícitamente la intención
-  operativa (Schedules, presupuestos y programación) de la realidad ejecutada
-  (Crop Cycles, actividades y gastos reales), permitiendo trazabilidad, análisis y
-  evolución del dominio sin comprometer consistencia.
+  Kora modela el dominio agrícola separando explícitamente la intención
+  (Schedules y presupuestos) de la realidad ejecutada (ciclos de cultivo,
+  actividades y costos), con DDD.
 
 decisions:
   - "Separación explícita entre planificación y ejecución: un Schedule representa intención; un Crop Cycle representa realidad operativa"
@@ -36,9 +32,12 @@ decisions:
   - "Modelo diseñado para evolucionar hacia análisis operativo y trazabilidad histórica"
 
 highlights:
-  - "Arquitectura basada en Domain-Driven Design"
-  - "Integración con monitoreo, costos y analítica agrícola"
-  - "Enfoque en mantenibilidad y evolución del dominio a largo plazo"
+  - label: "Separación"
+    detail: "planificación (intención) vs. ejecución (realidad)"
+  - label: "Trazabilidad"
+    detail: "historial de lo ejecutado en campo"
+  - label: "Dominio"
+    detail: "reglas de negocio fuera de la infraestructura"
 
 philosophy:
   - "El software agrícola no debe simplificar la realidad del campo; debe modelarla"
@@ -47,10 +46,9 @@ philosophy:
   - "La arquitectura debe facilitar evolución del conocimiento del negocio"
 
 result: >
-  Sistema actualmente en desarrollo con un núcleo de dominio ya estructurado bajo
-  principios de DDD. Kora prioriza claridad semántica, consistencia operacional y
-  capacidad de evolución arquitectónica, sentando bases para futuras capacidades
-  analíticas y de supervisión agrícola.
+  El modelo dejó de tratar planificación y ejecución como lo mismo: cada una
+  tiene sus reglas y su trazabilidad, con la planificación como hipótesis y la
+  ejecución como evidencia.
 
 tech:
   - Rust

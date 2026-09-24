@@ -1,5 +1,5 @@
 ---
-title: Gestión de deuda y cobros automatizados
+title: Gestión de finanzas operativas multi-empresa
 brand: Debita
 subtitle: Registros financieros dispersos convertidos en información trazable y consultable
 description: Sistema que administra la información financiera de múltiples empresas clientes por separado y reconstruye el saldo de cada tercero a partir de sus operaciones. Reemplaza la consolidación manual en Excel por consultas trazables y reportes que antes tomaban hasta un día.
@@ -11,16 +11,8 @@ clientNote: sector financiero
 role: Modelado de dominio, arquitectura y desarrollo del core del sistema.
 
 problem: >
-  Una empresa de contabilidad administraba la información financiera de
-  múltiples empresas clientes en planillas de Excel, un archivo por cliente. El
-  modelo no escalaba por dos razones. Primero, aislamiento: la información de
-  cada empresa debía mantenerse completamente separada de las demás, y dentro de
-  cada una convivían terceros —clientes, proveedores u otras entidades— con sus
-  propios saldos y obligaciones. Segundo, consolidación: responder algo en
-  apariencia simple, como "¿cuál es el estado actual de esta empresa?", exigía
-  reunir a mano facturas pendientes, pagos, saldos insolutos y a favor,
-  obligaciones vencidas o por vencer, ajustes y el detalle que explica cada
-  saldo. Ese armado podía consumir hasta un día de trabajo de un contador.
+  La contabilidad de múltiples empresas se gestionaba mediante archivos Excel
+  independientes, dificultando la consolidación y trazabilidad de la información.
 
 challenge: >
   Modelar un dominio financiero donde múltiples reglas afectan el estado de una
@@ -31,13 +23,8 @@ challenge: >
   CRUD ni asumir una única forma de operar.
 
 solution: >
-  Desarrollo de una plataforma centrada en el modelado explícito del ciclo de
-  vida de la deuda y sus operaciones asociadas, con aislamiento lógico de datos
-  por empresa. El sistema organiza reglas de negocio, cálculos financieros,
-  estados de cuenta y eventos operativos dentro de una arquitectura desacoplada
-  orientada a mantener consistencia y permitir evolución futura del dominio. El
-  contador selecciona la empresa, inspecciona saldos y movimientos con detalle
-  granular y llega a la respuesta consolidada en segundos.
+  Una plataforma financiera multi-tenant que centraliza operaciones, mantiene
+  los datos aislados y permite reconstruir el estado de cada obligación.
 
 architecture: >
   Sistema modular con separación estricta entre el dominio financiero y la
@@ -70,20 +57,17 @@ metrics:
     label: "consultas de intervalos menores a un mes"
 
 highlights:
-  - "Aislamiento lógico de datos por empresa cliente"
-  - "Estado financiero consolidado en segundos, no en un día de trabajo manual"
-  - "Trazabilidad completa: factura → pago → ajuste → impuestos → saldo resultante"
-  - "Analítica de negocio: facturación vs. cobro, DSO y aging por tercero"
-  - "Arquitectura centrada en integridad y evolución del dominio"
+  - label: "Trazabilidad"
+    detail: "factura → pago → saldo"
+  - label: "Analítica"
+    detail: "cobro, DSO y aging"
+  - label: "Aislamiento"
+    detail: "datos por empresa"
 
 result: >
-  Debita transformó registros financieros dispersos en información estructurada,
-  trazable y consultable. El proceso que antes podía requerir hasta un día de
-  trabajo de un contador para armar un estado financiero detallado pasó a
-  completarse en segundos, con respuestas por debajo del segundo para intervalos
-  menores a un mes. El contador no desaparece del proceso: cambia dónde invierte
-  su tiempo. La empresa cliente, a su vez, obtiene respuestas más rápidas, mayor
-  detalle sobre su situación y visibilidad anticipada de obligaciones por vencer.
+  Los estados financieros pasaron de requerir consolidación manual a estar
+  disponibles bajo demanda, reduciendo una tarea que podía ocupar un día a
+  segundos.
 
 tech:
   - Rust

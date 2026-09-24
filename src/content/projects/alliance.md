@@ -11,10 +11,8 @@ clientNote: sector transporte
 role: Diseño y desarrollo del ecosistema completo (facturación, viajes y la capa compartida de impresión).
 
 problem: >
-  La operación administrativa necesitaba herramientas propias del rubro para
-  facturación y para el registro de viajes y liquidaciones, en lugar de forzar
-  procesos de transporte dentro de software genérico que no representa cómo
-  opera realmente la empresa.
+  La operación administrativa requería herramientas propias del transporte para
+  facturación, viajes y liquidaciones, áreas que cambian a distinto ritmo.
 
 challenge: >
   Digitalizar la operación completa sin construir un sistema monolítico que
@@ -23,13 +21,9 @@ challenge: >
   no podía apoyarse en acceso directo entre bases de datos.
 
 solution: >
-  Alliance se organiza como un ecosistema de aplicaciones autónomas.
-  Facturación cubre clientes, comprobantes, servicios y plantillas de
-  impresión; Viajes cubre choferes, vehículos, contenedores, viajes, gastos y
-  liquidaciones. Una capa compartida de impresión resuelve la emisión de
-  documentos físicos y las exportaciones en PDF y Excel. Cada aplicación
-  mantiene su propio backend y su propia base de datos, sin claves foráneas ni
-  acceso directo entre dominios: la integración se resuelve por API o eventos.
+  Alliance es un ecosistema de aplicaciones autónomas: Facturación, Viajes y una
+  capa de impresión compartida. Cada módulo es dueño de su backend y su base, y
+  se integra por API o eventos.
 
 decisions:
   - "Aplicaciones autónomas en lugar de un monolito: cada módulo es dueño de su código, su backend y su base de datos"
@@ -40,18 +34,16 @@ decisions:
   - "Despliegue reproducible con Docker Compose en desarrollo y producción"
 
 highlights:
-  - "Operación administrativa digitalizada de punta a punta"
-  - "Facturación digitalizada con exportación a PDF y Excel"
-  - "Registro de viajes y liquidaciones como módulo independiente"
-  - "Infraestructura de impresión compartida y desacoplada del dominio"
-  - "Módulos desplegables por separado, sin acoplamiento entre bases de datos"
+  - label: "Módulos"
+    detail: "facturación, viajes y liquidaciones"
+  - label: "Autonomía"
+    detail: "cada app con su backend y su base"
+  - label: "Documentos"
+    detail: "impresión y exportación PDF/Excel"
 
 result: >
-  La operación administrativa quedó cubierta por aplicaciones que comparten
-  criterios técnicos pero evolucionan de forma independiente. Facturación y
-  Viajes operan como productos separados sobre una infraestructura común de
-  impresión, con una arquitectura preparada para sumar nuevos módulos sin
-  reescribir los existentes.
+  La operación quedó cubierta por Facturación y Viajes operando por separado, y
+  hoy se puede sumar un módulo nuevo sin reescribir los existentes.
 
 tech:
   - TypeScript

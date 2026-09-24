@@ -11,10 +11,9 @@ clientNote: sector educación
 role: Diseño y desarrollo completo — motor de procesamiento, aplicación web y de escritorio.
 
 problem: >
-  Los docentes registran las notas en planillas institucionales de formato fijo.
-  El formato es poco legible por sí mismo: sacar conclusiones exige interpretar
-  filas y columnas a mano, y detectar a tiempo a un alumno en dificultad resulta
-  prácticamente imposible.
+  Las notas se registran en planillas de formato fijo, poco legibles: leerlas
+  exige interpretar filas y columnas a mano, y seguir el avance de cada alumno
+  insume tiempo.
 
 challenge: >
   Aprovechar los datos sin cambiar el flujo de trabajo de la institución. La
@@ -23,10 +22,9 @@ challenge: >
   formato existente tal como llega, y aun así entregar análisis que hoy no existe.
 
 solution: >
-  PNA toma las planillas institucionales y las transforma en analítica accionable
-  en tres niveles: grupo, evaluación y estudiante. El docente sube el formato que
-  ya usa y obtiene un desglose de las dimensiones de la información, la
-  distribución de notas y una proyección del estado de cada alumno.
+  PNA toma las planillas que la institución ya usa y las convierte, en el
+  navegador, en analítica por grupo, evaluación y estudiante, sin cambiar el
+  flujo de registro.
 
 decisions:
   - "Aceptar el formato institucional como entrada en lugar de imponer uno nuevo: menos fricción y adopción real"
@@ -37,16 +35,17 @@ decisions:
   - "Aplicación web y de escritorio construidas sobre el mismo motor"
 
 highlights:
-  - "Datos procesados en el cliente (Rust → WebAssembly), sin backend"
-  - "Tres niveles de análisis: grupo, evaluación y estudiante"
-  - "Proyección por alumno: aprobado, bueno, advertencia, crítico o reprobado"
-  - "Identificación temprana de evaluaciones y temas con dificultades"
+  - label: "Sin backend"
+    detail: "procesamiento en el navegador (Rust → WebAssembly)"
+  - label: "Tres niveles"
+    detail: "grupo, evaluación y estudiante"
+  - label: "Seguimiento"
+    detail: "detección temprana por alumno"
 
 result: >
-  Los docentes pasaron de una planilla difícil de leer a información accionable
-  sin cambiar su forma de registrar. El sistema permite ver el estado del grupo,
-  detectar evaluaciones problemáticas y hacer seguimiento individual con apoyo
-  temprano, manteniendo intacto el flujo institucional.
+  Los docentes pasaron de leer una planilla a trabajar con información
+  accionable, y hoy hacen seguimiento individual sin cambiar su forma de
+  registrar.
 
 tech:
   - Rust

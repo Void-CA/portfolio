@@ -40,7 +40,8 @@ const heroTech = data.tech.slice(0, 4);
 
 const hasPreview = Boolean(data.image);
 const hasMetrics = metrics.length > 0;
-const hasEvidence = hasMetrics || Boolean(data.result) || highlights.length > 0;
+const hasHighlights = highlights.length > 0;
+const hasEvidence = hasMetrics || Boolean(data.result) || hasHighlights;
 const hasDecisions = decisions.length > 0;
 ---
 
@@ -66,20 +67,6 @@ const hasDecisions = decisions.length > 0;
           <p class="role"><span class="role-label">Rol</span>{data.role}</p>
         )}
 
-        {data.problem && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="target" class="case-icon" />Reto</span>
-            <p class="case-text">{data.problem}</p>
-          </div>
-        )}
-
-        {data.solution && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="cube" class="case-icon" />Solución</span>
-            <p class="case-text">{data.solution}</p>
-          </div>
-        )}
-
         {heroTech.length > 0 && (
           <div class="hero-tech">
             {heroTech.map(t => <span class="chip chip--tech">{t}</span>)}
@@ -98,30 +85,55 @@ const hasDecisions = decisions.length > 0;
       )}
     </header>
 
+    {(data.problem || data.solution) && (
+      <section class="case-grid">
+        {data.problem && (
+          <div class="case-block">
+            <span class="case-label"><Icon name="target" class="case-icon" />Reto</span>
+            <p class="case-text">{data.problem}</p>
+          </div>
+        )}
+
+        {data.solution && (
+          <div class="case-block">
+            <span class="case-label"><Icon name="cube" class="case-icon" />Solución</span>
+            <p class="case-text">{data.solution}</p>
+          </div>
+        )}
+      </section>
+    )}
+
     {hasEvidence && (
-      <section class="evidence">
-        <span class="evidence-label"><Icon name="trending" class="heading-icon" />Resultado</span>
+      <section class="result-section">
+        <span class="result-heading"><Icon name="trending" class="heading-icon" />Resultado</span>
+
+        {data.result && <p class="result-text">{data.result}</p>}
 
         {hasMetrics && (
-          <div class="evidence-metrics">
+          <div class="metrics">
             {metrics.map(m => (
               <div class="metric">
-                <div class="metric-head">
-                  {m.from && <span class="metric-from">{m.from}</span>}
-                  {m.from && <span class="metric-arrow">→</span>}
-                  <span class="metric-value">{m.value}</span>
-                </div>
+                {m.from && <span class="metric-from">{m.from} →</span>}
+                <span class="metric-value">{m.value}</span>
                 <span class="metric-label">{m.label}</span>
               </div>
             ))}
           </div>
         )}
 
-        {data.result && <p class="evidence-result">{data.result}</p>}
-
-        {highlights.length > 0 && (
-          <div class="highlights-list">
-            {highlights.map(h => <span class="chip chip--data">{h}</span>)}
+        {hasHighlights && (
+          <div class="evidence-block">
+            <span class="evidence-heading">Evidencia</span>
+            <div class="evidence-list">
+              {highlights.slice(0, 3).map(h => (
+                <span class="evidence-item">
+                  <span class="evidence-item-label">{typeof h === "string" ? h : h.label}</span>
+                  {typeof h !== "string" && h.detail && (
+                    <span class="evidence-item-detail">{h.detail}</span>
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </section>
@@ -318,6 +330,13 @@ const hasDecisions = decisions.length > 0;
   }
 
   /* ── Bloques de caso (Reto / Solución / Arquitectura) ── */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 40px;
+    margin-bottom: 48px;
+  }
+
   .case-block {
     display: flex;
     flex-direction: column;
@@ -351,15 +370,14 @@ const hasDecisions = decisions.length > 0;
     font-size: var(--text-base);
   }
 
-  /* ── Evidencia ── */
-  .evidence {
+  /* ── Resultado ── */
+  .result-section {
     margin: 0 0 48px;
-    padding: 28px 32px;
-    background: var(--color-accent-tint);
-    border-radius: var(--radius-lg);
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
   }
 
-  .evidence-label {
+  .result-heading {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -368,43 +386,40 @@ const hasDecisions = decisions.length > 0;
     letter-spacing: 0.08em;
     font-weight: 700;
     color: var(--color-accent);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
-  .evidence-metrics {
+  .result-text {
+    color: var(--color-primary);
+    font-size: var(--text-lead);
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+
+  .metrics {
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
-    margin-bottom: 24px;
+    align-items: flex-end;
+    gap: 28px 56px;
+    margin-top: 32px;
   }
 
   .metric {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-  }
-
-  .metric-head {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
+    gap: 2px;
   }
 
   .metric-from {
-    font-size: var(--text-lead);
-    color: var(--color-secondary);
-  }
-
-  .metric-arrow {
-    font-size: var(--text-lead);
-    color: var(--color-accent);
+    font-size: var(--text-ui);
+    color: var(--color-muted);
   }
 
   .metric-value {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     letter-spacing: -0.02em;
-    line-height: 1.1;
+    line-height: 1.05;
     color: var(--color-accent-strong);
   }
 
@@ -413,24 +428,48 @@ const hasDecisions = decisions.length > 0;
     color: var(--color-secondary);
   }
 
-  .evidence-result {
-    color: var(--color-primary);
-    line-height: 1.75;
-    font-size: var(--text-base);
-    max-width: 72ch;
+  .evidence-block {
+    margin-top: 32px;
   }
 
-  .highlights-list {
+  .evidence-heading {
+    display: block;
+    font-size: var(--text-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+  }
+
+  .evidence-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
+    align-items: baseline;
+    gap: 8px 0;
   }
 
-  .evidence .chip--data {
-    background: var(--color-background);
-    border-color: var(--color-border);
-    font-size: var(--text-ui);
+  .evidence-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .evidence-item:not(:last-child)::after {
+    content: "·";
+    color: var(--color-border);
+    margin: 0 20px;
+  }
+
+  .evidence-item-label {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: var(--text-base);
+  }
+
+  .evidence-item-detail {
+    color: var(--color-secondary);
+    font-size: var(--text-base);
   }
 
   /* ── Detalle técnico ── */
@@ -604,12 +643,23 @@ const hasDecisions = decisions.length > 0;
       padding: 32px 0 64px;
     }
 
-    .evidence {
-      padding: 20px;
+    .case-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
-    .evidence-metrics {
-      gap: 24px;
+    .metrics {
+      gap: 24px 40px;
+    }
+
+    .evidence-list {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .evidence-item:not(:last-child)::after {
+      content: none;
     }
   }
 </style>

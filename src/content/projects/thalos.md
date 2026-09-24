@@ -10,10 +10,9 @@ kind: own
 role: Arquitectura y desarrollo del núcleo de dominio y el motion compiler.
 
 problem: >
-  No existía una plataforma ligera y modular para experimentar con planificación
-  de movimiento, simulación y ejecución robótica que permitiera evolucionar
-  progresivamente desde un simulador puro hasta la integración con hardware
-  real, sin reescribir el dominio en cada salto de etapa.
+  No existía una plataforma ligera para experimentar con planificación de
+  movimiento y ejecución robótica que evolucionara de simulación a hardware real
+  sin reescribir el dominio en cada etapa.
 
 challenge: >
   Diseñar una arquitectura donde la generación de trayectorias estuviera
@@ -23,13 +22,9 @@ challenge: >
   backend no podía implicar reescritura ni adaptadores espurios.
 
 solution: >
-  Thalos se estructura como un workspace multi-crate en Rust con cuatro
-  capas explícitas: thalos-core (matemática y robótica con nalgebra, sin
-  dependencias externas pesadas), thalos-visual (representación 3D con scene
-  graph desacoplado), thalos-runtime (orquestación, estado mutable y
-  commands) y thalos-api (HTTP con axum 0.8). El motion compiler es
-  independiente del backend físico, lo que permite cambiar entre simulación,
-  ROS2, comunicación serial u otros targets sin tocar el dominio.
+  Thalos es un workspace multi-crate en Rust donde el motion compiler genera
+  trayectorias agnósticas del backend; el runtime decide si corren en simulación,
+  ROS2 o hardware.
 
 decisions:
   - "Separación explícita entre planning y execution: el motion compiler genera trayectorias agnósticas del backend; el runtime decide cómo ejecutarlas"
@@ -41,18 +36,16 @@ decisions:
   - "Scene graph desacoplado de la matemática: visualización y simulación son consumidores, no productores de verdad"
 
 highlights:
-  - "Un mismo sistema opera sobre simulación y equipos robóticos reales, sin reescribirse"
-  - "Arquitectura preparada para múltiples backends: simulación, ROS2, comunicación serial, otros"
-  - "Runtime desacoplado del backend físico mediante motion compiler independiente"
-  - "Visualización 3D con scene graph que no contamina el dominio"
-  - "API HTTP para integración con sistemas externos sin acoplar al core"
-  - "Workspace multi-crate en Rust con responsabilidades aisladas por capa"
+  - label: "Portabilidad"
+    detail: "simulación, ROS2 y hardware con el mismo programa"
+  - label: "Desacople"
+    detail: "planning y execution independientes"
+  - label: "Multi-crate"
+    detail: "responsabilidades aisladas por capa"
 
 result: >
-  Plataforma en desarrollo activo con núcleo de dominio y motion compiler
-  ya operativos. La separación planning/execution ha permitido iterar sobre
-  distintos backends sin reescribir lógica de dominio, sentando las bases
-  para integración con hardware físico y experimentación con ROS2.
+  Un mismo programa planifica una trayectoria y la ejecuta en simulación o en
+  hardware real sin cambios en el dominio.
 
 tech:
   - Rust
