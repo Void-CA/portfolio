@@ -4,102 +4,29 @@ import { CONTACT } from './SiteConfig';
 
 const { email, github, linkedin } = CONTACT;
 const year = new Date().getFullYear();
+
+const linkClass = "inline-flex items-center gap-1.5 whitespace-nowrap text-ui text-secondary transition-colors hover:text-accent [&_svg]:shrink-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100";
+const sepClass = "text-ui text-border max-sm:hidden";
 ---
 
-<footer class="footer">
-  <div class="inner">
-    <div class="contact-row">
-      <a href={`mailto:${email}`} class="contact-link" aria-label={`Escribime a ${email}`}>
-        <Icon name="mail" class="contact-icon" />
-        <span>{email}</span>
+<footer class="mt-20 border-t border-border px-6 py-8 max-md:px-4 max-md:py-6">
+  <div class="mx-auto flex max-w-[1200px] flex-col gap-4">
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+      <a href={`mailto:${email}`} class={linkClass} aria-label={`Escribime a ${email}`}>
+        <Icon name="mail" class="text-[1rem]" />
+        <span class="max-sm:hidden">{email}</span>
       </a>
-      <span class="contact-sep" aria-hidden="true">·</span>
-      <a href={github} class="contact-link" target="_blank" rel="noopener" aria-label="GitHub">
-        <Icon name="github" class="contact-icon" />
-        <span>GitHub</span>
+      <span class={sepClass} aria-hidden="true">·</span>
+      <a href={github} class={linkClass} target="_blank" rel="noopener" aria-label="GitHub">
+        <Icon name="github" class="text-[1rem]" />
+        <span class="max-sm:hidden">GitHub</span>
       </a>
-      <span class="contact-sep" aria-hidden="true">·</span>
-      <a href={linkedin} class="contact-link" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <Icon name="linkedin" class="contact-icon" />
-        <span>LinkedIn</span>
+      <span class={sepClass} aria-hidden="true">·</span>
+      <a href={linkedin} class={linkClass} target="_blank" rel="noopener" aria-label="LinkedIn">
+        <Icon name="linkedin" class="text-[1rem]" />
+        <span class="max-sm:hidden">LinkedIn</span>
       </a>
     </div>
-    <p class="tagline">{year} — Software a medida, automatización y datos.</p>
+    <p class="text-meta text-secondary opacity-50">{year} — Software a medida, automatización y datos.</p>
   </div>
 </footer>
-
-<style>
-  .footer {
-    border-top: 1px solid var(--color-border);
-    padding: 32px 24px;
-    margin-top: 80px;
-  }
-
-  .inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .contact-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    row-gap: 6px;
-  }
-
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-ui);
-    color: var(--color-secondary);
-    transition: color 0.2s;
-    white-space: nowrap;
-  }
-
-  .contact-link:hover {
-    color: var(--color-accent);
-  }
-
-  .contact-icon {
-    font-size: 1rem;
-  }
-
-  .contact-link svg {
-    flex-shrink: 0;
-    opacity: 0.6;
-  }
-
-  .contact-link:hover svg {
-    opacity: 1;
-  }
-
-  .contact-sep {
-    color: var(--color-border);
-    font-size: var(--text-ui);
-  }
-
-  .tagline {
-    font-size: var(--text-meta);
-    color: var(--color-secondary);
-    opacity: 0.5;
-  }
-
-  @media (max-width: 639.98px) {
-    .footer {
-      padding: 24px 16px;
-    }
-
-    .contact-link span {
-      display: none;
-    }
-
-    .contact-sep {
-      display: none;
-    }
-  }
-</style>

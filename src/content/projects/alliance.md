@@ -33,13 +33,22 @@ decisions:
   - "Capa de impresión compartida y desacoplada del dominio, para documentos físicos y exportaciones"
   - "Despliegue reproducible con Docker Compose en desarrollo y producción"
 
-highlights:
-  - label: "Módulos"
-    detail: "facturación, viajes y liquidaciones"
-  - label: "Autonomía"
-    detail: "cada app con su backend y su base"
+improvements:
+  - label: "Cobertura"
+    before: "Procesos de transporte forzados en software genérico"
+    after: "Facturación, viajes y liquidaciones propias"
+  - label: "Despliegue"
+    beforeLabel: "Contexto"
+    before: "Facturación y Viajes cambian a distinto ritmo"
+    after: "Cada módulo se despliega por separado"
+  - label: "Integración"
+    beforeLabel: "Contexto"
+    before: "Cada app debe poder cambiar sin arrastrar a las demás"
+    after: "Integración por API o eventos, sin bases compartidas"
   - label: "Documentos"
-    detail: "impresión y exportación PDF/Excel"
+    beforeLabel: "Contexto"
+    before: "Emisión de documentos físicos y exportaciones"
+    after: "Capa de impresión compartida, con PDF y Excel"
 
 result: >
   La operación quedó cubierta por Facturación y Viajes operando por separado, y

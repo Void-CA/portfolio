@@ -49,20 +49,21 @@ decisions:
   - label: "Deploy"
     detail: "Docker"
 
-metrics:
-  - from: "1 día"
+improvements:
+  - label: "Consultas"
+    value: "< 1 s"
+    before: "Búsqueda manual entre archivos de Excel, uno por cliente"
+    after: "Instantáneas, con filtros e historial"
+  - label: "Estado financiero"
     value: "< 5 s"
-    label: "generación de un estado financiero completo"
-  - value: "< 1 s"
-    label: "consultas de intervalos menores a un mes"
-
-highlights:
+    before: "Consolidación manual · hasta 1 día"
+    after: "Disponible bajo demanda"
   - label: "Trazabilidad"
-    detail: "factura → pago → saldo"
-  - label: "Analítica"
-    detail: "cobro, DSO y aging"
-  - label: "Aislamiento"
-    detail: "datos por empresa"
+    before: "Reconstruir cada saldo a mano, entre registros"
+    after: "Factura → pago → ajuste → impuesto → saldo"
+  - label: "Cobros"
+    before: "Vencimientos y comportamiento de pago, sin consolidar"
+    after: "Facturado vs. cobrado, DSO y aging por tercero"
 
 result: >
   Los estados financieros pasaron de requerir consolidación manual a estar

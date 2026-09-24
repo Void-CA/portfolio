@@ -15,94 +15,83 @@ interface Props {
 
 const { images, title = "Galería" } = Astro.props;
 const multiple = images.length > 1;
+
+const navClass = "absolute top-1/2 z-[2] inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background pb-1 text-[1.6rem] leading-none text-primary shadow-subtle transition-colors hover:border-accent hover:text-accent max-md:h-9 max-md:w-9 max-md:text-[1.4rem]";
+const lightboxNavClass = "fixed top-1/2 z-[2] inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-0 bg-[rgba(255,255,255,0.12)] pb-1 text-[2rem] leading-none text-[#fff] transition-colors hover:bg-[rgba(255,255,255,0.25)]";
 ---
 
 {images.length > 0 && (
-  <section class="gallery" data-gallery>
-    <h2>{title}</h2>
+  <section class="mb-12 border-t border-border pt-8" data-gallery>
+    <h2 class="mb-5 text-title">{title}</h2>
 
-    <div class="carousel">
-      <div class="stage" data-stage tabindex="0" role="group" aria-roledescription="carrusel" aria-label={title}>
-        <button
-          type="button"
-          class="nav nav--prev"
-          data-prev
-          aria-label="Imagen anterior"
-          hidden={!multiple}
-        >‹</button>
+    <div class="flex flex-col gap-3.5">
+      <div
+        class="relative overflow-hidden rounded-md border border-border bg-surface"
+        data-stage
+        tabindex="0"
+        role="group"
+        aria-roledescription="carrusel"
+        aria-label={title}
+      >
+        <button type="button" class={`${navClass} left-3 max-md:left-2`} data-prev aria-label="Imagen anterior" hidden={!multiple}>‹</button>
 
-        <div class="viewport" data-viewport>
-          <div class="track" data-track>
+        <div class="overflow-hidden" data-viewport>
+          <div class="flex transition-transform duration-[350ms] ease-in-out" data-track>
             {images.map((img, i) => (
               <figure
-                class="slide"
+                class="m-0 w-full shrink-0"
                 data-slide
                 data-caption={img.caption ?? ""}
                 aria-hidden={i === 0 ? "false" : "true"}
               >
-                <button type="button" class="zoom" data-open aria-label={`Ampliar: ${img.alt}`}>
-                  <Image src={img.src} alt={img.alt} loading={i === 0 ? "eager" : "lazy"} />
+                <button type="button" class="block w-full cursor-zoom-in border-0 bg-transparent p-0" data-open aria-label={`Ampliar: ${img.alt}`}>
+                  <Image src={img.src} alt={img.alt} loading={i === 0 ? "eager" : "lazy"} class="block h-auto w-full" />
                 </button>
               </figure>
             ))}
           </div>
         </div>
 
-        <button
-          type="button"
-          class="nav nav--next"
-          data-next
-          aria-label="Imagen siguiente"
-          hidden={!multiple}
-        >›</button>
+        <button type="button" class={`${navClass} right-3 max-md:right-2`} data-next aria-label="Imagen siguiente" hidden={!multiple}>›</button>
 
         {multiple && (
-          <span class="counter" data-counter aria-live="polite">1 / {images.length}</span>
+          <span class="absolute bottom-3 right-3 z-[2] rounded-full bg-[rgba(16,32,31,0.72)] px-2.5 py-1 text-meta tabular-nums text-[#fff]" data-counter aria-live="polite">1 / {images.length}</span>
         )}
       </div>
 
-      <p class="caption" data-caption-text hidden></p>
+      <p class="m-0 text-ui leading-[1.55] text-secondary" data-caption-text hidden></p>
 
       {multiple && (
-        <div class="thumbs" data-thumbs role="tablist" aria-label="Miniaturas">
+        <div class="hidden gap-2.5 overflow-x-auto pb-0.5 md:flex" data-thumbs role="tablist" aria-label="Miniaturas">
           {images.map((img, i) => (
             <button
               type="button"
-              class="thumb"
+              class="aspect-[16/10] w-24 shrink-0 cursor-pointer overflow-hidden rounded-sm border-2 border-border bg-surface opacity-60 transition-opacity hover:opacity-100 aria-[current=true]:border-accent aria-[current=true]:opacity-100"
               data-thumb
               data-index={i}
               role="tab"
               aria-label={`Ir a la imagen ${i + 1}`}
               aria-current={i === 0 ? "true" : "false"}
             >
-              <Image src={img.src} alt="" loading="lazy" />
+              <Image src={img.src} alt="" loading="lazy" class="block h-full w-full object-cover" />
             </button>
           ))}
         </div>
       )}
     </div>
 
-    <div class="lightbox" data-lightbox hidden>
-      <div class="lightbox-backdrop" data-close></div>
-      <div class="lightbox-body" role="dialog" aria-modal="true" aria-label={title}>
-        <button type="button" class="lightbox-close" data-close aria-label="Cerrar">×</button>
-        <button
-          type="button"
-          class="lightbox-nav lightbox-nav--prev"
-          data-prev
-          aria-label="Imagen anterior"
-          hidden={!multiple}
-        >‹</button>
-        <figure class="lightbox-figure" data-lightbox-figure></figure>
-        <button
-          type="button"
-          class="lightbox-nav lightbox-nav--next"
-          data-next
-          aria-label="Imagen siguiente"
-          hidden={!multiple}
-        >›</button>
+    <div class="fixed inset-0 z-[1000] flex items-center justify-center p-6" data-lightbox hidden>
+      <div class="absolute inset-0 cursor-zoom-out bg-[rgba(16,32,31,0.82)]" data-close></div>
+      <div class="relative z-[1] flex max-w-full flex-col items-center gap-3 max-md:w-full" role="dialog" aria-modal="true" aria-label={title}>
+        <button type="button" class="absolute -right-2 -top-2 z-[2] inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-[1.5rem] leading-none text-primary transition-colors hover:border-accent hover:text-accent" data-close data-close-btn aria-label="Cerrar">×</button>
+        <button type="button" class={`${lightboxNavClass} left-5 max-md:left-2`} data-prev aria-label="Imagen anterior" hidden={!multiple}>‹</button>
+        <figure
+          class="m-0 flex justify-center [&_img]:h-auto [&_img]:w-auto [&_img]:max-h-[84vh] [&_img]:max-w-[92vw] [&_img]:rounded-md [&_img]:bg-background [&_img]:shadow-floating [&_figcaption]:mt-2.5 [&_figcaption]:max-w-[70ch] [&_figcaption]:text-center [&_figcaption]:text-ui [&_figcaption]:leading-[1.5] [&_figcaption]:text-[rgba(255,255,255,0.85)] max-md:[&_img]:max-w-full"
+          data-lightbox-figure
+        ></figure>
+        <button type="button" class={`${lightboxNavClass} right-5 max-md:right-2`} data-next aria-label="Imagen siguiente" hidden={!multiple}>›</button>
         {multiple && (
-          <span class="lightbox-counter" data-lightbox-counter aria-live="polite"></span>
+          <span class="text-ui tabular-nums text-[#fff]" data-lightbox-counter aria-live="polite"></span>
         )}
       </div>
     </div>
@@ -110,294 +99,8 @@ const multiple = images.length > 1;
 )}
 
 <style>
-  .gallery {
-    margin: 0 0 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .gallery h2 {
-    margin-bottom: 20px;
-    font-size: var(--text-title);
-  }
-
-  .carousel {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .stage {
-    position: relative;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-surface);
-  }
-
-  .stage:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-
-  .viewport {
-    overflow: hidden;
-  }
-
-  .track {
-    display: flex;
-    transition: transform 0.35s ease;
-  }
-
-  .slide {
-    flex: 0 0 100%;
-    margin: 0;
-    min-width: 0;
-  }
-
-  .zoom {
-    display: block;
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: zoom-in;
-  }
-
-  .slide img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    line-height: 1;
-    padding-bottom: 4px;
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    background: var(--color-background);
-    color: var(--color-primary);
-    cursor: pointer;
-    box-shadow: var(--shadow-subtle);
-    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
-  }
-
-  .nav:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .nav--prev { left: 12px; }
-  .nav--next { right: 12px; }
-
-  .counter {
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
-    z-index: 2;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(16, 32, 31, 0.72);
-    color: #fff;
-    font-size: var(--text-meta);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .caption {
-    margin: 0;
-    font-size: var(--text-ui);
-    line-height: 1.55;
-    color: var(--color-secondary);
-  }
-
-  .thumbs {
-    display: none;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 2px;
-  }
-
-  .thumb {
-    flex: 0 0 96px;
-    width: 96px;
-    aspect-ratio: 16 / 10;
-    padding: 0;
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background: var(--color-surface);
-    cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.2s, border-color 0.2s;
-  }
-
-  .thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .thumb:hover {
-    opacity: 1;
-  }
-
-  .thumb[aria-current="true"] {
-    border-color: var(--color-accent);
-    opacity: 1;
-  }
-
   [data-gallery] [hidden] {
     display: none !important;
-  }
-
-  /* ── Lightbox ── */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-
-  .lightbox-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(16, 32, 31, 0.82);
-    cursor: zoom-out;
-  }
-
-  .lightbox-body {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    max-width: 100%;
-  }
-
-  .lightbox-figure {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-  }
-
-  .lightbox-figure img {
-    max-width: 92vw;
-    max-height: 84vh;
-    width: auto;
-    height: auto;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-floating);
-    background: var(--color-background);
-  }
-
-  .lightbox-counter {
-    color: #fff;
-    font-size: var(--text-ui);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .lightbox-figure figcaption {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: var(--text-ui);
-    line-height: 1.5;
-    max-width: 70ch;
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    z-index: 2;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    line-height: 1;
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    background: var(--color-background);
-    color: var(--color-primary);
-    cursor: pointer;
-  }
-
-  .lightbox-close:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  .lightbox-nav {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    width: 48px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    line-height: 1;
-    padding-bottom: 5px;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-
-  .lightbox-nav:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .lightbox-nav--prev { left: 20px; }
-  .lightbox-nav--next { right: 20px; }
-
-  @media (min-width: 768px) {
-    .thumbs {
-      display: flex;
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    .nav {
-      width: 36px;
-      height: 36px;
-      font-size: 1.4rem;
-    }
-
-    .nav--prev { left: 8px; }
-    .nav--next { right: 8px; }
-
-    .lightbox-nav--prev { left: 8px; }
-    .lightbox-nav--next { right: 8px; }
-
-    .lightbox-body {
-      width: 100%;
-    }
-
-    .lightbox-figure img {
-      max-width: 100%;
-    }
   }
 </style>
 
@@ -476,7 +179,7 @@ const multiple = images.length > 1;
       updateLightbox();
       lightbox.hidden = false;
       document.body.style.overflow = 'hidden';
-      root.querySelector<HTMLElement>('.lightbox-close')?.focus();
+      root.querySelector<HTMLElement>('[data-close-btn]')?.focus();
     }
 
     function closeLightbox() {

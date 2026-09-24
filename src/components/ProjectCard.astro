@@ -23,210 +23,44 @@ const originLabels: Record<string, string> = {
 const statusLabel = statusLabels[data.status] || "";
 const originLabel = data.kind ? originLabels[data.kind] : "";
 
-const firstHighlight = data.highlights?.[0];
-const highlightChip = firstHighlight
-  ? (typeof firstHighlight === "string" ? firstHighlight : firstHighlight.label)
-  : "";
-
-const metricValue = data.metrics?.[0]?.value ?? "";
+const firstImprovement = data.improvements?.[0];
+const metricValue = firstImprovement?.value ?? "";
+const evidenceLabel = firstImprovement?.label ?? "";
 ---
 
-<article class="card">
+<article class="group relative flex h-full flex-col gap-2.5 rounded-xl border border-border bg-background p-5 shadow-subtle transition-[border-color,box-shadow] duration-200 hover:border-border-hover hover:shadow-card max-md:p-4">
   {data.image && (
-    <div class="card-image">
-      <Image src={data.image} alt="" loading="lazy" />
+    <div class="-mx-5 -mt-5 mb-1 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-surface max-md:-mx-4 max-md:-mt-4">
+      <Image src={data.image} alt="" loading="lazy" class="block h-full w-full object-cover" />
     </div>
   )}
 
-  {data.brand && <span class="brand">{data.brand}</span>}
-  <h3 class="title">
-    <a href={`/proyectos/${slug}`} class="cover-link">{data.title}</a>
+  {data.brand && (
+    <span class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.brand}</span>
+  )}
+
+  <h3 class="text-lead font-semibold leading-tight tracking-[-0.01em] text-primary transition-colors group-hover:text-accent">
+    <a href={`/proyectos/${slug}`} class="text-inherit no-underline after:absolute after:inset-0 after:rounded-xl">{data.title}</a>
   </h3>
 
-  <p class="description">{data.description}</p>
+  <p class="line-clamp-1 text-ui leading-[1.55] text-secondary">{data.description}</p>
 
-  {data.result && <p class="impact">{data.result}</p>}
+  {data.result && <p class="line-clamp-2 text-ui leading-[1.55] text-primary">{data.result}</p>}
 
-  {(metricValue || highlightChip) && (
-    <div class="evidence">
-      {metricValue && <span class="evidence-metric">{metricValue}</span>}
-      {metricValue && highlightChip && <span class="evidence-sep">·</span>}
-      {highlightChip && <span class="evidence-label">{highlightChip}</span>}
+  {(metricValue || evidenceLabel) && (
+    <div class="flex flex-wrap items-baseline gap-1.5 text-ui">
+      {metricValue && <span class="font-semibold text-accent">{metricValue}</span>}
+      {metricValue && evidenceLabel && <span class="text-border">·</span>}
+      {evidenceLabel && <span class="text-secondary">{evidenceLabel}</span>}
     </div>
   )}
 
-  <div class="meta">
-    <span class="origin">
+  <div class="mt-auto flex items-center justify-between gap-3 border-t border-border pt-2.5">
+    <span class="flex min-w-0 items-center gap-1.5 text-micro font-semibold uppercase tracking-[0.05em] text-muted">
       {originLabel}
-      {originLabel && statusLabel && <span class="sep">·</span>}
+      {originLabel && statusLabel && <span class="opacity-50">·</span>}
       {statusLabel}
     </span>
-    <span class="arrow">→</span>
+    <span class="flex-shrink-0 text-ui text-accent transition-transform duration-200 group-hover:translate-x-[3px]">→</span>
   </div>
 </article>
-
-<style>
-  .card {
-    position: relative;
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: var(--shadow-subtle);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    height: 100%;
-  }
-
-  .card:hover {
-    border-color: var(--color-border-hover);
-    box-shadow: var(--shadow-card);
-  }
-
-  .card-image {
-    margin: -20px -20px 12px;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: var(--color-surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .cover-link {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .cover-link::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-  }
-
-  .cover-link:focus-visible::after {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-
-  .brand {
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-bottom: -4px;
-  }
-
-  .title {
-    font-size: var(--text-lead);
-    font-weight: 600;
-    color: var(--color-primary);
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-
-  .card:hover .title {
-    color: var(--color-accent);
-  }
-
-  .description {
-    color: var(--color-secondary);
-    font-size: var(--text-ui);
-    line-height: 1.55;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .impact {
-    color: var(--color-primary);
-    font-size: var(--text-ui);
-    line-height: 1.55;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .evidence {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .evidence-metric {
-    font-weight: 600;
-    color: var(--color-accent);
-    font-size: var(--text-ui);
-  }
-
-  .evidence-sep {
-    color: var(--color-border);
-  }
-
-  .evidence-label {
-    color: var(--color-secondary);
-    font-size: var(--text-ui);
-  }
-
-  .meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .origin {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    color: var(--color-muted);
-    min-width: 0;
-  }
-
-  .origin .sep {
-    opacity: 0.5;
-  }
-
-  .arrow {
-    font-size: var(--text-ui);
-    color: var(--color-accent);
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-  }
-
-  .card:hover .arrow {
-    transform: translateX(3px);
-  }
-
-  @media (max-width: 639.98px) {
-    .card {
-      padding: 16px;
-    }
-
-    .card-image {
-      margin: -16px -16px 12px;
-    }
-  }
-</style>

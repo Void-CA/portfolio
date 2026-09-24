@@ -24,6 +24,12 @@ const statusLabels = {
   archived: "Exploración",
 } as const;
 
+const statusStyles: Record<string, string> = {
+  ongoing: "border-[rgba(202,138,4,0.35)] text-[#A16207]",
+  finished: "border-[rgba(15,118,110,0.3)] text-accent",
+  archived: "border-border text-muted",
+};
+
 const originLabels: Record<string, string> = {
   client: "Trabajo para cliente",
   own: "Proyecto propio",
@@ -33,123 +39,133 @@ const statusLabel = statusLabels[data.status];
 const originLabel = data.kind ? originLabels[data.kind] : "";
 
 const images = data.images ?? [];
-const metrics = data.metrics ?? [];
-const highlights = data.highlights ?? [];
+const improvements = data.improvements ?? [];
 const decisions = data.decisions ?? [];
-const heroTech = data.tech.slice(0, 4);
 
 const hasPreview = Boolean(data.image);
-const hasMetrics = metrics.length > 0;
-const hasHighlights = highlights.length > 0;
-const hasEvidence = hasMetrics || Boolean(data.result) || hasHighlights;
+const hasImprovements = improvements.length > 0;
+const hasResult = Boolean(data.result) || hasImprovements;
 const hasDecisions = decisions.length > 0;
 ---
 
 <Layout title={data.title} description={data.description}>
-  <article class="project-detail">
-    <a href="/proyectos" class="back-link">← Volver a proyectos</a>
+  <article class="py-12 pb-20 max-md:py-8 max-md:pb-16">
+    <a href="/proyectos" class="mb-8 inline-flex items-center gap-1 text-ui text-secondary transition-colors hover:text-accent">← Volver a proyectos</a>
 
-    <header class:list={["project-hero", hasPreview && "project-hero--split"]}>
-      <div class="hero-copy">
-        {data.brand && <p class="brand">{data.brand}</p>}
-        <h1>{data.title}</h1>
-        {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+    <header class:list={["mb-12 grid gap-10", hasPreview && "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start"]}>
+      <div class="flex max-w-[68ch] flex-col gap-5">
+        {data.brand && <p class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.brand}</p>}
+        <h1 class="m-0">{data.title}</h1>
+        {data.subtitle && <p class="text-lead text-secondary">{data.subtitle}</p>}
 
-        <div class="meta">
-          <span class={`status status-${data.status}`}>{statusLabel}</span>
+        <div class="flex flex-wrap items-center gap-4">
+          <span class:list={["rounded border px-2 py-1 text-micro font-medium uppercase tracking-[0.05em]", statusStyles[data.status]]}>{statusLabel}</span>
           {originLabel && (
-            <span class="origin">{originLabel}{data.clientNote && ` · ${data.clientNote}`}</span>
+            <span class="text-meta text-secondary">{originLabel}{data.clientNote && ` · ${data.clientNote}`}</span>
           )}
-          <span class="date">{data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}</span>
+          <span class="text-ui text-muted">{data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}</span>
         </div>
-
-
       </div>
 
       {hasPreview && (
-        <figure class="hero-preview">
+        <figure class="order-first m-0 overflow-hidden rounded-lg border border-border bg-surface shadow-card lg:order-none">
           <Image
             src={data.image!}
             alt={data.imageAlt ?? `Captura de ${data.title}`}
             loading="eager"
+            class="block h-auto w-full"
           />
         </figure>
       )}
     </header>
 
     {(data.problem || data.solution) && (
-      <section class="case-grid">
+      <section class="mb-12 grid gap-6 max-md:mb-8 md:grid-cols-2 md:gap-x-10 md:gap-y-7">
         {data.problem && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="target" class="case-icon" />Reto</span>
-            <p class="case-text">{data.problem}</p>
+          <div class="flex flex-col gap-2 border-l-2 border-border pl-5">
+            <span class="eyebrow"><Icon name="target" class="text-sm" />Reto</span>
+            <p class="text-base leading-[1.75] text-secondary">{data.problem}</p>
           </div>
         )}
 
         {data.solution && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="cube" class="case-icon" />Solución</span>
-            <p class="case-text">{data.solution}</p>
+          <div class="flex flex-col gap-2 border-l-2 border-border pl-5">
+            <span class="eyebrow"><Icon name="cube" class="text-sm" />Solución</span>
+            <p class="text-base leading-[1.75] text-secondary">{data.solution}</p>
           </div>
         )}
       </section>
     )}
 
-    {hasEvidence && (
-      <section class="result-section">
-        <span class="result-heading"><Icon name="trending" class="heading-icon" />Resultado</span>
+    {hasResult && (
+      <section class="mb-12 border-t border-border pt-8">
+        <span class="eyebrow"><Icon name="trending" class="text-base" />Resultado</span>
 
-        {data.result && <p class="result-text">{data.result}</p>}
+        {data.result && <p class="mt-4 text-lead leading-[1.7] text-primary">{data.result}</p>}
 
-        {hasMetrics && (
-          <div class="metrics">
-            {metrics.map(m => (
-              <div class="metric">
-                {m.from && <span class="metric-from">Antes: {m.from} →</span>}
-                <span class="metric-value">{m.value}</span>
-                <span class="metric-label">{m.label}</span>
+        {hasImprovements && (
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            {improvements.map(item => (
+              <div class="flex flex-col gap-3 rounded-md border border-border bg-surface p-5">
+                <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{item.label}</span>
+
+                {item.before && (
+                  <div class="flex flex-col gap-1">
+                    <span class="text-micro font-semibold uppercase tracking-[0.08em] text-muted">{item.beforeLabel ?? "Antes"}</span>
+                    <span class="text-ui leading-[1.6] text-secondary">{item.before}</span>
+                  </div>
+                )}
+
+                <div class="flex flex-col gap-1">
+                  <span class="text-micro font-semibold uppercase tracking-[0.08em] text-muted">Ahora</span>
+                  <span class="text-base leading-[1.6] text-primary">
+                    {item.value && <strong class="mr-1 text-title font-bold text-accent-strong">{item.value}</strong>}
+                    {item.after}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
         )}
-
       </section>
     )}
 
     <Gallery images={images} />
 
-    <details class="technical">
-      <summary>Detalle técnico (arquitectura, decisiones y stack)</summary>
-      <div class="technical-body">
+    <details class="mb-10 border-y border-border">
+      <summary class="flex cursor-pointer list-none items-center py-5 text-ui font-semibold text-accent after:ml-auto after:font-normal after:content-['+'] [details[open]_&]:after:content-['–'] [&::-webkit-details-marker]:hidden">
+        Detalle técnico (arquitectura, decisiones y stack)
+      </summary>
+      <div class="flex flex-col gap-7 pb-8">
         {data.architecture && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="layers" class="case-icon" />Arquitectura</span>
-            <p class="case-text">{data.architecture}</p>
+          <div class="flex flex-col gap-2 border-l-2 border-border pl-5">
+            <span class="eyebrow"><Icon name="layers" class="text-sm" />Arquitectura</span>
+            <p class="max-w-[76ch] text-base leading-[1.75] text-secondary">{data.architecture}</p>
           </div>
         )}
 
         {data.challenge && (
-          <div class="case-block">
-            <span class="case-label"><Icon name="sliders" class="case-icon" />Reto técnico</span>
-            <p class="case-text">{data.challenge}</p>
+          <div class="flex flex-col gap-2 border-l-2 border-border pl-5">
+            <span class="eyebrow"><Icon name="sliders" class="text-sm" />Reto técnico</span>
+            <p class="max-w-[76ch] text-base leading-[1.75] text-secondary">{data.challenge}</p>
           </div>
         )}
 
-        <div class="project-body">
+        <div class="prose-body">
           <Content />
         </div>
 
         {hasDecisions && (
-          <section class="decisions">
-            <h2>Decisiones técnicas</h2>
-            <div class="decision-grid">
+          <section>
+            <h2 class="mb-4 text-title">Decisiones técnicas</h2>
+            <div class="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-3">
               {decisions.map(d =>
                 typeof d === "string"
-                  ? <p class="decision-plain">{d}</p>
+                  ? <p class="relative col-span-full pl-6 text-base leading-[1.65] text-secondary before:absolute before:left-0 before:text-accent before:content-['—']">{d}</p>
                   : (
-                    <div class="decision">
-                      <span class="decision-label">{d.label}</span>
-                      <span class="decision-detail">{d.detail}</span>
+                    <div class="flex flex-col gap-1 rounded-sm border border-border bg-surface px-4 py-3">
+                      <span class="text-micro font-bold uppercase tracking-[0.06em] text-accent">{d.label}</span>
+                      <span class="text-base leading-[1.55] text-secondary">{d.detail}</span>
                     </div>
                   )
               )}
@@ -157,16 +173,16 @@ const hasDecisions = decisions.length > 0;
           </section>
         )}
 
-        <section class="tech-section">
-          <h2>Stack</h2>
-          <div class="tech-tags">
+        <section>
+          <h2 class="mb-4 text-title">Stack</h2>
+          <div class="flex flex-wrap gap-2">
             {data.tech.map(t => <span class="chip chip--tech">{t}</span>)}
           </div>
         </section>
       </div>
     </details>
 
-    <footer class="project-footer">
+    <footer class="flex flex-wrap gap-3 border-t border-border pt-6">
       {data.repo && data.repo !== "#" && (
         <a href={data.repo} class="btn btn-secondary" target="_blank" rel="noopener">Ver repositorio</a>
       )}
@@ -177,472 +193,3 @@ const hasDecisions = decisions.length > 0;
     </footer>
   </article>
 </Layout>
-
-<style>
-  .project-detail {
-    padding: 48px 0 80px;
-  }
-
-  .back-link {
-    font-size: var(--text-ui);
-    color: var(--color-secondary);
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 32px;
-    transition: color 0.2s;
-  }
-
-  .back-link:hover {
-    color: var(--color-accent);
-  }
-
-  /* ── Hero ── */
-  .project-hero {
-    display: grid;
-    gap: 40px;
-    margin-bottom: 48px;
-  }
-
-  .project-hero--split {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    align-items: start;
-  }
-
-  .hero-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 68ch;
-  }
-
-  .brand {
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-bottom: -12px;
-  }
-
-  .hero-copy h1 {
-    margin: 0;
-  }
-
-  .subtitle {
-    font-size: var(--text-lead);
-    color: var(--color-secondary);
-    margin-top: -12px;
-  }
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: center;
-  }
-
-  .status {
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 4px 8px;
-    border: 1px solid;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-
-  .status-ongoing { border-color: rgba(202, 138, 4, 0.35); color: #A16207; }
-  .status-finished { border-color: rgba(15, 118, 110, 0.3); color: var(--color-accent); }
-  .status-archived { border-color: var(--color-border); color: var(--color-muted); }
-
-  .origin {
-    font-size: var(--text-meta);
-    color: var(--color-secondary);
-  }
-
-  .date {
-    font-size: var(--text-ui);
-    color: var(--color-muted);
-  }
-
-  .role {
-    font-size: var(--text-ui);
-    color: var(--color-secondary);
-    padding: 12px 16px;
-    background: var(--color-surface);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-  }
-
-  .role-label {
-    display: inline-block;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-right: 10px;
-  }
-
-  .hero-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .hero-preview {
-    margin: 0;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-card);
-  }
-
-  .hero-preview img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  /* ── Bloques de caso (Reto / Solución / Arquitectura) ── */
-  .case-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 40px;
-    margin-bottom: 48px;
-  }
-
-  .case-block {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 20px;
-    border-left: 2px solid var(--color-border);
-  }
-
-  .case-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-    font-weight: 700;
-  }
-
-  .case-icon {
-    font-size: 0.9rem;
-  }
-
-  .heading-icon {
-    font-size: 1rem;
-  }
-
-  .case-text {
-    color: var(--color-secondary);
-    line-height: 1.75;
-    font-size: var(--text-base);
-  }
-
-  /* ── Resultado ── */
-  .result-section {
-    margin: 0 0 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .result-heading {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-bottom: 16px;
-  }
-
-  .result-text {
-    color: var(--color-primary);
-    font-size: var(--text-lead);
-    line-height: 1.7;
-    max-width: 68ch;
-  }
-
-  .metrics {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 28px 56px;
-    margin-top: 32px;
-    padding: 24px 28px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-  }
-
-  .metric {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .metric-from {
-    font-size: var(--text-ui);
-    color: var(--color-secondary);
-    font-weight: 500;
-  }
-
-  .metric-value {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    color: var(--color-accent-strong);
-  }
-
-  .metric-label {
-    font-size: var(--text-ui);
-    color: var(--color-secondary);
-  }
-
-  .evidence-block {
-    margin-top: 32px;
-  }
-
-  .evidence-heading {
-    display: block;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    color: var(--color-muted);
-    margin-bottom: 12px;
-  }
-
-  .evidence-list {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 8px 0;
-  }
-
-  .evidence-item {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-
-  .evidence-item:not(:last-child)::after {
-    content: "·";
-    color: var(--color-border);
-    margin: 0 20px;
-  }
-
-  .evidence-item-label {
-    font-weight: 600;
-    color: var(--color-primary);
-    font-size: var(--text-base);
-  }
-
-  .evidence-item-detail {
-    color: var(--color-secondary);
-    font-size: var(--text-base);
-  }
-
-  /* ── Detalle técnico ── */
-  .technical {
-    margin: 0 0 40px;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .technical summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 20px 0;
-    font-size: var(--text-ui);
-    font-weight: 600;
-    color: var(--color-accent);
-  }
-
-  .technical summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .technical summary::after {
-    content: "+";
-    float: right;
-    font-weight: 400;
-  }
-
-  .technical[open] summary::after {
-    content: "–";
-  }
-
-  .technical summary:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-    border-radius: 4px;
-  }
-
-  .technical-body {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    padding-bottom: 32px;
-  }
-
-  .technical-body .case-text,
-  .project-body :global(p) {
-    max-width: 76ch;
-  }
-
-  .project-body :global(h2) {
-    margin: 8px 0 12px;
-    font-size: var(--text-title);
-  }
-
-  .project-body :global(p) {
-    margin-bottom: 16px;
-    line-height: 1.75;
-  }
-
-  .project-body :global(ul) {
-    margin-bottom: 16px;
-    padding-left: 20px;
-  }
-
-  .project-body :global(li) {
-    color: var(--color-secondary);
-    line-height: 1.6;
-    margin-bottom: 6px;
-  }
-
-  .project-body :global(pre) {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    overflow-x: auto;
-    margin-bottom: 16px;
-    font-size: var(--text-meta);
-  }
-
-  .project-body :global(code) {
-    font-family: var(--font-mono);
-  }
-
-  /* ── Decisiones ── */
-  .decisions h2 {
-    margin-bottom: 16px;
-    font-size: var(--text-title);
-  }
-
-  .decision-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 12px;
-  }
-
-  .decision {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 16px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-  }
-
-  .decision-label {
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 700;
-    color: var(--color-accent);
-  }
-
-  .decision-detail {
-    font-size: var(--text-base);
-    line-height: 1.55;
-    color: var(--color-secondary);
-  }
-
-  .decision-plain {
-    grid-column: 1 / -1;
-    padding-left: 22px;
-    position: relative;
-    color: var(--color-secondary);
-    font-size: var(--text-base);
-    line-height: 1.65;
-  }
-
-  .decision-plain::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--color-accent);
-  }
-
-  /* ── Stack ── */
-  .tech-section h2 {
-    margin-bottom: 16px;
-    font-size: var(--text-title);
-  }
-
-  .tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  /* ── Footer ── */
-  .project-footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding-top: 24px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  @media (max-width: 1023.98px) {
-    .project-hero--split {
-      grid-template-columns: 1fr;
-    }
-
-    .hero-preview {
-      order: -1;
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    .project-detail {
-      padding: 32px 0 64px;
-    }
-
-    .case-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    .metrics {
-      gap: 24px 40px;
-      padding: 20px;
-    }
-
-    .evidence-list {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .evidence-item:not(:last-child)::after {
-      content: none;
-    }
-  }
-</style>

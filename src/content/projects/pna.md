@@ -34,13 +34,21 @@ decisions:
   - "Desglose por evaluación para identificar temas difíciles y actuar a tiempo"
   - "Aplicación web y de escritorio construidas sobre el mismo motor"
 
-highlights:
-  - label: "Sin backend"
-    detail: "procesamiento en el navegador (Rust → WebAssembly)"
-  - label: "Tres niveles"
-    detail: "grupo, evaluación y estudiante"
+improvements:
+  - label: "Análisis"
+    before: "Leer filas y columnas a mano"
+    after: "Por grupo, evaluación y estudiante"
   - label: "Seguimiento"
-    detail: "detección temprana por alumno"
+    before: "Detección tardía de dificultades"
+    after: "Alerta temprana por alumno"
+  - label: "Adopción"
+    beforeLabel: "Contexto"
+    before: "La institución no podía cambiar su forma de registrar"
+    after: "Se usa la planilla institucional tal como llega"
+  - label: "Ejecución"
+    beforeLabel: "Contexto"
+    before: "La herramienta debía distribuirse sin infraestructura"
+    after: "Corre en el navegador (Rust → WebAssembly), sin backend"
 
 result: >
   Los docentes pasaron de leer una planilla a trabajar con información

@@ -24,6 +24,8 @@ const steps = [
     text: "El negocio cambia. El sistema también puede hacerlo sin empezar de cero.",
   },
 ];
+
+const dotClass = "absolute left-0 top-0 h-3 w-3 rounded-full border-2 border-[rgba(15,118,110,0.35)] bg-background transition-colors [.is-reached_&]:border-accent [.is-reached_&]:bg-accent max-md:top-1";
 ---
 
 <section id="como-trabajo" class="py-section">
@@ -39,11 +41,11 @@ const steps = [
     </div>
     <ol class="grid list-none grid-cols-4 gap-x-6 max-md:grid-cols-1 max-md:gap-0">
       {steps.map((step, i) => (
-        <li class="milestone relative pt-11 max-md:pt-0 max-md:pr-0 max-md:pb-8 max-md:pl-9 max-md:last:pb-0">
-          <span class="milestone-dot" aria-hidden="true"></span>
+        <li class="milestone relative pt-11 max-md:pb-8 max-md:pl-9 max-md:pr-0 max-md:pt-0 max-md:last:pb-0">
+          <span class={dotClass} aria-hidden="true"></span>
           <span class="mb-2 block font-mono text-ui font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
           <h3 class="mb-2 flex items-center gap-2 text-base uppercase tracking-[0.06em] text-primary">
-            <Icon name={step.icon} class="milestone-icon" />{step.title}
+            <Icon name={step.icon} class="text-[1.2rem] text-accent" />{step.title}
           </h3>
           <p class="text-ui leading-[1.6]">{step.text}</p>
         </li>
@@ -53,13 +55,8 @@ const steps = [
 </section>
 
 <style>
-  /* Composición del timeline: riel con progreso por scroll y nodos de estado.
-     No es expresable con utilidades; vive en el mismo componente. */
-  .milestone-icon {
-    font-size: 1.2rem;
-    color: var(--color-accent);
-  }
-
+  /* Riel con progreso por scroll: usa una variable CSS calculada en runtime,
+     no expresable con utilidades. */
   .timeline-rail {
     position: absolute;
     top: 5px;
@@ -79,26 +76,8 @@ const steps = [
     transition: width 0.15s linear;
   }
 
-  .milestone-dot {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--color-background);
-    border: 2px solid rgba(15, 118, 110, 0.35);
-    transition: background-color 0.2s, border-color 0.2s;
-  }
-
-  .milestone.is-reached .milestone-dot {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .timeline-progress,
-    .milestone-dot {
+    .timeline-progress {
       transition: none;
     }
   }
@@ -117,10 +96,6 @@ const steps = [
       width: 100%;
       height: calc(var(--progress, 0) * 100%);
       transition: height 0.15s linear;
-    }
-
-    .milestone-dot {
-      top: 4px;
     }
   }
 </style>

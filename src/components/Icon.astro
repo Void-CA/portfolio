@@ -15,18 +15,4 @@ const svgWithTitle = label
   : svg.replace('<svg', '<svg aria-hidden="true"');
 ---
 
-{svg && <span class:list={["icon", Astro.props.class]} set:html={svgWithTitle} />}
-
-<style>
-  .icon {
-    display: inline-flex;
-    flex-shrink: 0;
-    line-height: 0;
-  }
-
-  .icon :global(svg) {
-    width: 1em;
-    height: 1em;
-    display: block;
-  }
-</style>
+{svg && <span class:list={["inline-flex shrink-0 leading-none [&>svg]:block [&>svg]:h-[1em] [&>svg]:w-[1em]", Astro.props.class]} set:html={svgWithTitle} />}

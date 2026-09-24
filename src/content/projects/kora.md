@@ -31,13 +31,19 @@ decisions:
   - "Agregados orientados a consistencia operacional, no a estructura de tablas"
   - "Modelo diseñado para evolucionar hacia análisis operativo y trazabilidad histórica"
 
-highlights:
-  - label: "Separación"
-    detail: "planificación (intención) vs. ejecución (realidad)"
+improvements:
+  - label: "Modelo"
+    beforeLabel: "Contexto"
+    before: "La planificación y la ejecución no son la misma realidad"
+    after: "Dos conceptos separados, con reglas propias"
   - label: "Trazabilidad"
-    detail: "historial de lo ejecutado en campo"
-  - label: "Dominio"
-    detail: "reglas de negocio fuera de la infraestructura"
+    beforeLabel: "Contexto"
+    before: "Las decisiones deben auditarse contra lo ejecutado"
+    after: "Historial de lo que realmente ocurrió en campo"
+  - label: "Arquitectura"
+    beforeLabel: "Contexto"
+    before: "El dominio agrícola tiene invariantes y reglas temporales"
+    after: "Reglas de negocio en el dominio (DDD)"
 
 philosophy:
   - "El software agrícola no debe simplificar la realidad del campo; debe modelarla"

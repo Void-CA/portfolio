@@ -86,11 +86,4 @@
     margin: 0 auto;
     padding: 0 24px;
   }
-
-  /* Superficies que transicionan al cambiar de estado */
-  .header,
-  .footer,
-  .card {
-    transition: background-color 0.25s ease, border-color 0.25s ease;
-  }
 }

@@ -35,13 +35,19 @@ decisions:
   - "Documentación arquitectónica desde etapas tempranas (Quarto): la complejidad se modela cuando se entiende, no cuando se acumula"
   - "Scene graph desacoplado de la matemática: visualización y simulación son consumidores, no productores de verdad"
 
-highlights:
-  - label: "Portabilidad"
-    detail: "simulación, ROS2 y hardware con el mismo programa"
-  - label: "Desacople"
-    detail: "planning y execution independientes"
-  - label: "Multi-crate"
-    detail: "responsabilidades aisladas por capa"
+improvements:
+  - label: "Backends"
+    beforeLabel: "Contexto"
+    before: "La ejecución debe evolucionar de simulación a hardware real"
+    after: "Un runtime desacoplado cambia entre simulación, ROS2 y hardware"
+  - label: "Planning / execution"
+    beforeLabel: "Contexto"
+    before: "Generar trayectorias y ejecutarlas son responsabilidades distintas"
+    after: "Motion compiler independiente del runtime"
+  - label: "Estructura"
+    beforeLabel: "Contexto"
+    before: "Matemática, visualización y orquestación no deben contaminarse"
+    after: "Workspace multi-crate con responsabilidades aisladas por capa"
 
 result: >
   Un mismo programa planifica una trayectoria y la ejecuta en simulación o en

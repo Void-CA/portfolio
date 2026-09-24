@@ -37,6 +37,16 @@ const resolvedServices = SERVICES.map(service => {
     },
   };
 });
+
+const widgetClass = "mt-8 rounded-lg bg-accent-tint lg:grid lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.75fr)] lg:items-start lg:gap-x-9 lg:p-10 max-lg:block max-lg:px-5 max-lg:py-2";
+const serviceClass = "block border-t border-[rgba(15,118,110,0.15)] first:border-t-0 lg:contents";
+const headClass = "relative flex w-full items-center gap-3.5 bg-transparent py-[18px] text-left text-secondary transition-colors before:absolute before:-left-3.5 before:top-3 before:bottom-3 before:w-[3px] before:rounded-sm before:bg-transparent before:content-[''] hover:[&_.service-problem]:text-primary [&.is-active]:before:bg-accent [&.is-active_.service-icon]:text-accent [&.is-active_.service-problem]:font-semibold [&.is-active_.service-problem]:text-accent lg:col-start-1 lg:border-t lg:border-[rgba(15,118,110,0.15)] lg:first:border-t-0 lg:first:pt-0";
+const panelClass = "relative hidden rounded-xl border border-border bg-background p-9 pb-8 pt-8 lg:col-start-2 lg:row-span-5 lg:row-start-1 lg:[&.is-active]:block max-lg:mb-5 max-lg:px-5 max-lg:py-5 max-lg:[&.is-open]:block";
+const panelBodyClass = "relative min-w-0 lg:[&.has-media]:grid lg:[&.has-media]:grid-cols-2 lg:[&.has-media]:items-start lg:[&.has-media]:gap-x-9 lg:[&.has-media>*:not(.panel-media)]:col-start-1 lg:[&.has-media>.panel-media]:col-start-2 lg:[&.has-media>.panel-media]:row-span-6 lg:[&.has-media>.panel-media]:m-0";
+const numClass = "flex-shrink-0 font-mono text-ui font-semibold text-accent";
+const mediaClass = "relative my-6 w-full overflow-hidden rounded-[10px] border border-border bg-surface shadow-subtle [&_img]:block [&_img]:h-auto [&_img]:w-full";
+const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
+const evidenceClass = "relative mt-6 inline-flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-[9px] text-ui font-semibold transition-colors hover:border-accent hover:bg-accent-tint";
 ---
 
 <section id="servicios" class="py-section">
@@ -45,48 +55,48 @@ const resolvedServices = SERVICES.map(service => {
     No necesitás llegar con una solución definida. Podemos empezar por el problema.
   </p>
 
-  <div class="services-widget" data-services>
+  <div class={widgetClass} data-services>
     {resolvedServices.map(({ service, evidence }, i) => (
-      <div class="service">
+      <div class={serviceClass}>
         <button
           type="button"
-          class="service-head"
+          class={headClass}
           data-index={i}
           aria-expanded={i === 0 ? "true" : "false"}
           aria-controls={`svc-${service.id}`}
         >
-          <span class="service-num">{service.num}</span>
-          <Icon name={service.icon} class="service-icon" />
-          <span class="service-problem">{service.problem}</span>
+          <span class={numClass}>{service.num}</span>
+          <Icon name={service.icon} class="text-[1.2rem] text-muted transition-colors" />
+          <span class="service-problem text-base leading-[1.4] transition-colors">{service.problem}</span>
         </button>
 
         <article
           id={`svc-${service.id}`}
-          class:list={["service-panel", { "is-active": i === 0, "is-open": i === 0 }]}
+          class:list={[panelClass, { "is-active": i === 0, "is-open": i === 0 }]}
           data-index={i}
           role="region"
           aria-labelledby={`svc-${service.id}-title`}
         >
-          <div class:list={["panel-body", { "has-media": Boolean(evidence?.image) }]}>
-            <span class="panel-num" aria-hidden="true">{service.num}</span>
-            <Icon name={service.icon} class="panel-icon" />
-            <h3 class="panel-title" id={`svc-${service.id}-title`}>{service.title}</h3>
-            <p class="panel-desc">{service.description}</p>
+          <div class:list={[panelBodyClass, { "has-media": Boolean(evidence?.image) }]}>
+            <span class="pointer-events-none absolute -top-[18px] right-1 select-none text-[clamp(80px,10vw,128px)] font-bold leading-none text-[rgba(15,118,110,0.08)] max-lg:-top-3 max-lg:left-auto max-lg:right-0 max-lg:text-[72px]" aria-hidden="true">{service.num}</span>
+            <Icon name={service.icon} class="relative mb-3.5 block text-[1.6rem] text-accent" />
+            <h3 class="relative mb-3 text-title tracking-[-0.01em] text-primary" id={`svc-${service.id}-title`}>{service.title}</h3>
+            <p class="relative text-base leading-[1.7] text-secondary">{service.description}</p>
 
             {evidence?.image && (
-              <figure class="panel-media">
+              <figure class={mediaClass}>
                 <Image src={evidence.image} alt={evidence.imageAlt} loading="lazy" />
               </figure>
             )}
 
-            <div class="panel-changes">
-              <span class="panel-label">Qué cambia</span>
-              <ul>
-                {service.changes.map(change => <li>{change}</li>)}
+            <div class="relative mt-6 border-t border-border pt-5">
+              <span class="mb-3 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
+              <ul class="flex list-none flex-col gap-2">
+                {service.changes.map(change => <li class={changeItemClass}>{change}</li>)}
               </ul>
             </div>
 
-            <div class="flow" aria-hidden="true">
+            <div class="flow relative mt-6" aria-hidden="true">
               {service.flow.map((step, idx) => (
                 <>
                   <span class="flow-step">{step}</span>
@@ -96,7 +106,7 @@ const resolvedServices = SERVICES.map(service => {
             </div>
 
             {evidence && (
-              <a class="panel-evidence" href={evidence.href}>
+              <a class={evidenceClass} href={evidence.href}>
                 Ejemplo: {evidence.label} →
               </a>
             )}
@@ -107,312 +117,15 @@ const resolvedServices = SERVICES.map(service => {
   </div>
 </section>
 
-<style>
-  .services-widget {
-    margin-top: 32px;
-    background: var(--color-accent-tint);
-    border-radius: 16px;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.75fr);
-    column-gap: 36px;
-    align-items: start;
-  }
-
-  .service {
-    display: contents;
-  }
-
-  .service-head {
-    grid-column: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: 0;
-    border-top: 1px solid rgba(15, 118, 110, 0.15);
-    padding: 18px 0;
-    cursor: pointer;
-    font-family: inherit;
-    color: var(--color-secondary);
-    transition: color 0.15s;
-  }
-
-  .service-head::before {
-    content: "";
-    position: absolute;
-    left: -14px;
-    top: 12px;
-    bottom: 12px;
-    width: 3px;
-    border-radius: 2px;
-    background: transparent;
-    transition: background-color 0.15s;
-  }
-
-  .service-head.is-active::before {
-    background: var(--color-accent);
-  }
-
-  .service-head:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-    border-radius: 4px;
-  }
-
-  .service:first-child .service-head {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  .service-head:hover .service-problem {
-    color: var(--color-primary);
-  }
-
-  .service-head.is-active .service-problem {
-    color: var(--color-accent);
-    font-weight: 600;
-  }
-
-  .service-num {
-    font-family: var(--font-mono);
-    font-size: var(--text-ui);
-    font-weight: 600;
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .service-icon {
-    font-size: 1.2rem;
-    color: var(--color-muted);
-    transition: color 0.15s;
-  }
-
-  .service-head.is-active .service-icon {
-    color: var(--color-accent);
-  }
-
-  .service-problem {
-    font-size: var(--text-base);
-    line-height: 1.4;
-    transition: color 0.15s;
-  }
-
-  .service-panel {
-    grid-column: 2;
-    grid-row: 1 / span 5;
-    position: relative;
-    display: none;
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 36px 36px 32px;
-  }
-
-  .service-panel.is-active {
-    display: block;
-  }
-
-  .panel-body {
-    position: relative;
-    min-width: 0;
-  }
-
-  /* Con evidencia visual, el panel se compone en dos columnas: texto y captura.
-     Sin media, se mantiene en una sola columna. */
-  @media (min-width: 1024px) {
-    .panel-body.has-media {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      column-gap: 36px;
-      align-items: start;
-    }
-
-    .panel-body.has-media > :not(.panel-media) {
-      grid-column: 1;
-    }
-
-    .panel-body.has-media > .panel-media {
-      grid-column: 2;
-      grid-row: 1 / span 6;
-      margin: 0;
-    }
-  }
-
-  .panel-media {
-    position: relative;
-    width: 100%;
-    margin: 24px 0;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--color-surface);
-    box-shadow: var(--shadow-subtle);
-  }
-
-  .panel-media img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .panel-num {
-    position: absolute;
-    top: -18px;
-    right: 4px;
-    font-size: clamp(80px, 10vw, 128px);
-    font-weight: 700;
-    line-height: 1;
-    color: rgba(15, 118, 110, 0.08);
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .panel-icon {
-    position: relative;
-    display: block;
-    font-size: 1.6rem;
-    color: var(--color-accent);
-    margin-bottom: 14px;
-  }
-
-  .panel-title {
-    position: relative;
-    font-size: var(--text-title);
-    letter-spacing: -0.01em;
-    color: var(--color-primary);
-    margin-bottom: 12px;
-  }
-
-  .panel-desc {
-    position: relative;
-    font-size: var(--text-base);
-    line-height: 1.7;
-    color: var(--color-secondary);
-  }
-
-  .panel-changes {
-    position: relative;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .panel-label {
-    display: block;
-    font-size: var(--text-micro);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-bottom: 12px;
-  }
-
-  .panel-changes ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .panel-changes li {
-    position: relative;
-    padding-left: 20px;
-    font-size: var(--text-base);
-    line-height: 1.5;
-    color: var(--color-primary);
-  }
-
-  .panel-changes li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--color-accent);
-  }
-
-  .service-panel .flow {
-    position: relative;
-    margin-top: 24px;
-  }
-
-  .panel-evidence {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 24px;
-    padding: 9px 14px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    font-size: var(--text-ui);
-    font-weight: 600;
-    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
-  }
-
-  .panel-evidence:hover {
-    border-color: var(--color-accent);
-    background: var(--color-accent-tint);
-  }
-
-  @media (max-width: 1023.98px) {
-    .services-widget {
-      display: block;
-      padding: 8px 20px;
-    }
-
-    .service {
-      display: block;
-      border-top: 1px solid rgba(15, 118, 110, 0.15);
-    }
-
-    .service:first-child {
-      border-top: 0;
-    }
-
-    .service-head {
-      border-top: 0;
-      padding: 18px 0;
-    }
-
-    .service:first-child .service-head {
-      padding-top: 18px;
-    }
-
-    .service-panel {
-      grid-row: auto;
-      margin: 0 0 20px;
-      padding: 24px 20px 20px;
-    }
-
-    .service-panel.is-active {
-      display: none;
-    }
-
-    .service-panel.is-open {
-      display: block;
-    }
-
-    .panel-num {
-      font-size: 72px;
-      top: -12px;
-      right: 0;
-      left: auto;
-    }
-  }
-</style>
-
 <script>
   const widget = document.querySelector('[data-services]');
   if (widget) {
-    const heads = Array.from(widget.querySelectorAll<HTMLButtonElement>('.service-head'));
-    const panels = Array.from(widget.querySelectorAll<HTMLElement>('.service-panel'));
+    const headEls = Array.from(widget.querySelectorAll<HTMLButtonElement>('button[aria-controls]'));
+    const panels = Array.from(widget.querySelectorAll<HTMLElement>('[data-index][role="region"]'));
     const mq = window.matchMedia('(min-width: 1024px)');
 
     const setActive = (index: number) => {
-      heads.forEach((head, i) => {
+      headEls.forEach((head, i) => {
         const active = i === index;
         head.classList.toggle('is-active', active);
         head.setAttribute('aria-expanded', active ? 'true' : 'false');
@@ -425,12 +138,12 @@ const resolvedServices = SERVICES.map(service => {
       const wasOpen = panel.classList.contains('is-open');
       panels.forEach(p => p.classList.remove('is-open'));
       if (!wasOpen) panel.classList.add('is-open');
-      heads.forEach((head, i) => {
+      headEls.forEach((head, i) => {
         head.setAttribute('aria-expanded', !wasOpen && i === index ? 'true' : 'false');
       });
     };
 
-    heads.forEach((head, i) => {
+    headEls.forEach((head, i) => {
       head.addEventListener('click', () => {
         if (mq.matches) setActive(i);
         else toggleOpen(i);

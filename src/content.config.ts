@@ -23,17 +23,13 @@ const projects = defineCollection({
         z.object({ label: z.string(), detail: z.string() }),
       ])
     ).optional(),
-    metrics: z.array(z.object({   // franja de evidencia (pares from → value)
-      from: z.string().optional(),
-      value: z.string(),
-      label: z.string(),
+    improvements: z.array(z.object({ // una card por mejora, autosustentable
+      label: z.string(),              // sujeto: "Consultas", "Estado financiero"
+      before: z.string().optional(),  // situación previa, solo si está documentada
+      beforeLabel: z.string().optional(), // default "Antes"; usar "Contexto" si no hay estado previo
+      after: z.string(),
+      value: z.string().optional(),   // dato real para resaltar en "Ahora"
     })).optional(),
-    highlights: z.array(   // evidencia: label corto + detalle breve (máx. 3)
-      z.union([
-        z.string(),
-        z.object({ label: z.string(), detail: z.string().optional() }),
-      ])
-    ).optional(),
     result: z.string().optional(),
     tech: z.array(z.string()),
     areas: z.array(z.string()).optional(),

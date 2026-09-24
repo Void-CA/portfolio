@@ -86,6 +86,48 @@
     color: var(--color-accent);
   }
 
+  /* ── Eyebrow (rótulo de sección/campo) ── */
+  .eyebrow {
+    @apply inline-flex items-center gap-1.5 font-bold uppercase;
+    font-size: var(--text-micro);
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  /* ── Cuerpo de markdown del case study ── */
+  .prose-body {
+    & h2 {
+      @apply mb-3 mt-2 font-semibold;
+      font-size: var(--text-title);
+    }
+
+    & p {
+      @apply mb-4;
+      max-width: 76ch;
+      line-height: 1.75;
+      color: var(--color-secondary);
+    }
+
+    & ul {
+      @apply mb-4 pl-5;
+    }
+
+    & li {
+      @apply mb-1.5;
+      line-height: 1.6;
+      color: var(--color-secondary);
+    }
+
+    & pre {
+      @apply mb-4 overflow-x-auto rounded-sm border border-border bg-surface p-4;
+      font-size: var(--text-meta);
+    }
+
+    & code {
+      @apply font-mono;
+    }
+  }
+
   @media (max-width: 639.98px) {
     .section-head {
       @apply flex-col items-start gap-2;
