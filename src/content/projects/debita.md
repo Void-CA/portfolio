@@ -50,7 +50,7 @@ decisions:
     detail: "Docker"
 
 metrics:
-  - from: "Hasta 1 día"
+  - from: "1 día"
     value: "< 5 s"
     label: "generación de un estado financiero completo"
   - value: "< 1 s"

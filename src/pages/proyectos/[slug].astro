@@ -63,15 +63,7 @@ const hasDecisions = decisions.length > 0;
           <span class="date">{data.date.toLocaleDateString("es-AR", { year: "numeric", month: "long" })}</span>
         </div>
 
-        {data.role && (
-          <p class="role"><span class="role-label">Rol</span>{data.role}</p>
-        )}
 
-        {heroTech.length > 0 && (
-          <div class="hero-tech">
-            {heroTech.map(t => <span class="chip chip--tech">{t}</span>)}
-          </div>
-        )}
       </div>
 
       {hasPreview && (
@@ -113,7 +105,7 @@ const hasDecisions = decisions.length > 0;
           <div class="metrics">
             {metrics.map(m => (
               <div class="metric">
-                {m.from && <span class="metric-from">{m.from} →</span>}
+                {m.from && <span class="metric-from">Antes: {m.from} →</span>}
                 <span class="metric-value">{m.value}</span>
                 <span class="metric-label">{m.label}</span>
               </div>
@@ -402,17 +394,22 @@ const hasDecisions = decisions.length > 0;
     align-items: flex-end;
     gap: 28px 56px;
     margin-top: 32px;
+    padding: 24px 28px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
   }
 
   .metric {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
   }
 
   .metric-from {
     font-size: var(--text-ui);
-    color: var(--color-muted);
+    color: var(--color-secondary);
+    font-weight: 500;
   }
 
   .metric-value {
@@ -651,6 +648,7 @@ const hasDecisions = decisions.length > 0;
 
     .metrics {
       gap: 24px 40px;
+      padding: 20px;
     }
 
     .evidence-list {
