@@ -1,8 +1,8 @@
 ---
 title: Gestión de deuda y cobros automatizados
 brand: Debita
-subtitle: Plataforma financiera centrada en modelado de dominio
-description: Sistema que modela reglas de deuda, centraliza estados de cuenta y automatiza cobros. Reemplaza procesos manuales por una fuente única de información, con trazabilidad y auditoría sobre cada operación.
+subtitle: Registros financieros dispersos convertidos en información trazable y consultable
+description: Sistema que administra la información financiera de múltiples empresas clientes por separado y reconstruye el saldo de cada tercero a partir de sus operaciones. Reemplaza la consolidación manual en Excel por consultas trazables y reportes que antes tomaban hasta un día.
 status: finished
 featured: true
 order: 1
@@ -11,45 +11,79 @@ clientNote: sector financiero
 role: Modelado de dominio, arquitectura y desarrollo del core del sistema.
 
 problem: >
-  La operación financiera del stakeholder dependía de procesos manuales y
-  herramientas dispersas donde la información se duplicaba constantemente.
-  Los estados de cuenta requerían validaciones manuales, existían dificultades
-  para rastrear cambios históricos y el cálculo de deuda dependía de procesos
-  operativos difíciles de auditar y mantener.
+  Una empresa de contabilidad administraba la información financiera de
+  múltiples empresas clientes en planillas de Excel, un archivo por cliente. El
+  modelo no escalaba por dos razones. Primero, aislamiento: la información de
+  cada empresa debía mantenerse completamente separada de las demás, y dentro de
+  cada una convivían terceros —clientes, proveedores u otras entidades— con sus
+  propios saldos y obligaciones. Segundo, consolidación: responder algo en
+  apariencia simple, como "¿cuál es el estado actual de esta empresa?", exigía
+  reunir a mano facturas pendientes, pagos, saldos insolutos y a favor,
+  obligaciones vencidas o por vencer, ajustes y el detalle que explica cada
+  saldo. Ese armado podía consumir hasta un día de trabajo de un contador.
 
 challenge: >
   Modelar un dominio financiero donde múltiples reglas afectan el estado de una
   deuda a lo largo del tiempo, garantizando integridad de datos, trazabilidad
-  histórica y consistencia entre operaciones relacionadas. El sistema debía
-  representar correctamente el comportamiento financiero sin reducir el dominio
-  a simples operaciones CRUD.
+  histórica y consistencia entre operaciones relacionadas. El sistema no debía
+  conservar solo el saldo final, sino permitir reconstruir cómo se llegó a él
+  —factura, pago, ajuste, impuesto— sin reducir el dominio a simples operaciones
+  CRUD ni asumir una única forma de operar.
 
 solution: >
   Desarrollo de una plataforma centrada en el modelado explícito del ciclo de
-  vida de la deuda y sus operaciones asociadas. El sistema organiza reglas de
-  negocio, cálculos financieros, estados de cuenta y eventos operativos dentro
-  de una arquitectura desacoplada orientada a mantener consistencia y permitir
-  evolución futura del dominio.
+  vida de la deuda y sus operaciones asociadas, con aislamiento lógico de datos
+  por empresa. El sistema organiza reglas de negocio, cálculos financieros,
+  estados de cuenta y eventos operativos dentro de una arquitectura desacoplada
+  orientada a mantener consistencia y permitir evolución futura del dominio. El
+  contador selecciona la empresa, inspecciona saldos y movimientos con detalle
+  granular y llega a la respuesta consolidada en segundos.
+
+architecture: >
+  Sistema modular con separación estricta entre el dominio financiero y la
+  infraestructura. El aislamiento de datos por empresa y la trazabilidad de
+  operaciones son requisitos transversales, no características añadidas después.
 
 decisions:
-  - "Separación estricta entre lógica de dominio e infraestructura"
-  - "Modelado orientado al comportamiento financiero y no únicamente a persistencia"
-  - "Core del sistema desarrollado en Rust para priorizar control y confiabilidad"
-  - "Arquitectura modular preparada para evolución y extensión del dominio"
-  - "Uso de Tauri para construir una aplicación de escritorio ligera y desacoplada"
-  - "Diseño orientado a trazabilidad, validación y auditoría de operaciones"
+  - label: "Multi-tenancy"
+    detail: "Aislamiento lógico de datos por empresa, como requisito de primer orden"
+  - label: "Dominio"
+    detail: "Modelado orientado al comportamiento financiero, no únicamente a persistencia"
+  - label: "Trazabilidad"
+    detail: "Operaciones (factura, pago, ajuste, impuesto) en lugar de almacenar solo el saldo resultante"
+  - label: "Core"
+    detail: "Rust, para priorizar control y confiabilidad"
+  - label: "Desktop"
+    detail: "Tauri, aplicación de escritorio ligera y desacoplada"
+  - label: "Persistencia"
+    detail: "PostgreSQL"
+  - label: "Frontend"
+    detail: "React + TypeScript"
+  - label: "Deploy"
+    detail: "Docker"
+
+metrics:
+  - from: "Hasta 1 día"
+    value: "< 5 s"
+    label: "generación de un estado financiero completo"
+  - value: "< 1 s"
+    label: "consultas de intervalos menores a un mes"
 
 highlights:
-  - "Proceso financiero manual digitalizado y auditable"
-  - "Trazabilidad completa sobre operaciones y estados"
+  - "Aislamiento lógico de datos por empresa cliente"
+  - "Estado financiero consolidado en segundos, no en un día de trabajo manual"
+  - "Trazabilidad completa: factura → pago → ajuste → impuestos → saldo resultante"
+  - "Analítica de negocio: facturación vs. cobro, DSO y aging por tercero"
   - "Arquitectura centrada en integridad y evolución del dominio"
 
 result: >
-  Debita permitió transformar un proceso financiero manual en un sistema capaz
-  de representar, validar y centralizar información financiera de manera
-  estructurada. Más allá de automatizar tareas operativas, el proyecto
-  estableció una base arquitectónica enfocada en mantenibilidad, trazabilidad
-  y evolución futura del dominio financiero.
+  Debita transformó registros financieros dispersos en información estructurada,
+  trazable y consultable. El proceso que antes podía requerir hasta un día de
+  trabajo de un contador para armar un estado financiero detallado pasó a
+  completarse en segundos, con respuestas por debajo del segundo para intervalos
+  menores a un mes. El contador no desaparece del proceso: cambia dónde invierte
+  su tiempo. La empresa cliente, a su vez, obtiene respuestas más rápidas, mayor
+  detalle sobre su situación y visibilidad anticipada de obligaciones por vencer.
 
 tech:
   - Rust
@@ -63,15 +97,90 @@ areas:
   - backend
   - financial systems
 
+image: ../../assets/debita/debita-stats.png
+imageAlt: Tablero analítico de Debita con gráficos de facturación, cobro, DSO y aging
+
+images:
+  - key: stats
+    src: ../../assets/debita/debita-stats.png
+    alt: Tablero analítico de Debita con gráficos de facturación, cobro, DSO y aging
+    caption: >
+      Vista analítica: consolida la información del resto del sistema en
+      indicadores de negocio. Facturación vs. cobro por mes, DSO (días promedio
+      de pago por cliente), un heatmap de aging —cuánto tiempo lleva el dinero
+      adeudado— y su dimensión vertical: quién lo debe.
+  - key: workspace
+    src: ../../assets/debita/debita-workspace.png
+    alt: Pantalla de selección de empresa en Debita
+    caption: >
+      Punto de entrada: selección de la empresa cliente. Aquí se materializa el
+      aislamiento lógico de los datos; cada empresa opera sobre su propio
+      conjunto de información financiera.
+  - key: client-detail
+    src: ../../assets/debita/debita-client-detail.png
+    alt: Perfil financiero de un cliente con saldo pendiente, recargos y facturas
+    caption: >
+      Perfil de un tercero dentro de una empresa: saldo pendiente, recargos por
+      mora, cada factura asociada con su búsqueda histórica y un timeline de la
+      actividad reciente.
+  - key: payment-tracking
+    src: ../../assets/debita/debita-payment-tracking.png
+    alt: Detalle de los pagos y ajustes asociados a una factura
+    caption: >
+      Trazabilidad de una factura. En la operación real, una factura rara vez se
+      cierra con un único pago: pasa por impuestos, mora, ajustes —descuentos o
+      pagos no monetarios— y finalmente por pagos, que pueden ser varios en
+      facturas grandes.
+
 repo: "#"
 date: 2025-06-15
 ---
 
+## El problema, no la herramienta
+
+Debita no nace de la consigna "pasar Excel a una aplicación web". Nace de dos
+problemas concretos del trabajo contable: **mantener aislada** la información de
+cada empresa cliente y **consolidar** un estado financiero que estaba repartido
+entre decenas de registros. Excel resolvía el control básico, pero su modelo
+—un archivo por cliente— no escalaba ni en organización ni en tiempo de análisis.
+
+La propuesta de valor está mejor descrita como **registros financieros dispersos
+→ información financiera estructurada, trazable y consultable**.
+
+## Trazabilidad, no solo saldo
+
+Un saldo es un número; saber *de dónde salió* es otra cosa. Debita conserva
+operaciones y ajustes, no solo el resultado, de modo que cualquier saldo puede
+reconstruirse:
+
+```
+Factura → Pago → Ajuste → Impuesto → Saldo resultante
+```
+
+en lugar de únicamente `Saldo = $X`. Esa granularidad permite inspeccionar el
+estado financiero y auditar los movimientos que lo produjeron.
+
+## Por qué apareció cada capacidad
+
+Las funcionalidades del sistema no fueron decisiones arbitrarias: responden a la
+cadena de necesidades del dominio.
+
+- **Múltiples empresas clientes** → necesidad de aislamiento → *selección de empresa y datos separados por cliente*.
+- **Cada empresa tiene terceros y obligaciones** → necesidad de estructurar relaciones financieras → *clientes, proveedores y facturas*.
+- **Las facturas cambian de estado** → necesidad de representar saldos y vencimientos → *motor de estados*.
+- **Los saldos cambian mediante operaciones** → necesidad de registrar pagos y ajustes → *motor de pagos y trazabilidad*.
+- **El usuario necesita conocer el estado completo** → necesidad de consolidar información → *consultas, reportes y tablero analítico*.
+- **La información se procesaba manualmente** → necesidad de automatización → *reducción drástica del tiempo de respuesta*.
+
+Parte de estas capacidades se descubrieron durante el desarrollo —no estaban
+todas definidas al inicio— y se convirtieron en funcionalidades a medida que el
+dominio lo exigió.
+
 ## Arquitectura del sistema
 
 Debita fue diseñado como un sistema modular orientado al dominio financiero,
-donde la lógica crítica del sistema se mantiene desacoplada de la interfaz y
-de los mecanismos de persistencia.
+donde la lógica crítica se mantiene desacoplada de la interfaz y de los
+mecanismos de persistencia.
 
 - **Core de dominio en Rust**: Encapsula reglas financieras, validaciones y comportamiento del sistema
 - **Capa de aplicación**: Coordina casos de uso y flujo operativo entre módulos

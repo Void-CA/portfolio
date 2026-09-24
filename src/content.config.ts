@@ -16,7 +16,18 @@ const projects = defineCollection({
     problem: z.string().optional(),
     challenge: z.string().optional(), // reto de ingeniería
     solution: z.string().optional(),
-    decisions: z.array(z.string()).optional(),
+    architecture: z.string().optional(), // resumen para el panel técnico
+    decisions: z.array(
+      z.union([
+        z.string(),
+        z.object({ label: z.string(), detail: z.string() }),
+      ])
+    ).optional(),
+    metrics: z.array(z.object({   // franja de evidencia (pares from → value)
+      from: z.string().optional(),
+      value: z.string(),
+      label: z.string(),
+    })).optional(),
     highlights: z.array(z.string()).optional(), // métricas/logros destacados
     result: z.string().optional(),
     tech: z.array(z.string()),

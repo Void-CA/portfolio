@@ -1,0 +1,548 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface GalleryImage {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+  title?: string;
+}
+
+const { images, title = "Galería" } = Astro.props;
+const multiple = images.length > 1;
+---
+
+{images.length > 0 && (
+  <section class="gallery" data-gallery>
+    <h2>{title}</h2>
+
+    <div class="carousel">
+      <div class="stage" data-stage tabindex="0" role="group" aria-roledescription="carrusel" aria-label={title}>
+        <button
+          type="button"
+          class="nav nav--prev"
+          data-prev
+          aria-label="Imagen anterior"
+          hidden={!multiple}
+        >‹</button>
+
+        <div class="viewport" data-viewport>
+          <div class="track" data-track>
+            {images.map((img, i) => (
+              <figure
+                class="slide"
+                data-slide
+                data-caption={img.caption ?? ""}
+                aria-hidden={i === 0 ? "false" : "true"}
+              >
+                <button type="button" class="zoom" data-open aria-label={`Ampliar: ${img.alt}`}>
+                  <Image src={img.src} alt={img.alt} loading={i === 0 ? "eager" : "lazy"} />
+                </button>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="nav nav--next"
+          data-next
+          aria-label="Imagen siguiente"
+          hidden={!multiple}
+        >›</button>
+
+        {multiple && (
+          <span class="counter" data-counter aria-live="polite">1 / {images.length}</span>
+        )}
+      </div>
+
+      <p class="caption" data-caption-text hidden></p>
+
+      {multiple && (
+        <div class="thumbs" data-thumbs role="tablist" aria-label="Miniaturas">
+          {images.map((img, i) => (
+            <button
+              type="button"
+              class="thumb"
+              data-thumb
+              data-index={i}
+              role="tab"
+              aria-label={`Ir a la imagen ${i + 1}`}
+              aria-current={i === 0 ? "true" : "false"}
+            >
+              <Image src={img.src} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="lightbox" data-lightbox hidden>
+      <div class="lightbox-backdrop" data-close></div>
+      <div class="lightbox-body" role="dialog" aria-modal="true" aria-label={title}>
+        <button type="button" class="lightbox-close" data-close aria-label="Cerrar">×</button>
+        <button
+          type="button"
+          class="lightbox-nav lightbox-nav--prev"
+          data-prev
+          aria-label="Imagen anterior"
+          hidden={!multiple}
+        >‹</button>
+        <figure class="lightbox-figure" data-lightbox-figure></figure>
+        <button
+          type="button"
+          class="lightbox-nav lightbox-nav--next"
+          data-next
+          aria-label="Imagen siguiente"
+          hidden={!multiple}
+        >›</button>
+        {multiple && (
+          <span class="lightbox-counter" data-lightbox-counter aria-live="polite"></span>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .gallery {
+    margin: 0 0 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .gallery h2 {
+    margin-bottom: 20px;
+    font-size: var(--text-title);
+  }
+
+  .carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .stage {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .stage:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .viewport {
+    overflow: hidden;
+  }
+
+  .track {
+    display: flex;
+    transition: transform 0.35s ease;
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  .slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    line-height: 1;
+    padding-bottom: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--color-primary);
+    cursor: pointer;
+    box-shadow: var(--shadow-subtle);
+    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  }
+
+  .nav:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .nav--prev { left: 12px; }
+  .nav--next { right: 12px; }
+
+  .counter {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(16, 32, 31, 0.72);
+    color: #fff;
+    font-size: var(--text-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .caption {
+    margin: 0;
+    font-size: var(--text-ui);
+    line-height: 1.55;
+    color: var(--color-secondary);
+  }
+
+  .thumbs {
+    display: none;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .thumb {
+    flex: 0 0 96px;
+    width: 96px;
+    aspect-ratio: 16 / 10;
+    padding: 0;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-surface);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumb:hover {
+    opacity: 1;
+  }
+
+  .thumb[aria-current="true"] {
+    border-color: var(--color-accent);
+    opacity: 1;
+  }
+
+  [data-gallery] [hidden] {
+    display: none !important;
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 32, 31, 0.82);
+    cursor: zoom-out;
+  }
+
+  .lightbox-body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .lightbox-figure {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .lightbox-figure img {
+    max-width: 92vw;
+    max-height: 84vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-floating);
+    background: var(--color-background);
+  }
+
+  .lightbox-counter {
+    color: #fff;
+    font-size: var(--text-ui);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lightbox-figure figcaption {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-ui);
+    line-height: 1.5;
+    max-width: 70ch;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--color-primary);
+    cursor: pointer;
+  }
+
+  .lightbox-close:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    line-height: 1;
+    padding-bottom: 5px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .lightbox-nav--prev { left: 20px; }
+  .lightbox-nav--next { right: 20px; }
+
+  @media (min-width: 768px) {
+    .thumbs {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .nav {
+      width: 36px;
+      height: 36px;
+      font-size: 1.4rem;
+    }
+
+    .nav--prev { left: 8px; }
+    .nav--next { right: 8px; }
+
+    .lightbox-nav--prev { left: 8px; }
+    .lightbox-nav--next { right: 8px; }
+
+    .lightbox-body {
+      width: 100%;
+    }
+
+    .lightbox-figure img {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<script>
+  type GalleryRoot = HTMLElement;
+
+  function initGallery(root: GalleryRoot) {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const counter = root.querySelector<HTMLElement>('[data-counter]');
+    const lightboxCounter = root.querySelector<HTMLElement>('[data-lightbox-counter]');
+    const captionEl = root.querySelector<HTMLElement>('[data-caption-text]');
+    const thumbs = Array.from(root.querySelectorAll<HTMLElement>('[data-thumb]'));
+    const lightbox = root.querySelector<HTMLElement>('[data-lightbox]');
+    const lightboxFigure = root.querySelector<HTMLElement>('[data-lightbox-figure]');
+    const viewport = root.querySelector<HTMLElement>('[data-viewport]');
+    if (!track || slides.length === 0) return;
+    const trackEl: HTMLElement = track;
+
+    const count = slides.length;
+    let index = 0;
+    let lightboxOpen = false;
+
+    const slideImage = (i: number) => slides[i]?.querySelector('img') ?? null;
+
+    function updateLightbox() {
+      if (!lightboxFigure) return;
+      const img = slideImage(index);
+      const caption = slides[index]?.dataset.caption ?? '';
+      lightboxFigure.innerHTML = "";
+      if (img) lightboxFigure.appendChild(img.cloneNode(true));
+      if (caption) {
+        const cap = document.createElement('figcaption');
+        cap.textContent = caption;
+        lightboxFigure.appendChild(cap);
+      }
+    }
+
+    function render() {
+      trackEl.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((slide, i) => slide.setAttribute('aria-hidden', i === index ? 'false' : 'true'));
+      thumbs.forEach((thumb, i) => thumb.setAttribute('aria-current', i === index ? 'true' : 'false'));
+      if (counter) counter.textContent = `${index + 1} / ${count}`;
+      if (lightboxCounter) lightboxCounter.textContent = `${index + 1} / ${count}`;
+      if (captionEl) {
+        const caption = slides[index]?.dataset.caption ?? '';
+        captionEl.textContent = caption;
+        captionEl.hidden = !caption;
+      }
+      if (lightboxOpen) updateLightbox();
+    }
+
+    function go(next: number) {
+      index = (next + count) % count;
+      render();
+    }
+
+    root.querySelectorAll<HTMLElement>('[data-prev]').forEach(btn =>
+      btn.addEventListener('click', () => go(index - 1))
+    );
+    root.querySelectorAll<HTMLElement>('[data-next]').forEach(btn =>
+      btn.addEventListener('click', () => go(index + 1))
+    );
+
+    thumbs.forEach(thumb =>
+      thumb.addEventListener('click', () => go(Number(thumb.dataset.index)))
+    );
+
+    root.querySelectorAll<HTMLElement>('[data-open]').forEach(btn =>
+      btn.addEventListener('click', () => openLightbox())
+    );
+
+    function openLightbox() {
+      if (!lightbox) return;
+      lightboxOpen = true;
+      updateLightbox();
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      root.querySelector<HTMLElement>('.lightbox-close')?.focus();
+    }
+
+    function closeLightbox() {
+      if (!lightbox) return;
+      lightboxOpen = false;
+      lightbox.hidden = true;
+      document.body.style.overflow = '';
+      root.querySelector<HTMLElement>('[data-open]')?.focus();
+    }
+
+    lightbox?.querySelectorAll<HTMLElement>('[data-close]').forEach(el =>
+      el.addEventListener('click', closeLightbox)
+    );
+
+    // Swipe / arrastre horizontal en el escenario.
+    let startX: number | null = null;
+    let delta = 0;
+
+    const onStart = (x: number) => {
+      startX = x;
+      delta = 0;
+      trackEl.style.transition = 'none';
+    };
+    const onMove = (x: number) => {
+      if (startX === null) return;
+      delta = x - startX;
+      trackEl.style.transform = `translateX(calc(-${index * 100}% + ${delta}px))`;
+    };
+    const onEnd = () => {
+      if (startX === null) return;
+      trackEl.style.transition = '';
+      if (Math.abs(delta) > 40) go(index + (delta < 0 ? 1 : -1));
+      else render();
+      startX = null;
+      delta = 0;
+    };
+
+    viewport?.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      onStart(e.clientX);
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (startX === null) return;
+      onMove(e.clientX);
+    });
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+
+    // Teclado: se activa cuando el foco está dentro de la galería o el lightbox está abierto.
+    window.addEventListener('keydown', (e) => {
+      const focusedInside = root.contains(document.activeElement);
+      if (!lightboxOpen && !focusedInside) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        go(index - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        go(index + 1);
+      } else if (e.key === 'Escape' && lightboxOpen) {
+        e.preventDefault();
+        closeLightbox();
+      }
+    });
+
+    render();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(initGallery);
+</script>
