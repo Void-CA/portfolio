@@ -179,6 +179,24 @@ pnpm build      # genera dist/
 El sitio publicado es `https://acastillo.net` (configurado como `site` en
 `astro.config.mjs`). `dist/` puede servirse desde cualquier hosting estático.
 
+### Cloudflare Pages
+
+Deploy conectado al repo de GitHub. Configuración del proyecto:
+
+| Ajuste | Valor |
+| --- | --- |
+| Framework preset | Astro |
+| Build command | `pnpm build` |
+| Output directory | `dist` |
+| Node version | 22 (`.nvmrc` / `.node-version` / `engines`) |
+| Package manager | pnpm 10 (`packageManager` en `package.json`) |
+
+Las **preview deployments** (ramas / PRs) sirven para validar sin tocar el
+dominio. El dominio `acastillo.net` se asigna solo en el deploy de producción.
+
+**Analítica:** Cloudflare Web Analytics (gratuito, sin cookies) desde
+*Workers & Pages → proyecto → Metrics*. No requiere código ni dependencias.
+
 El build incluye:
 
 - `sitemap-index.xml` / `sitemap-0.xml`, generados por `@astrojs/sitemap`.
