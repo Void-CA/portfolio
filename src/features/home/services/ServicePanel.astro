@@ -10,7 +10,7 @@ interface Props {
 
 const { service, active = false } = Astro.props;
 
-const panelClass = "mt-6 hidden scroll-mt-24 gap-8 lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-14";
+const panelClass = "mt-6 hidden scroll-mt-24 gap-8 lg:[&.is-active]:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-14";
 const figureClass = "m-0 overflow-hidden rounded-lg border border-border bg-surface shadow-subtle lg:order-2";
 const figureEmptyClass = "flex aspect-[16/10] items-center justify-center rounded-lg border border-border bg-accent-tint text-accent lg:order-2";
 const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
@@ -22,7 +22,7 @@ const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary befo
   aria-labelledby={`svc-tab-${service.id}`}
   tabindex="0"
   data-service-panel
-  class:list={[panelClass, !active && "hidden"]}
+  class:list={[panelClass, active && "is-active"]}
 >
   {service.image ? (
     <figure class={figureClass}>
