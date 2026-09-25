@@ -65,7 +65,6 @@ areas:
   - backend
   - agriculture technology
 
-repo: "#"
 date: 2025-11-01
 ---
 

@@ -43,7 +43,7 @@ export const SERVICES: Service[] = [
       "Convertimos tareas repetitivas en flujos de software que ejecutan, validan y registran cada operación.",
     changes: ["Ejecución automática de tareas", "Validación en cada paso", "Registro de cada operación"],
     flow: ["Tarea manual", "Automatización", "Registro"],
-    image: "automatizacion.png",
+    image: "automatizacion.jpg",
     imageAlt: "Representación de un proceso automatizado: entrada, procesamiento y salida",
   },
   {
@@ -58,7 +58,7 @@ export const SERVICES: Service[] = [
       "Reunimos información y procesos dispersos en una herramienta común, con datos consistentes y trazabilidad de las operaciones.",
     changes: ["Información centralizada", "Datos consistentes entre áreas", "Trazabilidad de las operaciones"],
     flow: ["Planillas", "Sistema", "Información única"],
-    image: "sistemas-internos.png",
+    image: "sistemas-internos.jpg",
     imageAlt: "Vistas de un sistema interno que unifica información antes dispersa",
   },
   {
@@ -73,7 +73,7 @@ export const SERVICES: Service[] = [
       "Estructuramos y procesamos los datos de tu operación para construir consultas, indicadores y reportes que puedas utilizar directamente.",
     changes: ["Datos estructurados y consultables", "Indicadores y reportes a medida", "Consultas directas sobre la operación"],
     flow: ["Datos", "Procesamiento", "Consulta"],
-    image: "analitica.png",
+    image: "analitica.jpg",
     imageAlt: "Tablero analítico con indicadores y visualización de datos",
   },
   {
@@ -88,7 +88,7 @@ export const SERVICES: Service[] = [
       "Diseñamos integraciones para que diferentes aplicaciones intercambien información de forma controlada, sin duplicar trabajo ni centralizarlo todo en una sola aplicación.",
     changes: ["Intercambio entre aplicaciones", "Sin duplicar trabajo", "Cada sistema sigue siendo independiente"],
     flow: ["Facturación", "API", "Viajes"],
-    image: "integracion.png",
+    image: "integracion.jpg",
     imageAlt: "Sistemas distintos conectados entre sí mediante una capa de integración",
   },
   {
@@ -103,7 +103,7 @@ export const SERVICES: Service[] = [
       "Diseñamos y desarrollamos la herramienta específica que necesita tu proceso, en lugar de obligarlo a adaptarse a una solución genérica.",
     changes: ["Se ajusta a tu proceso", "No obliga a cambiar tu forma de trabajar", "Herramientas propias, no genéricas"],
     flow: ["Proceso", "Software propio", "Operación"],
-    image: "a-medida.png",
+    image: "a-medida.jpg",
     imageAlt: "Interfaz de una aplicación de negocio construida a medida",
   },
   {
@@ -118,7 +118,7 @@ export const SERVICES: Service[] = [
       "Conectamos software con dispositivos y señales para observar procesos, procesar su información y ejecutar respuestas definidas por la operación.",
     changes: ["Adquisición de señales de equipos", "Monitoreo y procesamiento de señales", "Respuestas según reglas de la operación"],
     flow: ["Señales", "Software", "Equipos"],
-    image: "industrial.png",
+    image: "industrial.jpg",
     imageAlt: "Equipo físico conectado a un sistema de monitoreo y control",
   },
 ];

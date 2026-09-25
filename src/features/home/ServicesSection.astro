@@ -12,13 +12,13 @@ import type { ImageMetadata } from 'astro';
 // el archivo todavía no existe, el panel muestra un marco neutro para que todos
 // los servicios conserven el mismo peso visual.
 const assets = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/servicios/*.{png,jpg,jpeg,webp,avif}',
+  '/src/assets/servicios/*.{png,jpg,jpeg,webp,avif}',
   { eager: true }
 );
 
 const services: ResolvedService[] = SERVICES.map(service => ({
   ...service,
-  image: assets[`../assets/servicios/${service.image}`]?.default,
+  image: assets[`/src/assets/servicios/${service.image}`]?.default,
 }));
 ---
 

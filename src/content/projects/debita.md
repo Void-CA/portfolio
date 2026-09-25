@@ -114,7 +114,6 @@ images:
       pagos no monetarios— y finalmente por pagos, que pueden ser varios en
       facturas grandes.
 
-repo: "#"
 date: 2025-06-15
 ---
 

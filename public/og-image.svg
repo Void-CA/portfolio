@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#0f766e"/>
+  <circle cx="600" cy="300" r="150" fill="none" stroke="#0f766e" stroke-width="1.5" opacity="0.12"/>
+  <circle cx="600" cy="300" r="108" fill="none" stroke="#0f766e" stroke-width="1" opacity="0.2"/>
+  <text x="600" y="286" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="56" font-weight="700" fill="#10201f">Ari Castillo</text>
+  <text x="600" y="342" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#4b5f5e">Software a medida · Automatización · Datos</text>
+  <rect x="565" y="372" width="70" height="3" rx="1.5" fill="#0f766e"/>
+</svg>

@@ -14,5 +14,5 @@ export const SOCIAL = {
   title: "Ari Castillo — Software a medida, automatización y datos",
   description:
     "Desarrollo software y sistemas personalizados para automatizar procesos, integrar datos y construir herramientas adaptadas a cada operación.",
-  ogImage: "/og-logo.svg",
+  ogImage: "/og-image.png",
 } as const;

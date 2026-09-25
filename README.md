@@ -47,42 +47,47 @@ No hay comando de lint dedicado. La verificación antes de publicar es
 
 ```text
 src/
-├─ pages/
-│  ├─ index.astro            # home: hero + secciones
-│  ├─ sobre-mi.astro         # bio, experiencia, tecnologías, contacto
+├─ pages/                      # solo rutas (orquestadores)
+│  ├─ index.astro             # home
+│  ├─ sobre-mi.astro          # página personal (consume content/about)
+│  ├─ robots.txt.ts           # robots.txt con referencia al sitemap
 │  └─ proyectos/
-│     ├─ index.astro         # listado de proyectos
-│     └─ [slug].astro        # case study individual
+│     ├─ index.astro          # listado de proyectos
+│     └─ [slug].astro         # case study individual
+├─ features/                   # piezas de cada sección
+│  ├─ ContactSection.astro    # contacto reutilizado (home y sobre-mi)
+│  ├─ home/
+│  │  ├─ HeroSection.astro
+│  │  ├─ ServicesSection.astro   # orquesta servicios
+│  │  ├─ ProcessSection.astro
+│  │  ├─ EvidenceSection.astro
+│  │  └─ services/
+│  │     ├─ ServiceNav.astro     # selector por categorías (desktop)
+│  │     ├─ ServicePanel.astro   # panel de un servicio (desktop)
+│  │     └─ ServiceCarousel.astro # carrusel de servicios (móvil)
+│  └─ proyectos/
+│     └─ Gallery.astro           # galería del case study (carrusel + lightbox)
+├─ components/                 # transversal reutilizable
+│  ├─ SiteConfig.ts           # identidad, contacto y social (fuente única)
+│  ├─ layout/                 # Header, Footer
+│  └─ ui/                     # Icon, SectionHeader, HeroDiagram, ProjectCard
 ├─ layouts/
-│  └─ Layout.astro           # <html>, SEO, Open Graph, JSON-LD
-├─ components/
-│  ├─ Layout / navegación    # Header, Footer, SectionHeader
-│  ├─ compartidos            # Icon, Gallery, ProjectCard, HeroDiagram
-│  ├─ SiteConfig.ts          # identidad, contacto y social (fuente única)
-│  └─ home/
-│     ├─ HeroSection.astro
-│     ├─ ServicesSection.astro   # orquesta servicios
-│     ├─ ProcessSection.astro
-│     ├─ EvidenceSection.astro
-│     ├─ AboutTeaser.astro
-│     ├─ ContactSection.astro
-│     └─ services/
-│        ├─ ServiceNav.astro     # selector por categorías (tablist)
-│        └─ ServicePanel.astro   # panel de un servicio
+│  └─ Layout.astro            # <html>, SEO, Open Graph, JSON-LD
 ├─ content/
-│  └─ projects/*.md          # case studies (una entrada por proyecto)
+│  ├─ projects/*.md           # case studies (una entrada por proyecto)
+│  └─ about/sobre-mi.md       # narrativa de la página "Sobre mí"
 ├─ data/
-│  ├─ services.ts            # definición de los servicios
-│  └─ icons.ts               # set de iconos SVG
+│  ├─ services.ts             # definición de los servicios
+│  └─ icons.ts                # set de iconos SVG
 ├─ assets/
-│  ├─ debita/ · pna/         # capturas de proyectos
-│  └─ servicios/             # visual conceptual de cada servicio
+│  ├─ debita/ · pna/          # capturas de proyectos
+│  └─ servicios/              # visual conceptual de cada servicio
 ├─ styles/
-│  ├─ tailwind.css           # @theme: fuente de verdad del sistema visual
-│  ├─ global.css             # reset/base y contenedores
-│  └─ components.css         # primitivas compartidas (.btn, .chip, .flow…)
-├─ content.config.ts         # esquema de la colección `projects`
-└─ astro.config.mjs          # site, shiki, plugin de Tailwind
+│  ├─ tailwind.css            # @theme: fuente de verdad del sistema visual
+│  ├─ global.css              # reset/base y contenedores
+│  └─ components.css          # primitivas compartidas (.btn, .chip, .flow…)
+├─ content.config.ts          # esquemas de las colecciones `projects` y `about`
+└─ astro.config.mjs           # site, sitemap, shiki, plugin de Tailwind
 ```
 
 ---
@@ -120,13 +125,22 @@ Los servicios viven en `src/data/services.ts` como un array tipado. Cada uno dec
 }
 ```
 
-El visual se resuelve con `import.meta.glob` contra `src/assets/servicios/`. Para
+El visual se resuelve con `import.meta.glob` contra `/src/assets/servicios/`. Para
 publicar la imagen de un servicio, basta con dejar el archivo con el nombre exacto
-que declara `image` (p. ej. `automatizacion.png`). Si falta, el panel muestra un
+que declara `image` (p. ej. `automatizacion.jpg`). Si falta, el panel muestra un
 marco neutro, de modo que todos los servicios conservan el mismo peso visual.
 
 Recomendado para los visuales de servicio: **16:10**, conceptuales y concretos
 (representan el trabajo del servicio, no capturas de un proyecto).
+
+### Sobre mí (content collection)
+
+La narrativa de `sobre-mi` vive en `src/content/about/sobre-mi.md`, con frontmatter
+tipado (`title`, `lead`, `location`, `flow`, `areas[]`, `interests[]`, `formation[]`,
+`tools[]`) y el cuerpo en Markdown. Así el texto se edita como contenido y la página
+queda como orquestadora. Los ítems de listas YAML usan `-` (nunca `*`, que YAML
+interpreta como alias) y los períodos van entre comillas (`"2024"`) para que no se
+parseen como número.
 
 ### Iconos
 
@@ -165,6 +179,12 @@ pnpm build      # genera dist/
 El sitio publicado es `https://acastillo.net` (configurado como `site` en
 `astro.config.mjs`). `dist/` puede servirse desde cualquier hosting estático.
 
+El build incluye:
+
+- `sitemap-index.xml` / `sitemap-0.xml`, generados por `@astrojs/sitemap`.
+- `robots.txt`, generado por `src/pages/robots.txt.ts`, que apunta al sitemap.
+- `og-image.png` (1200×630) para previews en redes; `og-image.svg` es la fuente.
+
 ---
 
 ## Convenciones
@@ -174,3 +194,5 @@ El sitio publicado es `https://acastillo.net` (configurado como `site` en
   (evitar hardcodear email o enlaces en los componentes).
 - SEO/OG/JSON-LD centralizados en `src/layouts/Layout.astro`.
 - Interactividad con JS nativo en `<script>` de Astro; sin frameworks de islas.
+- Organización por feature: `pages/` solo orquesta; `features/` contiene las piezas
+  de cada sección; `components/ui` y `components/layout` son transversales.
