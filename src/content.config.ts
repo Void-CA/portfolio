@@ -48,6 +48,25 @@ const projects = defineCollection({
   }),
 });
 
+const about = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/about" }),
+  schema: z.object({
+    title: z.string(),
+    lead: z.string().optional(),            // entrada que acompaña al H1
+    location: z.string().optional(),        // "León, Nicaragua · Trabajo remoto · Español / Inglés"
+    formation: z.array(z.object({
+      title: z.string(),
+      place: z.string(),
+      period: z.string(),
+    })),
+    tools: z.array(z.object({
+      label: z.string(),
+      items: z.array(z.string()),
+    })),
+  }),
+});
+
 export const collections = {
   projects,
+  about,
 };
