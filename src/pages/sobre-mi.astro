@@ -1,8 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
-import Icon from '../components/ui/Icon.astro';
-import { CONTACT } from '../components/SiteConfig';
+import ContactSection from '../features/ContactSection.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
@@ -63,21 +62,9 @@ const techLine = ["Rust", "TypeScript", "PostgreSQL", "Node.js", "Docker", "WebA
     </div>
   </section>
 
-  <section class="pt-20 pb-26">
-    <div class="flex flex-col items-start gap-4 rounded-lg border border-border bg-surface p-7 md:p-12">
-      <h2>Contame qué necesitás</h2>
-      <p class="max-w-[560px] text-base leading-[1.7]">
-        Si tenés un proceso que se puede automatizar, datos dispersos que deberían
-        hablar entre sí o una herramienta que no encaja, escribime.
-      </p>
-      <div class="mt-2 flex flex-col gap-3 md:flex-row">
-        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary w-full justify-center shadow-subtle md:w-auto">
-          <Icon name="mail" class="btn-icon" />{CONTACT.email}
-        </a>
-        <a href={CONTACT.linkedin} class="btn btn-secondary w-full justify-center md:w-auto" target="_blank" rel="noopener">
-          <Icon name="linkedin" class="btn-icon" />LinkedIn
-        </a>
-      </div>
-    </div>
-  </section>
+  <ContactSection
+    id="contacto"
+    heading="Contame qué necesitás"
+    intro="Si tenés un proceso que se puede automatizar, datos dispersos que deberían hablar entre sí o una herramienta que no encaja, escribime."
+  />
 </Layout>
