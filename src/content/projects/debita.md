@@ -61,9 +61,6 @@ improvements:
   - label: "Trazabilidad"
     before: "Reconstruir cada saldo a mano, entre registros"
     after: "Factura → pago → ajuste → impuesto → saldo"
-  - label: "Cobros"
-    before: "Vencimientos y comportamiento de pago, sin consolidar"
-    after: "Facturado vs. cobrado, DSO y aging por tercero"
 
 result: >
   Los estados financieros pasaron de requerir consolidación manual a estar

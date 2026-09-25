@@ -104,24 +104,24 @@ const hasDecisions = decisions.length > 0;
         {data.result && <p class="mt-4 text-lead leading-[1.7] text-primary">{data.result}</p>}
 
         {hasImprovements && (
-          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {improvements.map(item => (
-              <div class="flex flex-col gap-3 rounded-md border border-border bg-surface p-5">
-                <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{item.label}</span>
+              <div class="flex flex-col gap-2 rounded-md border border-border bg-surface p-4">
+                <div class="flex items-baseline justify-between gap-3">
+                  <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{item.label}</span>
+                  {item.value && <strong class="text-title font-bold leading-none text-accent-strong">{item.value}</strong>}
+                </div>
 
                 {item.before && (
-                  <div class="flex flex-col gap-1">
+                  <div class="flex flex-col gap-0.5">
                     <span class="text-micro font-semibold uppercase tracking-[0.08em] text-muted">{item.beforeLabel ?? "Antes"}</span>
-                    <span class="text-ui leading-[1.6] text-secondary">{item.before}</span>
+                    <span class="text-ui leading-[1.5] text-secondary">{item.before}</span>
                   </div>
                 )}
 
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col gap-0.5">
                   <span class="text-micro font-semibold uppercase tracking-[0.08em] text-muted">Ahora</span>
-                  <span class="text-base leading-[1.6] text-primary">
-                    {item.value && <strong class="mr-1 text-title font-bold text-accent-strong">{item.value}</strong>}
-                    {item.after}
-                  </span>
+                  <span class="text-ui leading-[1.5] text-primary">{item.after}</span>
                 </div>
               </div>
             ))}

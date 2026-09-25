@@ -45,10 +45,6 @@ improvements:
     beforeLabel: "Contexto"
     before: "La institución no podía cambiar su forma de registrar"
     after: "Se usa la planilla institucional tal como llega"
-  - label: "Ejecución"
-    beforeLabel: "Contexto"
-    before: "La herramienta debía distribuirse sin infraestructura"
-    after: "Corre en el navegador (Rust → WebAssembly), sin backend"
 
 result: >
   Los docentes pasaron de leer una planilla a trabajar con información
