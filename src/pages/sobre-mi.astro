@@ -9,10 +9,11 @@ if (!entry) throw new Error('Falta el contenido about/sobre-mi.md');
 
 const { data } = entry;
 const { Content } = await render(entry);
+const flow = data.flow ?? [];
 ---
 
-<Layout title="Sobre mí" description="Ari Castillo — construyo software para operaciones, datos y sistemas. Cómo pienso y trabajo.">
-  <article class="mx-auto max-w-[680px] pb-24 pt-16">
+<Layout title="Sobre mí" description="Ari Castillo — desarrollador de software orientado a sistemas. Software aplicado a operaciones, datos y procesos físicos.">
+  <article class="mx-auto max-w-[1200px] pb-24 pt-16">
     <header>
       <p class="font-mono text-meta uppercase tracking-[0.1em] text-accent">Sobre mí</p>
       <h1 class="mt-3">{data.title}</h1>
@@ -22,9 +23,38 @@ const { Content } = await render(entry);
       )}
     </header>
 
-    <div class="prose-body mt-12 max-w-none leading-[1.8] [&>p]:max-w-none [&>p]:leading-[1.8]">
+
+    <div class="prose-body mt-10 [&>p]:max-w-none [&>p]:leading-[1.8] [&>ol]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5">
       <Content />
     </div>
+
+    {data.areas && (
+      <section class="mt-16 border-t border-border pt-10">
+        <h2 class="text-title">Áreas de competencia</h2>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+          {data.areas.map(area => (
+            <div class="flex flex-col gap-2.5">
+              <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{area.label}</span>
+              <ul class="flex list-none flex-col gap-1.5">
+                {area.items.map(item => (
+                  <li class="relative pl-4 text-ui leading-[1.55] text-secondary before:absolute before:left-0 before:text-accent before:content-['—']">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {data.interests && (
+      <section class="mt-16 border-t border-border pt-10">
+        <h2 class="text-title">Intereses técnicos</h2>
+        <p class="mt-3 text-ui text-muted">Hacia dónde apunto, además de lo que ya uso.</p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {data.interests.map(interest => <span class="chip chip--data">{interest}</span>)}
+        </div>
+      </section>
+    )}
 
     <section class="mt-16 border-t border-border pt-10">
       <h2 class="text-title">Formación</h2>
@@ -42,12 +72,12 @@ const { Content } = await render(entry);
     </section>
 
     <section class="mt-16 border-t border-border pt-10">
-      <h2 class="text-title">Herramientas</h2>
-      <p class="mt-3 text-ui text-muted">Las que uso con más frecuencia, no todas las que conozco.</p>
-      <div class="mt-6 flex flex-col gap-5">
+      <h2 class="text-title">Herramientas y tecnologías</h2>
+      <p class="mt-3 text-ui text-muted">Más que una lista de herramientas, los sistemas que permiten construir.</p>
+      <div class="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
         {data.tools.map(group => (
-          <div class="flex flex-col gap-1.5 sm:flex-row sm:gap-6">
-            <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent sm:w-[180px] sm:shrink-0 sm:pt-1.5">{group.label}</span>
+          <div class="flex flex-col gap-1.5">
+            <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{group.label}</span>
             <div class="flex flex-wrap gap-2">
               {group.items.map(item => <span class="chip chip--tech">{item}</span>)}
             </div>

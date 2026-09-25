@@ -1,12 +1,60 @@
 ---
-title: Construyo software para operaciones que necesitan funcionar mejor.
+title: Quién está detrás del software.
 lead: Desarrollo software a medida, automatizaciones e integraciones para convertir procesos manuales, información dispersa y necesidades específicas en software utilizable.
-location: León, Nicaragua · Trabajo remoto · Español / Inglés
+location: Chinandega, Nicaragua · Trabajo remoto · Español / Inglés
+
+flow:
+  - Proceso
+  - Datos
+  - Software
+  - Infraestructura
+  - Resultado
+
+areas:
+  - label: Software
+    items:
+      - Desarrollo backend y aplicaciones web
+      - Sistemas internos y software a medida
+      - APIs e integración entre sistemas
+      - Arquitectura de aplicaciones y servicios
+      - Aplicaciones distribuidas
+      - Automatización de procesos
+  - label: Datos
+    items:
+      - Modelado y almacenamiento de datos
+      - PostgreSQL, SQLite e InfluxDB
+      - Procesamiento y transformación de datos
+      - Analítica aplicada a operaciones
+      - Trazabilidad y observabilidad
+      - Interés creciente en data engineering
+  - label: Sistemas
+    items:
+      - Integración entre aplicaciones y servicios
+      - WebSockets y comunicación en tiempo real
+      - Docker, Linux, Nginx y despliegue
+      - Persistencia, comunicación y tolerancia a fallos
+      - Interés en sistemas distribuidos e infraestructura
+  - label: Automatización e industria
+    items:
+      - Automatización de procesos operativos
+      - Sistemas IIoT
+      - Adquisición y procesamiento de señales
+      - Comunicación entre software y dispositivos
+      - Observabilidad de procesos físicos
+      - Control y sistemas robóticos
+
+interests:
+  - Backend y arquitectura de sistemas
+  - Ingeniería de datos
+  - Analítica y modelado de sistemas
+  - Sistemas de observabilidad
+  - IIoT y automatización
+  - Sistemas embebidos
 
 formation:
   - title: Ingeniería Cibernética Electrónica
     place: Universidad Tecnológica La Salle, León
-    period: 2022–2027
+    period: "2022–2027"
   - title: Data Science Professional Certificate
     place: HarvardX
     period: "2024"
@@ -14,59 +62,62 @@ formation:
 tools:
   - label: Lenguajes
     items: [Rust, TypeScript, Python, SQL]
-  - label: Backend y aplicaciones
+  - label: Backend
     items: [Node.js, Fastify, APIs, WebSockets]
-  - label: Datos
-    items: [PostgreSQL, SQLite, InfluxDB, Procesamiento de datos]
   - label: Frontend
     items: [React, Next.js, Astro]
+  - label: Datos
+    items: [PostgreSQL, SQLite, InfluxDB]
   - label: Infraestructura
     items: [Docker, Linux, Nginx, Cloudflare]
+  - label: Otros
+    items: [Git/GitHub, procesamiento de datos, sistemas embebidos]
 ---
 
-Soy Ari Castillo. Mi trabajo consiste en tomar problemas operativos concretos
-—procesos manuales, información repartida entre herramientas, sistemas que ya
-no se ajustan a cómo trabaja el negocio— y convertirlos en software que se
-pueda usar, entender y mantener.
+Soy Ari Castillo, desarrollador de software orientado a sistemas. Mi formación
+es poco convencional para alguien que trabaja principalmente en software: mi perspectiva no termina
+en la aplicación o la interfaz, sino que también considera los procesos, datos,
+dispositivos y sistemas físicos que existen detrás.
 
-No me interesa el software por sí mismo. Me interesa lo que el software
-permite: que una tarea deje de hacerse a mano, que la información deje de
-estar dispersa, que una decisión pueda tomarse con datos en lugar de con
-suposiciones. Por eso mi formación y mis intereses cruzan varias áreas de la
-ingeniería.
+Mi trabajo se concentra en software aplicado a operaciones organizacionales: sistemas
+internos, automatización de procesos, integraciones, procesamiento de datos y
+soluciones desarrolladas alrededor de necesidades específicas. Me entusiasma tomar un problema que al principio parece disperso y descubrir cómo encajan sus piezas: el proceso, los datos, las reglas y las personas que lo utilizan. Convertir todo eso en un sistema que funcione de verdad es una de las partes que más disfruto del desarrollo de software.
 
-Estudio Ingeniería Cibernética Electrónica, lo que me dio una base en
-electrónica, sistemas de control y procesos físicos que no es habitual en
-desarrollo de software. En paralelo obtuve una certificación en ciencia de
-datos, que me enseñó a tratar la información como parte del sistema y no como
-un reporte que se agrega al final. Esa combinación explica por qué puedo
-trabajar tanto con software empresarial como con sistemas que interactúan con
-dispositivos, señales y equipos.
+Una característica bastante marcada de mi forma de pensar es que me interesa el
+sistema completo:
 
-Hay un hilo que atraviesa todo lo que hago: entender qué ocurre detrás de una
-herramienta. De dónde vienen los datos, cómo circulan, qué representan y qué
-decisiones habilitan. No basta con que una pantalla funcione; importa que el
+**proceso → datos → software → infraestructura → resultado**
+
+Por eso puedo moverme entre un sistema empresarial, una API, una base de datos,
+un pipeline de datos o un sistema que termina interactuando con hardware.
+
+## Una perspectiva interdisciplinaria
+
+Probablemente esta sea la característica que más me diferencia. Mi formación
+combina software, datos, electrónica, control y automatización, lo que hace que
+tenga interés natural por los problemas donde esas áreas se cruzan: entender qué
+ocurre detrás de una herramienta y cómo se relacionan las distintas partes de
+un sistema.
+
+Algo que atraviesa todo lo que hago es el interés por entender qué ocurre debajo
+de una herramienta. De dónde vienen los datos, cómo circulan, qué representan y
+qué decisiones habilitan. No basta con que una pantalla funcione; importa que el
 sistema represente bien la realidad que administra.
 
-## Cómo pienso el trabajo
+## Cómo trabajo
 
-Antes de escribir código intento entender el proceso tal como funciona hoy,
-con sus excepciones y restricciones. La solución viene después, y procuro
-que sea proporcional al problema: agrego complejidad solo cuando resuelve
-algo real.
+Mi aproximación es pragmática y sigue un orden bastante claro:
 
-Trabajo a partir de objetivos y requerimientos definidos. Cuando el alcance
-necesita cambiar durante la implementación, los ajustes se conversan y se
-incorporan de forma explícita, no como un supuesto silencioso.
+1. Entender qué problema existe realmente.
+2. Observar cómo funciona actualmente el proceso.
+3. Identificar restricciones, excepciones y datos involucrados.
+4. Definir qué necesita realmente la solución.
+5. Diseñar una arquitectura proporcional al problema.
+6. Implementar.
+7. Validar contra el flujo y las condiciones reales.
+8. Dejar un sistema que pueda mantenerse y evolucionar.
 
-Cuando es posible, valido con el flujo, la información y las restricciones
-reales de la operación. Y no considero terminado un sistema hasta que puede
-entenderse y evolucionar sin depender de mí.
-
-## Fuera del software
-
-Me muevo cómodo entre disciplinas. Además del desarrollo, me interesa el
-procesamiento de datos, los sistemas distribuidos, la automatización y todo
-lo que ocurre en la frontera entre el software y el mundo físico. Esa
-curiosidad es la que hace que un mismo proyecto pueda ser, a la vez, una
-aplicación de negocio, una fuente de datos y un punto de control.
+Trabajo a partir de objetivos y requerimientos definidos, normalmente con
+documentación o términos de referencia como punto de partida. Cuando el alcance
+necesita cambiar durante la implementación, los ajustes se conversan, se acuerdan
+y se incorporan de forma explícita.

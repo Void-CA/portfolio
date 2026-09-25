@@ -53,7 +53,13 @@ const about = defineCollection({
   schema: z.object({
     title: z.string(),
     lead: z.string().optional(),            // entrada que acompaña al H1
-    location: z.string().optional(),        // "León, Nicaragua · Trabajo remoto · Español / Inglés"
+    location: z.string().optional(),        // "Chinandega, Nicaragua · Trabajo remoto · Español / Inglés"
+    flow: z.array(z.string()).optional(),   // proceso → datos → software → infraestructura → resultado
+    areas: z.array(z.object({
+      label: z.string(),
+      items: z.array(z.string()),
+    })).optional(),
+    interests: z.array(z.string()).optional(),
     formation: z.array(z.object({
       title: z.string(),
       place: z.string(),
