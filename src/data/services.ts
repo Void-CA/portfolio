@@ -10,7 +10,7 @@ export interface Service {
   title: string;        // la solución
   description: string;
   changes: string[];    // "qué cambia"
-  flow: string[];       // secuencia problema → solución → resultado
+  examples: string[];   // qué se puede pedir en concreto, sin jerga
   image: string;        // archivo dentro de src/assets/servicios/
   imageAlt: string;     // descripción del visual conceptual del servicio
 }
@@ -42,7 +42,7 @@ export const SERVICES: Service[] = [
     description:
       "Convertimos tareas repetitivas en flujos de software que ejecutan, validan y registran cada operación.",
     changes: ["Ejecución automática de tareas", "Validación en cada paso", "Registro de cada operación"],
-    flow: ["Tarea manual", "Automatización", "Registro"],
+    examples: ["Procesos repetitivos", "Generación de documentos", "Avisos y notificaciones"],
     image: "automatizacion.jpg",
     imageAlt: "Representación de un proceso automatizado: entrada, procesamiento y salida",
   },
@@ -57,7 +57,7 @@ export const SERVICES: Service[] = [
     description:
       "Reunimos información y procesos dispersos en una herramienta común, con datos consistentes y trazabilidad de las operaciones.",
     changes: ["Información centralizada", "Datos consistentes entre áreas", "Trazabilidad de las operaciones"],
-    flow: ["Planillas", "Sistema", "Información única"],
+    examples: ["Inventario", "Facturación", "Control de ventas", "Gestión de clientes"],
     image: "sistemas-internos.jpg",
     imageAlt: "Vistas de un sistema interno que unifica información antes dispersa",
   },
@@ -72,7 +72,7 @@ export const SERVICES: Service[] = [
     description:
       "Estructuramos y procesamos los datos de tu operación para construir consultas, indicadores y reportes que puedas utilizar directamente.",
     changes: ["Datos estructurados y consultables", "Indicadores y reportes a medida", "Consultas directas sobre la operación"],
-    flow: ["Datos", "Procesamiento", "Consulta"],
+    examples: ["Reportes de ventas", "Control de gastos", "Indicadores del negocio", "Seguimiento de resultados"],
     image: "analitica.jpg",
     imageAlt: "Tablero analítico con indicadores y visualización de datos",
   },
@@ -87,7 +87,7 @@ export const SERVICES: Service[] = [
     description:
       "Diseñamos integraciones para que diferentes aplicaciones intercambien información de forma controlada, sin duplicar trabajo ni centralizarlo todo en una sola aplicación.",
     changes: ["Intercambio entre aplicaciones", "Sin duplicar trabajo", "Cada sistema sigue siendo independiente"],
-    flow: ["Facturación", "API", "Viajes"],
+    examples: ["Facturación ↔ contabilidad", "Tienda ↔ inventario", "Formularios ↔ base de datos", "Información entre sucursales"],
     image: "integracion.jpg",
     imageAlt: "Sistemas distintos conectados entre sí mediante una capa de integración",
   },
@@ -102,7 +102,7 @@ export const SERVICES: Service[] = [
     description:
       "Diseñamos y desarrollamos la herramienta específica que necesita tu proceso, en lugar de obligarlo a adaptarse a una solución genérica.",
     changes: ["Se ajusta a tu proceso", "No obliga a cambiar tu forma de trabajar", "Herramientas propias, no genéricas"],
-    flow: ["Proceso", "Software propio", "Operación"],
+    examples: ["Herramientas internas", "Portales para clientes", "Apps para equipos en campo", "Procesos particulares"],
     image: "a-medida.jpg",
     imageAlt: "Interfaz de una aplicación de negocio construida a medida",
   },
@@ -117,7 +117,7 @@ export const SERVICES: Service[] = [
     description:
       "Conectamos software con dispositivos y señales para observar procesos, procesar su información y ejecutar respuestas definidas por la operación.",
     changes: ["Adquisición de señales de equipos", "Monitoreo y procesamiento de señales", "Respuestas según reglas de la operación"],
-    flow: ["Señales", "Software", "Equipos"],
+    examples: ["Monitoreo de sensores", "Lectura de medidores", "Control de equipos", "Alertas ante desvíos"],
     image: "industrial.jpg",
     imageAlt: "Equipo físico conectado a un sistema de monitoreo y control",
   },

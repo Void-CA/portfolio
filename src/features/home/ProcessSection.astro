@@ -41,13 +41,13 @@ const dotClass = "absolute left-0 top-0 h-3 w-3 rounded-full border-2 border-[rg
     </div>
     <ol class="grid list-none grid-cols-4 gap-x-6 max-md:grid-cols-1 max-md:gap-0">
       {steps.map((step, i) => (
-        <li class="milestone relative pt-11 max-md:pb-8 max-md:pl-9 max-md:pr-0 max-md:pt-0 max-md:last:pb-0">
+        <li class="milestone relative pt-11 max-md:pb-6 max-md:pl-8 max-md:pr-0 max-md:pt-0 max-md:last:pb-0">
           <span class={dotClass} aria-hidden="true"></span>
-          <span class="mb-2 block font-mono text-ui font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
-          <h3 class="mb-2 flex items-center gap-2 text-base uppercase tracking-[0.06em] text-primary">
+          <span class="mb-2 block font-mono text-ui font-semibold text-accent max-md:mb-1 max-md:inline max-md:pr-2">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="mb-2 flex items-center gap-2 text-base uppercase tracking-[0.06em] text-primary max-md:mb-1 max-md:inline-flex">
             <Icon name={step.icon} class="text-[1.2rem] text-accent" />{step.title}
           </h3>
-          <p class="text-base leading-[1.65]">{step.text}</p>
+          <p class="text-base leading-[1.65] max-md:text-ui">{step.text}</p>
         </li>
       ))}
     </ol>
