@@ -3,154 +3,221 @@ import SectionHeader from '../SectionHeader.astro';
 import Icon from '../Icon.astro';
 import { SERVICES } from '../../data/services';
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 
-const projects = await getCollection('projects');
-const projectsById = new Map(projects.map(p => [p.id, p]));
+const assets = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/servicios/*.{png,jpg,jpeg,webp,avif}',
+  { eager: true }
+);
 
-// El servicio declara qué evidencia lo respalda; el proyecto es dueño de sus assets.
-// `evidence.image` es una clave semántica de la galería del proyecto; si falta,
-// se usa la portada. Un proyecto sin imagen no recibe placeholder.
-const resolvedServices = SERVICES.map(service => {
-  const project = projectsById.get(service.evidence.project);
-  if (!project) return { service, evidence: null };
+const services = SERVICES.map(service => ({
+  ...service,
+  image: assets[`../assets/servicios/${service.image}`]?.default,
+}));
 
-  const { data } = project;
-  let image = data.image;
-  let imageAlt = data.imageAlt ?? `Captura de ${data.title}`;
+const groups = services.reduce<{ label: string; services: typeof services }[]>((acc, service) => {
+  const last = acc[acc.length - 1];
+  if (last && last.label === service.category) last.services.push(service);
+  else acc.push({ label: service.category, services: [service] });
+  return acc;
+}, []);
 
-  if (service.evidence.image && data.images) {
-    const match = data.images.find(img => img.key === service.evidence.image);
-    if (match) {
-      image = match.src;
-      imageAlt = match.alt;
-    }
-  }
+// Clases visuales refinadas con estados interactivos pulidos
+const tabClass = 
+  "group relative flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-left text-ui text-secondary transition-all duration-200 " +
+  "hover:bg-surface/70 hover:text-primary " +
+  "aria-selected:bg-surface aria-selected:text-primary aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-border/80";
 
-  return {
-    service,
-    evidence: {
-      href: `/proyectos/${project.id}`,
-      label: data.brand ?? data.title,
-      image,
-      imageAlt,
-    },
-  };
-});
+const panelClass = 
+  "mt-8 grid scroll-mt-24 gap-8 rounded-2xl border border-border/80 bg-surface/40 p-6 backdrop-blur-sm lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12 lg:p-10 transition-opacity duration-300";
 
-const widgetClass = "mt-8 rounded-lg bg-accent-tint lg:grid lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.75fr)] lg:items-start lg:gap-x-9 lg:p-10 max-lg:block max-lg:px-5 max-lg:py-2";
-const serviceClass = "block border-t border-[rgba(15,118,110,0.15)] first:border-t-0 lg:contents";
-const headClass = "relative flex w-full items-center gap-3.5 bg-transparent py-[18px] text-left text-secondary transition-colors before:absolute before:-left-3.5 before:top-3 before:bottom-3 before:w-[3px] before:rounded-sm before:bg-transparent before:content-[''] hover:[&_.service-problem]:text-primary [&.is-active]:before:bg-accent [&.is-active_.service-icon]:text-accent [&.is-active_.service-problem]:font-semibold [&.is-active_.service-problem]:text-accent lg:col-start-1 lg:border-t lg:border-[rgba(15,118,110,0.15)] lg:first:border-t-0 lg:first:pt-0";
-const panelClass = "relative hidden rounded-xl border border-border bg-background p-9 pb-8 pt-8 lg:col-start-2 lg:row-span-5 lg:row-start-1 lg:[&.is-active]:block max-lg:mb-5 max-lg:px-5 max-lg:py-5 max-lg:[&.is-open]:block";
-const panelBodyClass = "relative min-w-0 lg:[&.has-media]:grid lg:[&.has-media]:grid-cols-2 lg:[&.has-media]:items-start lg:[&.has-media]:gap-x-9 lg:[&.has-media>*:not(.panel-media)]:col-start-1 lg:[&.has-media>.panel-media]:col-start-2 lg:[&.has-media>.panel-media]:row-span-6 lg:[&.has-media>.panel-media]:m-0";
-const numClass = "flex-shrink-0 font-mono text-ui font-semibold text-accent";
-const mediaClass = "relative my-6 w-full overflow-hidden rounded-[10px] border border-border bg-surface shadow-subtle [&_img]:block [&_img]:h-auto [&_img]:w-full";
-const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
-const evidenceClass = "relative mt-6 inline-flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-[9px] text-ui font-semibold transition-colors hover:border-accent hover:bg-accent-tint";
+const figureClass = 
+  "group relative m-0 overflow-hidden rounded-xl border border-border/80 bg-surface shadow-md lg:order-2";
+
+const figureEmptyClass = 
+  "flex aspect-[16/10] items-center justify-center rounded-xl border border-dashed border-border bg-accent-tint/30 text-accent lg:order-2";
 ---
 
 <section id="servicios" class="py-section">
-  <SectionHeader title="¿Qué necesitás resolver?" />
-  <p class="section-intro">
-    No necesitás llegar con una solución definida. Podemos empezar por el problema.
-  </p>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <SectionHeader title="¿Qué necesitás resolver?" link={{ href: "#como-trabajo", label: "Ver cómo trabajo →" }} />
+    <p class="section-intro mt-3 max-w-2xl text-secondary leading-relaxed">
+      Desarrollo software alrededor de tu operación. No necesitás llegar con una
+      solución definida: podemos empezar por el problema.
+    </p>
 
-  <div class={widgetClass} data-services>
-    {resolvedServices.map(({ service, evidence }, i) => (
-      <div class={serviceClass}>
-        <button
-          type="button"
-          class={headClass}
-          data-index={i}
-          aria-expanded={i === 0 ? "true" : "false"}
-          aria-controls={`svc-${service.id}`}
-        >
-          <span class={numClass}>{service.num}</span>
-          <Icon name={service.icon} class="text-[1.2rem] text-muted transition-colors" />
-          <span class="service-problem text-base leading-[1.4] transition-colors">{service.problem}</span>
-        </button>
+    <div data-services class="mt-10">
+      <!-- Selector de pestañas estructurado como consola/nav -->
+      <div 
+        class="grid gap-6 rounded-2xl border border-border/70 bg-surface/20 p-3 sm:grid-cols-3 sm:gap-4 sm:p-2" 
+        role="tablist" 
+        aria-label="Servicios"
+      >
+        {groups.map((group, gi) => (
+          <div class:list={["flex flex-col gap-1.5", gi > 0 && "sm:border-l sm:border-border/60 sm:pl-4"]} role="presentation">
+            <span class="px-2 pt-1 text-micro font-semibold uppercase tracking-[0.1em] text-muted/80" aria-hidden="true">
+              {group.label}
+            </span>
+            <div class="flex flex-col gap-1" role="presentation">
+              {group.services.map(service => {
+                const i = services.indexOf(service);
+                return (
+                  <button
+                    type="button"
+                    role="tab"
+                    id={`svc-tab-${service.id}`}
+                    aria-selected={i === 0 ? "true" : "false"}
+                    aria-controls={`svc-panel-${service.id}`}
+                    tabindex={i === 0 ? 0 : -1}
+                    data-service-tab
+                    class={tabClass}
+                  >
+                    <span class="font-mono text-meta font-medium text-accent/80 transition-colors group-hover:text-accent">
+                      {service.num}
+                    </span>
+                    <span class="min-w-0 flex-1 truncate font-medium">{service.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
 
+      <!-- Paneles de contenido -->
+      {services.map((service, i) => (
         <article
-          id={`svc-${service.id}`}
-          class:list={[panelClass, { "is-active": i === 0, "is-open": i === 0 }]}
-          data-index={i}
-          role="region"
-          aria-labelledby={`svc-${service.id}-title`}
+          id={`svc-panel-${service.id}`}
+          role="tabpanel"
+          aria-labelledby={`svc-tab-${service.id}`}
+          tabindex="0"
+          data-service-panel
+          class:list={[panelClass, i !== 0 && "hidden opacity-0"]}
         >
-          <div class:list={[panelBodyClass, { "has-media": Boolean(evidence?.image) }]}>
-            <span class="pointer-events-none absolute -top-[18px] right-1 select-none text-[clamp(80px,10vw,128px)] font-bold leading-none text-[rgba(15,118,110,0.08)] max-lg:-top-3 max-lg:left-auto max-lg:right-0 max-lg:text-[72px]" aria-hidden="true">{service.num}</span>
-            <Icon name={service.icon} class="relative mb-3.5 block text-[1.6rem] text-accent" />
-            <h3 class="relative mb-3 text-title tracking-[-0.01em] text-primary" id={`svc-${service.id}-title`}>{service.title}</h3>
-            <p class="relative text-base leading-[1.7] text-secondary">{service.description}</p>
+          <!-- Contenedor Visual / Imagen -->
+          {service.image ? (
+            <figure class={figureClass}>
+              <Image
+                src={service.image}
+                alt={service.imageAlt}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                loading="lazy"
+                class="block aspect-[16/10] h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+              />
+              <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/10 rounded-xl" />
+            </figure>
+          ) : (
+            <div class={figureEmptyClass} aria-hidden="true">
+              <Icon name={service.icon} class="text-[2.5rem] opacity-75" />
+            </div>
+          )}
 
-            {evidence?.image && (
-              <figure class={mediaClass}>
-                <Image src={evidence.image} alt={evidence.imageAlt} loading="lazy" />
-              </figure>
-            )}
+          <!-- Contenido textual -->
+          <div class="flex flex-col">
+            <h3 class="text-2xl font-bold tracking-tight text-primary sm:text-3xl">
+              {service.title}
+            </h3>
+            
+            <p class="mt-3 text-base leading-relaxed text-secondary">
+              {service.description}
+            </p>
 
-            <div class="relative mt-6 border-t border-border pt-5">
-              <span class="mb-3 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
-              <ul class="flex list-none flex-col gap-2">
-                {service.changes.map(change => <li class={changeItemClass}>{change}</li>)}
+            <!-- Callout del problema -->
+            <div class="mt-5 rounded-r-lg border-l-2 border-accent bg-accent-tint/30 px-3.5 py-2.5 text-sm leading-relaxed text-secondary/90">
+              <strong class="font-medium text-primary">El reto habitual:</strong> {service.problem}
+            </div>
+
+            <!-- Lista de Cambios -->
+            <div class="mt-6 border-t border-border/70 pt-5">
+              <span class="mb-3 block text-micro font-bold uppercase tracking-[0.08em] text-accent">
+                Qué cambia
+              </span>
+              <ul class="flex list-none flex-col gap-2.5 p-0">
+                {service.changes.map(change => (
+                  <li class="relative flex items-start gap-2 text-sm leading-relaxed text-primary">
+                    <span class="text-accent select-none font-bold">✓</span>
+                    <span>{change}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            <div class="flow relative mt-6" aria-hidden="true">
-              {service.flow.map((step, idx) => (
-                <>
-                  <span class="flow-step">{step}</span>
-                  {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
-                </>
-              ))}
-            </div>
-
-            {evidence && (
-              <a class={evidenceClass} href={evidence.href}>
-                Ejemplo: {evidence.label} →
-              </a>
+            <!-- Flujo de trabajo en badges interactivos -->
+            {service.flow && service.flow.length > 0 && (
+              <div class="mt-7 flex flex-wrap items-center gap-1.5 pt-2" aria-hidden="true">
+                {service.flow.map((step, idx) => (
+                  <>
+                    <span class="inline-flex items-center rounded-md border border-border/80 bg-surface/80 px-2.5 py-1 text-meta font-medium text-secondary">
+                      {step}
+                    </span>
+                    {idx < service.flow.length - 1 && (
+                      <span class="text-meta text-muted/60 select-none">→</span>
+                    )}
+                  </>
+                ))}
+              </div>
             )}
           </div>
         </article>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </section>
 
 <script>
-  const widget = document.querySelector('[data-services]');
-  if (widget) {
-    const headEls = Array.from(widget.querySelectorAll<HTMLButtonElement>('button[aria-controls]'));
-    const panels = Array.from(widget.querySelectorAll<HTMLElement>('[data-index][role="region"]'));
-    const mq = window.matchMedia('(min-width: 1024px)');
+  const root = document.querySelector<HTMLElement>('[data-services]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-service-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-service-panel]'));
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const setActive = (index: number) => {
-      headEls.forEach((head, i) => {
+    const select = (index: number, options: { focus?: boolean; reveal?: boolean } = {}) => {
+      tabs.forEach((tab, i) => {
         const active = i === index;
-        head.classList.toggle('is-active', active);
-        head.setAttribute('aria-expanded', active ? 'true' : 'false');
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        tab.tabIndex = active ? 0 : -1;
       });
-      panels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
+
+      panels.forEach((panel, i) => {
+        const active = i === index;
+        if (active) {
+          panel.classList.remove('hidden');
+          // Pequeño retardo para activar la animación de opacidad
+          requestAnimationFrame(() => {
+            panel.classList.remove('opacity-0');
+          });
+        } else {
+          panel.classList.add('opacity-0');
+          panel.classList.add('hidden');
+        }
+      });
+
+      if (options.focus) tabs[index].focus();
+      if (options.reveal && !desktop.matches) {
+        panels[index].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
     };
 
-    const toggleOpen = (index: number) => {
-      const panel = panels[index];
-      const wasOpen = panel.classList.contains('is-open');
-      panels.forEach(p => p.classList.remove('is-open'));
-      if (!wasOpen) panel.classList.add('is-open');
-      headEls.forEach((head, i) => {
-        head.setAttribute('aria-expanded', !wasOpen && i === index ? 'true' : 'false');
-      });
-    };
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => select(i, { reveal: true })));
 
-    headEls.forEach((head, i) => {
-      head.addEventListener('click', () => {
-        if (mq.matches) setActive(i);
-        else toggleOpen(i);
-      });
+    root.addEventListener('keydown', (event: KeyboardEvent) => {
+      const current = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+      let next = current;
+
+      switch (event.key) {
+        case 'ArrowRight':
+        case 'ArrowDown': next = (current + 1) % tabs.length; break;
+        case 'ArrowLeft':
+        case 'ArrowUp': next = (current - 1 + tabs.length) % tabs.length; break;
+        case 'Home': next = 0; break;
+        case 'End': next = tabs.length - 1; break;
+        default: return;
+      }
+
+      event.preventDefault();
+      select(next, { focus: true });
     });
-
-    setActive(0);
-    mq.addEventListener('change', () => setActive(0));
   }
 </script>
