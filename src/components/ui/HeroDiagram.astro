@@ -1,19 +1,22 @@
 ---
-// Motivo de sistema: problema → sistema → resultado.
+// Motivo de sistema: problema → sistema → resultado (Horizontal).
 // Abstracto y decorativo (aria-hidden): no aporta información única.
-const labelClass = "fill-muted font-mono text-[11px] uppercase tracking-[0.12em]";
+const labelClass = "fill-muted font-mono text-[11px] uppercase tracking-[0.12em] text-anchor-middle";
 ---
 
-<div class="w-full max-w-[260px]" aria-hidden="true">
-  <svg viewBox="0 0 240 268" role="presentation" class="block h-auto w-full">
-    <line class="stroke-border" x1="24" y1="30" x2="24" y2="238" stroke-width="2" />
+<div class="w-full" aria-hidden="true">
+  <svg viewBox="0 0 340 76" role="presentation" class="block h-auto w-full">
+    <!-- Línea conectora horizontal -->
+    <line class="stroke-border" x1="40" y1="24" x2="300" y2="24" stroke-width="2" />
 
-    <circle class="fill-background stroke-border" cx="24" cy="30" r="6" stroke-width="2" />
-    <circle class="fill-accent stroke-accent" cx="24" cy="134" r="7" stroke-width="2" />
-    <circle class="fill-background stroke-border" cx="24" cy="238" r="6" stroke-width="2" />
+    <!-- Nodos del flujo -->
+    <circle class="fill-background stroke-border" cx="40" cy="24" r="6" stroke-width="2" />
+    <circle class="fill-accent stroke-accent" cx="170" cy="24" r="7" stroke-width="2" />
+    <circle class="fill-background stroke-border" cx="300" cy="24" r="6" stroke-width="2" />
 
-    <text class={labelClass} x="48" y="35">Problema</text>
-    <text class={`fill-accent font-mono text-[11px] font-semibold uppercase tracking-[0.12em]`} x="48" y="139">Sistema</text>
-    <text class={labelClass} x="48" y="243">Resultado</text>
+    <!-- Etiquetas alineadas al centro de cada nodo -->
+    <text class={labelClass} text-anchor="middle" x="40" y="58">Problema</text>
+    <text class="fill-accent font-mono text-[11px] font-semibold uppercase tracking-[0.12em]" text-anchor="middle" x="170" y="58">Sistema</text>
+    <text class={labelClass} text-anchor="middle" x="300" y="58">Resultado</text>
   </svg>
 </div>
