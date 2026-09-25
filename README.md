@@ -1,137 +1,176 @@
-# Portafolio Técnico
+# acastillo.net — Portafolio técnico
 
-Colección de proyectos y habilidades técnicas que demuestran experiencia en desarrollo de software, con énfasis en arquitectura de sistemas, diseño de dominio y construcción de soluciones escalables.
+Sitio personal y de servicios de **Ari Castillo**, desarrollador de software independiente.
+Comunica una propuesta clara: **software a medida, automatización y datos** para
+organizaciones cuyos procesos no encajan bien en herramientas genéricas.
 
----
+El sitio es estático (Astro genera HTML en `dist/`) y tiene dos bloques de contenido:
 
-## Proyectos
+- **Servicios** — qué tipo de problema se resuelve y cómo se trabaja.
+- **Proyectos** — evidencia real de que eso se hizo: problem, solución, resultado y detalle técnico.
 
-### Destacados
-
-#### [IoT Data Platform](/projects/web/portfolio/src/content/projects/iot-platform.md) — *En desarrollo*
-Plataforma de ingestión y monitoreo de sensores en tiempo real. Arquitectura desacoplada usando MQTT como backbone de mensajería, InfluxDB para series temporales y PostgreSQL para metadata.
-
-**-stack**: MQTT, Node.js, React, InfluxDB, PostgreSQL, Docker
-
-**estado actual**: Arquitectura implementada, pipeline operativo
+> La sección de servicios no referencia proyectos. La relación entre "qué hago" y
+> "qué hice" se construye en la cabeza de quien lee, no con enlaces cruzados.
 
 ---
 
-#### [Argos](/projects/web/portfolio/src/content/projects/argos.md) — *En desarrollo*
-CLI en Rust para monitoreo de procesos del sistema. Consumo mínimo de recursos (<2MB RAM), muestreo configurable y exportación a JSON/CSV.
+## Stack
 
-**-stack**: Rust, sysinfo, serde
+| Pieza | Uso |
+| --- | --- |
+| [Astro 6](https://astro.build) | Generación estática, islas de JS mínimas, `astro:assets` |
+| [Tailwind CSS 4](https://tailwindcss.com) | Vía plugin de Vite; tokens en `@theme` |
+| TypeScript | Modo `strict` (`astro/tsconfigs/strict`) |
+| `sharp` | Optimización de imágenes en build |
+| `@astrojs/check` | Chequeo de tipos de las plantillas |
 
-**estado actual**: Herramienta funcional en uso
-
----
-
-#### [Debita](/projects/web/portfolio/src/content/projects/debita.md) — *Completado*
-Sistema de gestión de deuda y cobros automatizados. 90% de reducción en errores de cálculo manual, 70% de cobros automatizados.
-
-**-stack**: Django, PostgreSQL, Redis, React, Celery, Docker
-
-**estado actual**: En producción
+**Requisitos:** Node `>=22.12.0` y [pnpm](https://pnpm.io).
 
 ---
 
-### Otros Proyectos
-
-#### [PNA](/projects/web/portfolio/src/content/projects/pna.md) — *Completado*
-Procesamiento académico offline con WebAssembly. Parser compilado desde Rust que funciona 100% offline en el navegador.
-
-**-stack**: WebAssembly, Rust
-
----
-
-#### [MagicORM](/projects/web/portfolio/src/content/projects/magic-orm.md) — *En desarrollo*
-Exploración de diseño de una capa de acceso a datos. Queries composicionales con escape a SQL crudo, transparencia sobre magia.
-
-**-stack**: TypeScript, PostgreSQL
-
----
-
-#### [Kora](/projects/web/portfolio/src/content/projects/kora.md) — *En desarrollo*
-Sistema de gestión agrícola basado en Domain-Driven Design. Modelo de dominio con comportamiento, separación intención/ejecución.
-
-**-stack**: TypeScript, DDD
-
----
-
-## Habilidades
-
-### Tecnologías Principales
-
-| Habilidad | Nivel | Proyectos |
-|-----------|-------|-----------|
-| Rust | Advanced | argos, pna |
-| System Design | Advanced | iot-platform, debita, argos, magic-orm |
-| DDD | Advanced | kora, debita |
-| PostgreSQL | Advanced | debita, iot-platform, magic-orm |
-| Django | Advanced | debita |
-| WebAssembly | Intermediate | pna |
-| Docker | Intermediate | iot-platform, debita |
-| MQTT | Intermediate | iot-platform |
-| Node.js | Intermediate | iot-platform |
-| React | Intermediate | iot-platform |
-
-### Áreas de Especialización
-
-- **Arquitectura de sistemas distribuidos**: Pipelines desacoplados con tolerancia a fallos parciales
-- **Diseño de dominio**: Modelado que reflejar realidad de negocio, separación intención/ejecución
-- **Sistemas embedded y CLI**: Herramientas de bajo consumo, procesamiento nativo
-- **Data engineering**: Time-series, procesamiento en tiempo real, batch offline
-
----
-
-## Puntos de Mejora e Incompletitud
-
-### Proyectos Sin Terminar
-
-- **IoT Data Platform**: La capa de visualización (React) no está documentada ni integrada completamente. Falta dashboard de alertas en tiempo real.
-- **Argos**: CLI funcional pero sin tests de integración, sin releasebinarios para distribución.
-- **Kora**: Modelo de dominio implementado, pero sin API ni interfaz. Solo-modelo.
-
-### Proyectos Sin Documentación Técnica
-
-- **Debita**: Aunque está en producción, no existe documento de arquitectura detallado. Las decisiones técnicas están en el markdown del proyecto pero no hay ADR ni specs formales.
-
-### Proyectos Abandonados o Pendientes
-
-- **MagicORM**: Quedó como exploración técnica. No hay casos de uso reales que lo justifiquen más allá del ejercicio de diseño.
-
-### Gaps en Portafolio
-
-1. **Falta проектов con Cloud**: Ningún proyecto usa AWS/GCP/Azure. Solo Docker local.
-2. **Falta проектов con Testing**: Solo mentiona "pruebas exhaustivas" en Debita, pero no se muestra coverage ni estratégia.
-3. **Falta проектов de CI/CD**: Pipelines de despliegue no documentados.
-4. **Falta проектов con Grafana/Prometheus**: Menciona dashboards pero no hay integración con tooling de observabilidad.
-5. **Falta проектов Frontend Real**: El único proyecto frontend es React para dashboards IoT, pero no es una app interactiva completa.
-6. **Falta proyectos Mobile**: Nada de React Native, Flutter, o nativo.
-7. **Falta proyectos de AI/ML**: No hay nada de machine learning ni data science.
-
-### Documentación Pendiente
-
-- No hay screenshotso demos visuales de las interfaces.
-- No hay links a repositorios públicos (todos tienen `repo: "#"`).
-- No hay datos de contacto o CV.
-
-### Áreas de Conocimiento Sin Cobertura
-
-- Seguridad: No hay mention de auth, JWT, OAuth, encryption.
-- Cache: No hay mention de Redis más allá de Cola para Celery.
-- API Design: Solo REST mentionné, no GraphQL ni gRPC.
-- Database Advanced: No hay migrations complejas, partitioning, o replication configs.
-
----
-
-## Cómo Usar Este Portafolio
-
-Para ver los proyectos en detalle:
+## Empezar
 
 ```bash
-cd projects/web/portfolio
-npm run dev
+pnpm install
+pnpm dev        # servidor de desarrollo
+pnpm build      # build estático a dist/
+pnpm preview    # previsualizar el build
+pnpm astro check # typecheck de .astro y TS
 ```
 
-Para agregar un nuevo proyecto, crear un archivo en `src/content/projects/` con el formato del frontmatter.
+No hay comando de lint dedicado. La verificación antes de publicar es
+`pnpm astro check` y `pnpm build`.
+
+---
+
+## Estructura
+
+```text
+src/
+├─ pages/
+│  ├─ index.astro            # home: hero + secciones
+│  ├─ sobre-mi.astro         # bio, experiencia, tecnologías, contacto
+│  └─ proyectos/
+│     ├─ index.astro         # listado de proyectos
+│     └─ [slug].astro        # case study individual
+├─ layouts/
+│  └─ Layout.astro           # <html>, SEO, Open Graph, JSON-LD
+├─ components/
+│  ├─ Layout / navegación    # Header, Footer, SectionHeader
+│  ├─ compartidos            # Icon, Gallery, ProjectCard, HeroDiagram
+│  ├─ SiteConfig.ts          # identidad, contacto y social (fuente única)
+│  └─ home/
+│     ├─ HeroSection.astro
+│     ├─ ServicesSection.astro   # orquesta servicios
+│     ├─ ProcessSection.astro
+│     ├─ EvidenceSection.astro
+│     ├─ AboutTeaser.astro
+│     ├─ ContactSection.astro
+│     └─ services/
+│        ├─ ServiceNav.astro     # selector por categorías (tablist)
+│        └─ ServicePanel.astro   # panel de un servicio
+├─ content/
+│  └─ projects/*.md          # case studies (una entrada por proyecto)
+├─ data/
+│  ├─ services.ts            # definición de los servicios
+│  └─ icons.ts               # set de iconos SVG
+├─ assets/
+│  ├─ debita/ · pna/         # capturas de proyectos
+│  └─ servicios/             # visual conceptual de cada servicio
+├─ styles/
+│  ├─ tailwind.css           # @theme: fuente de verdad del sistema visual
+│  ├─ global.css             # reset/base y contenedores
+│  └─ components.css         # primitivas compartidas (.btn, .chip, .flow…)
+├─ content.config.ts         # esquema de la colección `projects`
+└─ astro.config.mjs          # site, shiki, plugin de Tailwind
+```
+
+---
+
+## Contenido
+
+### Proyectos (content collection)
+
+Cada proyecto es un Markdown en `src/content/projects/`, con el **nombre del archivo
+como slug** (p. ej. `debita.md` → `/proyectos/debita`). El frontmatter se valida
+contra el esquema de `src/content.config.ts`.
+
+Campos principales:
+
+- Identidad: `title`, `brand`, `subtitle`, `description`, `status` (`ongoing` / `finished` / `archived`), `kind` (`client` / `own`), `role`, `date`, `order`.
+- Relato: `problem`, `challenge`, `solution`, `result`, `improvements[]` (Antes/Ahora + `value`).
+- Técnico: `architecture`, `decisions[]`, `tech[]`, `areas[]`, `repo`, `live`.
+- Imágenes: `image` + `imageAlt` (portada) y `images[]` (galería con `key`/`src`/`alt`/`caption`).
+
+`order` define el orden en listados; `featured: true` lo muestra en la sección
+"Evidencia" del home. El cuerpo Markdown se renderiza en el detalle técnico.
+
+### Servicios (datos tipados)
+
+Los servicios viven en `src/data/services.ts` como un array tipado. Cada uno declara:
+
+```ts
+{
+  id, num, icon,          // identidad visual
+  label, category,        // etiqueta del selector y categoría (Operaciones / Datos / Sistemas)
+  problem, title,         // problema (voz del cliente) y solución
+  description, changes,   // descripción y "qué cambia"
+  flow,                   // secuencia problema → solución → resultado
+  image, imageAlt         // archivo dentro de src/assets/servicios/
+}
+```
+
+El visual se resuelve con `import.meta.glob` contra `src/assets/servicios/`. Para
+publicar la imagen de un servicio, basta con dejar el archivo con el nombre exacto
+que declara `image` (p. ej. `automatizacion.png`). Si falta, el panel muestra un
+marco neutro, de modo que todos los servicios conservan el mismo peso visual.
+
+Recomendado para los visuales de servicio: **16:10**, conceptuales y concretos
+(representan el trabajo del servicio, no capturas de un proyecto).
+
+### Iconos
+
+`src/data/icons.ts` es el set único de iconos SVG (line icons monocromáticos).
+Se consumen con `<Icon name="..." />`. Regla: un icono identifica, navega o
+explica algo; si solo decora, sobra.
+
+---
+
+## Sistema visual
+
+El archivo `src/styles/tailwind.css` es la **única fuente de verdad**: define con
+`@theme static` los colores semánticos, la escala tipográfica (6 tiers), radios,
+sombras, el ritmo de secciones y los breakpoints. No se usa la paleta por defecto
+de Tailwind: los nombres son del sistema (`accent`, `surface`, `primary`, `muted`,
+`border`, `shadow-card`, `rounded-lg`, `py-section`…).
+
+- `global.css` — reset/base y contenedores (`.page`, `main`).
+- `components.css` — primitivas reutilizadas en más de un lugar (`.btn`, `.chip`,
+  `.flow`, `.eyebrow`, `.section-head`, `.prose-body`).
+- Lo específico de un componente vive en su propio `.astro` (utilidades o
+  `<style>` acotado, solo cuando no es expresable con utilidades).
+
+Cambiar la identidad visual debería implicar tocar casi solo `tailwind.css`.
+
+---
+
+## Deploy
+
+Build 100% estático:
+
+```bash
+pnpm build      # genera dist/
+```
+
+El sitio publicado es `https://acastillo.net` (configurado como `site` en
+`astro.config.mjs`). `dist/` puede servirse desde cualquier hosting estático.
+
+---
+
+## Convenciones
+
+- Idioma del sitio y de los contenidos: **español**.
+- Identidad, contacto y metadatos sociales: editar `src/components/SiteConfig.ts`
+  (evitar hardcodear email o enlaces en los componentes).
+- SEO/OG/JSON-LD centralizados en `src/layouts/Layout.astro`.
+- Interactividad con JS nativo en `<script>` de Astro; sin frameworks de islas.

@@ -7,8 +7,7 @@ interface Props {
 
 const { services } = Astro.props;
 
-// Agrupa por categoría preservando el orden de aparición, para que el selector
-// lea "una especialidad, distintas formas de intervención".
+// Agrupa por categoría preservando el orden
 const groups = services.reduce<{ label: string; services: ResolvedService[] }[]>((acc, service) => {
   const last = acc[acc.length - 1];
   if (last && last.label === service.category) last.services.push(service);
@@ -16,16 +15,29 @@ const groups = services.reduce<{ label: string; services: ResolvedService[] }[]>
   return acc;
 }, []);
 
-const tabClass = "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-ui text-secondary transition-colors hover:bg-surface aria-selected:bg-accent-tint aria-selected:font-semibold aria-selected:text-primary";
+// Selector con peso visual: fondo tenue, borde legible y contraste nítido al activar
+const tabClass = 
+  "group flex items-center gap-2 rounded-md border border-border bg-surface/50 px-2.5 py-2 text-left transition-all duration-150 " +
+  "hover:border-border-strong hover:bg-surface hover:text-primary " +
+  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent " +
+  "aria-selected:border-accent/70 aria-selected:bg-accent-tint aria-selected:text-primary";
 ---
 
-<div class="grid gap-x-6 gap-y-6 sm:grid-cols-3" role="tablist" aria-label="Servicios">
+<div class="grid gap-5 sm:grid-cols-3 sm:gap-4" role="tablist" aria-label="Servicios">
   {groups.map((group, gi) => (
-    <div class:list={["flex flex-col", gi > 0 && "sm:border-l sm:border-border sm:pl-6"]} role="presentation">
-      <span class="mb-2.5 text-micro font-bold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
+    <div 
+      class:list={[
+        "flex flex-col gap-2", 
+        gi > 0 && "sm:border-l sm:border-border/40 sm:pl-4"
+      ]} 
+      role="presentation"
+    >
+      <span class="text-micro font-bold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
         {group.label}
       </span>
-      <div class="flex flex-col gap-0.5" role="presentation">
+
+      <!-- 2 servicios lado a lado con botones nítidos y legibles -->
+      <div class="grid grid-cols-2 gap-2" role="presentation">
         {group.services.map(service => {
           const i = services.indexOf(service);
           return (
@@ -39,8 +51,12 @@ const tabClass = "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-left tex
               data-service-tab
               class={tabClass}
             >
-              <span class="font-mono text-meta text-accent">{service.num}</span>
-              <span class="min-w-0 flex-1">{service.label}</span>
+              <span class="font-mono text-meta font-medium text-accent shrink-0">
+                {service.num}
+              </span>
+              <span class="min-w-0 flex-1 truncate text-ui font-normal text-secondary group-hover:text-primary group-aria-selected:font-semibold group-aria-selected:text-primary">
+                {service.label}
+              </span>
             </button>
           );
         })}
