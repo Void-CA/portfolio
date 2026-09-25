@@ -50,9 +50,11 @@ const flow = data.flow ?? [];
       <section class="mt-16 border-t border-border pt-10">
         <h2 class="text-title">Intereses técnicos</h2>
         <p class="mt-3 text-ui text-muted">Hacia dónde apunto, además de lo que ya uso.</p>
-        <div class="mt-5 flex flex-wrap gap-2">
-          {data.interests.map(interest => <span class="chip chip--data">{interest}</span>)}
-        </div>
+        <ul class="mt-5 grid list-none gap-x-8 gap-y-2 sm:grid-cols-2">
+          {data.interests.map(interest => (
+            <li class="relative pl-4 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']">{interest}</li>
+          ))}
+        </ul>
       </section>
     )}
 
