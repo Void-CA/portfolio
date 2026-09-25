@@ -24,33 +24,31 @@ const statusLabel = statusLabels[data.status] || "";
 const originLabel = data.kind ? originLabels[data.kind] : "";
 ---
 
-<article class="group relative flex h-full flex-col gap-2.5 rounded-xl border border-border bg-background p-5 shadow-subtle transition-[border-color,box-shadow] duration-200 hover:border-border-hover hover:shadow-card max-md:flex-row max-md:gap-4 max-md:p-3">
+<article class="group relative flex h-full flex-col gap-2.5 rounded-xl border border-border bg-background p-5 shadow-subtle transition-[border-color,box-shadow] duration-200 hover:border-border-hover hover:shadow-card max-md:p-4">
   {data.image && (
-    <div class="-mx-5 -mt-5 mb-1 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-surface max-md:m-0 max-md:aspect-square max-md:w-24 max-md:shrink-0 max-md:rounded-lg">
+    <div class="-mx-5 -mt-5 mb-1 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-surface max-md:-mx-4 max-md:-mt-4">
       <Image src={data.image} alt="" loading="lazy" class="block h-full w-full object-cover" />
     </div>
   )}
 
-  <div class="flex min-w-0 flex-1 flex-col gap-2.5">
-    {data.brand && (
-      <span class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.brand}</span>
-    )}
+  {data.brand && (
+    <span class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.brand}</span>
+  )}
 
-    <h3 class="text-lead font-semibold leading-tight tracking-[-0.01em] text-primary transition-colors group-hover:text-accent">
-      <a href={`/proyectos/${slug}`} class="text-inherit no-underline after:absolute after:inset-0 after:rounded-xl">{data.title}</a>
-    </h3>
+  <h3 class="text-lead font-semibold leading-tight tracking-[-0.01em] text-primary transition-colors group-hover:text-accent">
+    <a href={`/proyectos/${slug}`} class="text-inherit no-underline after:absolute after:inset-0 after:rounded-xl">{data.title}</a>
+  </h3>
 
-    <p class="line-clamp-2 text-base leading-[1.55] text-secondary max-md:text-ui">{data.description}</p>
+  <p class="line-clamp-2 text-base leading-[1.55] text-secondary">{data.description}</p>
 
-    {data.result && <p class="line-clamp-2 text-base leading-[1.55] text-primary max-md:hidden">{data.result}</p>}
+  {data.result && <p class="line-clamp-2 text-base leading-[1.55] text-primary">{data.result}</p>}
 
-    <div class="mt-auto flex items-center justify-between gap-3 border-t border-border pt-2.5">
-      <span class="flex min-w-0 items-center gap-1.5 text-micro font-semibold uppercase tracking-[0.05em] text-muted">
-        {originLabel}
-        {originLabel && statusLabel && <span class="opacity-50">·</span>}
-        {statusLabel}
-      </span>
-      <span class="flex-shrink-0 text-ui text-accent transition-transform duration-200 group-hover:translate-x-[3px]">→</span>
-    </div>
+  <div class="mt-auto flex items-center justify-between gap-3 border-t border-border pt-2.5">
+    <span class="flex min-w-0 items-center gap-1.5 text-micro font-semibold uppercase tracking-[0.05em] text-muted">
+      {originLabel}
+      {originLabel && statusLabel && <span class="opacity-50">·</span>}
+      {statusLabel}
+    </span>
+    <span class="flex-shrink-0 text-ui text-accent transition-transform duration-200 group-hover:translate-x-[3px]">→</span>
   </div>
 </article>

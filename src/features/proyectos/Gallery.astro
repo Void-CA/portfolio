@@ -80,16 +80,16 @@ const lightboxNavClass = "fixed top-1/2 z-[2] inline-flex h-12 w-12 -translate-y
       )}
     </div>
 
-    <div class="fixed inset-0 z-[1000] flex items-center justify-center p-6" data-lightbox hidden>
+    <div class="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6" data-lightbox hidden>
       <div class="absolute inset-0 cursor-zoom-out bg-[rgba(16,32,31,0.82)]" data-close></div>
+      <button type="button" class="absolute right-4 top-4 z-[2] inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-[1.5rem] leading-none text-primary transition-colors hover:border-accent hover:text-accent sm:right-6 sm:top-6" data-close data-close-btn aria-label="Cerrar">×</button>
       <div class="relative z-[1] flex max-w-full flex-col items-center gap-3 max-md:w-full" role="dialog" aria-modal="true" aria-label={title}>
-        <button type="button" class="absolute -right-2 -top-2 z-[2] inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-[1.5rem] leading-none text-primary transition-colors hover:border-accent hover:text-accent" data-close data-close-btn aria-label="Cerrar">×</button>
-        <button type="button" class={`${lightboxNavClass} left-5 max-md:left-2`} data-prev aria-label="Imagen anterior" hidden={!multiple}>‹</button>
+        <button type="button" class={`${lightboxNavClass} left-2 sm:left-5`} data-prev aria-label="Imagen anterior" hidden={!multiple}>‹</button>
         <figure
-          class="m-0 flex justify-center [&_img]:h-auto [&_img]:w-auto [&_img]:max-h-[84vh] [&_img]:max-w-[92vw] [&_img]:rounded-md [&_img]:bg-background [&_img]:shadow-floating [&_figcaption]:mt-2.5 [&_figcaption]:max-w-[70ch] [&_figcaption]:text-center [&_figcaption]:text-ui [&_figcaption]:leading-[1.5] [&_figcaption]:text-[rgba(255,255,255,0.85)] max-md:[&_img]:max-w-full"
+          class="m-0 flex justify-center [&_img]:h-auto [&_img]:w-auto [&_img]:max-h-[76vh] [&_img]:max-w-[92vw] [&_img]:rounded-md [&_img]:bg-background [&_img]:shadow-floating [&_figcaption]:mt-2.5 [&_figcaption]:max-w-[70ch] [&_figcaption]:text-center [&_figcaption]:text-ui [&_figcaption]:leading-[1.5] [&_figcaption]:text-[rgba(255,255,255,0.85)] sm:[&_img]:max-h-[84vh] max-md:[&_img]:max-w-full"
           data-lightbox-figure
         ></figure>
-        <button type="button" class={`${lightboxNavClass} right-5 max-md:right-2`} data-next aria-label="Imagen siguiente" hidden={!multiple}>›</button>
+        <button type="button" class={`${lightboxNavClass} right-2 sm:right-5`} data-next aria-label="Imagen siguiente" hidden={!multiple}>›</button>
         {multiple && (
           <span class="text-ui tabular-nums text-[#fff]" data-lightbox-counter aria-live="polite"></span>
         )}
@@ -195,35 +195,57 @@ const lightboxNavClass = "fixed top-1/2 z-[2] inline-flex h-12 w-12 -translate-y
     );
 
     // Swipe / arrastre horizontal en el escenario.
+    // Un tap corto debe abrir el lightbox: solo se mueve el track cuando el
+    // desplazamiento supera un umbral de intención horizontal.
+    const DRAG_THRESHOLD = 8;
+    const SWIPE_THRESHOLD = 40;
     let startX: number | null = null;
+    let startY: number | null = null;
     let delta = 0;
+    let dragging = false;
 
-    const onStart = (x: number) => {
+    const onStart = (x: number, y: number) => {
       startX = x;
+      startY = y;
       delta = 0;
+      dragging = false;
       trackEl.style.transition = 'none';
     };
-    const onMove = (x: number) => {
-      if (startX === null) return;
+    const onMove = (x: number, y: number) => {
+      if (startX === null || startY === null) return;
       delta = x - startX;
+      const dy = y - startY;
+      // Si el gesto es más vertical que horizontal, no es swipe de carrusel.
+      if (!dragging && Math.abs(delta) < DRAG_THRESHOLD) return;
+      if (!dragging && Math.abs(dy) > Math.abs(delta)) {
+        startX = null;
+        startY = null;
+        trackEl.style.transition = '';
+        return;
+      }
+      dragging = true;
       trackEl.style.transform = `translateX(calc(-${index * 100}% + ${delta}px))`;
     };
     const onEnd = () => {
       if (startX === null) return;
       trackEl.style.transition = '';
-      if (Math.abs(delta) > 40) go(index + (delta < 0 ? 1 : -1));
-      else render();
+      if (dragging) {
+        if (Math.abs(delta) > SWIPE_THRESHOLD) go(index + (delta < 0 ? 1 : -1));
+        else render();
+      }
       startX = null;
+      startY = null;
       delta = 0;
+      dragging = false;
     };
 
     viewport?.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
-      onStart(e.clientX);
+      onStart(e.clientX, e.clientY);
     });
     window.addEventListener('pointermove', (e) => {
       if (startX === null) return;
-      onMove(e.clientX);
+      onMove(e.clientX, e.clientY);
     });
     window.addEventListener('pointerup', onEnd);
     window.addEventListener('pointercancel', onEnd);

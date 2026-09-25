@@ -104,7 +104,7 @@ const hasDecisions = decisions.length > 0;
         {data.result && <p class="mt-4 text-lead leading-[1.7] text-primary">{data.result}</p>}
 
         {hasImprovements && (
-          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="mt-8 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {improvements.map(item => (
               <div class="flex flex-col gap-2 rounded-md border border-border bg-surface p-4">
                 <div class="flex items-baseline justify-between gap-3">
