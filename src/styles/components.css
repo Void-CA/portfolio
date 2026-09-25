@@ -43,9 +43,9 @@
 
   .section-intro {
     margin-top: 8px;
-    max-width: 560px;
-    font-size: var(--text-base);
-    line-height: 1.7;
+    max-width: 620px;
+    font-size: var(--text-lead);
+    line-height: 1.65;
   }
 
   /* ── Chips (jerarquía: dato > tecnología) ── */

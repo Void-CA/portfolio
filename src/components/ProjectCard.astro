@@ -43,9 +43,9 @@ const evidenceLabel = firstImprovement?.label ?? "";
     <a href={`/proyectos/${slug}`} class="text-inherit no-underline after:absolute after:inset-0 after:rounded-xl">{data.title}</a>
   </h3>
 
-  <p class="line-clamp-1 text-ui leading-[1.55] text-secondary">{data.description}</p>
+  <p class="line-clamp-2 text-base leading-[1.55] text-secondary">{data.description}</p>
 
-  {data.result && <p class="line-clamp-2 text-ui leading-[1.55] text-primary">{data.result}</p>}
+  {data.result && <p class="line-clamp-2 text-base leading-[1.55] text-primary">{data.result}</p>}
 
   {(metricValue || evidenceLabel) && (
     <div class="flex flex-wrap items-baseline gap-1.5 text-ui">

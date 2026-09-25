@@ -52,14 +52,16 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Escala tipográfica — 6 tiers intencionales. Los line-heights quedan
-     explícitos por contexto (son sensibles al layout); ver conversación. */
+     explícitos por contexto (son sensibles al layout); ver conversación.
+     Piso de legibilidad: ningún tier baja de ~0.75rem, y el cuerpo/UI se
+     mantienen >= 0.95rem para lectura cómoda. */
   --text-*: initial;
-  --text-micro: 0.70rem;   /* labels, status, eyebrows, brand */
-  --text-meta: 0.75rem;    /* metadata, mono micro */
-  --text-ui: 0.82rem;      /* chips, descripciones, links */
-  --text-base: 0.90rem;    /* UI y cuerpo compacto */
-  --text-lead: 1.10rem;    /* lead, títulos de cards */
-  --text-title: 1.25rem;   /* títulos de panel, h3 */
+  --text-micro: 0.75rem;   /* labels, status, eyebrows, brand */
+  --text-meta: 0.8125rem;  /* metadata, mono micro */
+  --text-ui: 0.9rem;       /* chips, descripciones, links */
+  --text-base: 1rem;       /* UI y cuerpo compacto */
+  --text-lead: 1.15rem;    /* lead, títulos de cards */
+  --text-title: 1.3rem;    /* títulos de panel, h3 */
 
   /* Radios */
   --radius-sm: 6px;
