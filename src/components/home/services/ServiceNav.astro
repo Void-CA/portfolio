@@ -1,0 +1,50 @@
+---
+import type { ResolvedService } from '../../../data/services';
+
+interface Props {
+  services: ResolvedService[];
+}
+
+const { services } = Astro.props;
+
+// Agrupa por categoría preservando el orden de aparición, para que el selector
+// lea "una especialidad, distintas formas de intervención".
+const groups = services.reduce<{ label: string; services: ResolvedService[] }[]>((acc, service) => {
+  const last = acc[acc.length - 1];
+  if (last && last.label === service.category) last.services.push(service);
+  else acc.push({ label: service.category, services: [service] });
+  return acc;
+}, []);
+
+const tabClass = "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-ui text-secondary transition-colors hover:bg-surface aria-selected:bg-accent-tint aria-selected:font-semibold aria-selected:text-primary";
+---
+
+<div class="grid gap-x-6 gap-y-6 sm:grid-cols-3" role="tablist" aria-label="Servicios">
+  {groups.map((group, gi) => (
+    <div class:list={["flex flex-col", gi > 0 && "sm:border-l sm:border-border sm:pl-6"]} role="presentation">
+      <span class="mb-2.5 text-micro font-bold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
+        {group.label}
+      </span>
+      <div class="flex flex-col gap-0.5" role="presentation">
+        {group.services.map(service => {
+          const i = services.indexOf(service);
+          return (
+            <button
+              type="button"
+              role="tab"
+              id={`svc-tab-${service.id}`}
+              aria-selected={i === 0 ? "true" : "false"}
+              aria-controls={`svc-panel-${service.id}`}
+              tabindex={i === 0 ? 0 : -1}
+              data-service-tab
+              class={tabClass}
+            >
+              <span class="font-mono text-meta text-accent">{service.num}</span>
+              <span class="min-w-0 flex-1">{service.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>

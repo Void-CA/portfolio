@@ -1,0 +1,65 @@
+---
+import Icon from '../../Icon.astro';
+import { Image } from 'astro:assets';
+import type { ResolvedService } from '../../../data/services';
+
+interface Props {
+  service: ResolvedService;
+  active?: boolean;
+}
+
+const { service, active = false } = Astro.props;
+
+const panelClass = "grid scroll-mt-24 gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-14";
+const figureClass = "m-0 overflow-hidden rounded-lg border border-border bg-surface shadow-subtle lg:order-2";
+const figureEmptyClass = "flex aspect-[16/10] items-center justify-center rounded-lg border border-border bg-accent-tint text-accent lg:order-2";
+const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
+---
+
+<article
+  id={`svc-panel-${service.id}`}
+  role="tabpanel"
+  aria-labelledby={`svc-tab-${service.id}`}
+  tabindex="0"
+  data-service-panel
+  class:list={[panelClass, !active && "hidden"]}
+>
+  {service.image ? (
+    <figure class={figureClass}>
+      <Image
+        src={service.image}
+        alt={service.imageAlt}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 1024px) 56vw, 100vw"
+        loading="lazy"
+        class="block aspect-[16/10] h-full w-full object-cover"
+      />
+    </figure>
+  ) : (
+    <div class={figureEmptyClass} aria-hidden="true">
+      <Icon name={service.icon} class="text-[2.25rem]" />
+    </div>
+  )}
+
+  <div class="min-w-0">
+    <h3 class="text-title tracking-[-0.01em] text-primary">{service.title}</h3>
+    <p class="mt-3 text-base leading-[1.7] text-secondary">{service.description}</p>
+    <p class="mt-4 border-l-2 border-accent pl-3 text-ui leading-[1.6] text-muted">{service.problem}</p>
+
+    <div class="mt-6 border-t border-border pt-5">
+      <span class="mb-3 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
+      <ul class="flex list-none flex-col gap-2">
+        {service.changes.map(change => <li class={changeItemClass}>{change}</li>)}
+      </ul>
+    </div>
+
+    <div class="flow mt-6" aria-hidden="true">
+      {service.flow.map((step, idx) => (
+        <>
+          <span class="flow-step">{step}</span>
+          {idx < service.flow.length - 1 && <span class="flow-sep">→</span>}
+        </>
+      ))}
+    </div>
+  </div>
+</article>

@@ -1,167 +1,39 @@
 ---
 import SectionHeader from '../SectionHeader.astro';
-import Icon from '../Icon.astro';
+import ServiceNav from './services/ServiceNav.astro';
+import ServicePanel from './services/ServicePanel.astro';
 import { SERVICES } from '../../data/services';
-import { Image } from 'astro:assets';
+import type { ResolvedService } from '../../data/services';
 import type { ImageMetadata } from 'astro';
 
+// El servicio es dueño de su propio visual: una imagen conceptual del servicio
+// (no una captura de proyecto). Se resuelve contra src/assets/servicios/ y, si
+// el archivo todavía no existe, el panel muestra un marco neutro para que todos
+// los servicios conserven el mismo peso visual.
 const assets = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/servicios/*.{png,jpg,jpeg,webp,avif}',
   { eager: true }
 );
 
-const services = SERVICES.map(service => ({
+const services: ResolvedService[] = SERVICES.map(service => ({
   ...service,
   image: assets[`../assets/servicios/${service.image}`]?.default,
 }));
-
-const groups = services.reduce<{ label: string; services: typeof services }[]>((acc, service) => {
-  const last = acc[acc.length - 1];
-  if (last && last.label === service.category) last.services.push(service);
-  else acc.push({ label: service.category, services: [service] });
-  return acc;
-}, []);
-
-// Clases visuales refinadas con estados interactivos pulidos
-const tabClass = 
-  "group relative flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-left text-ui text-secondary transition-all duration-200 " +
-  "hover:bg-surface/70 hover:text-primary " +
-  "aria-selected:bg-surface aria-selected:text-primary aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-border/80";
-
-const panelClass = 
-  "mt-8 grid scroll-mt-24 gap-8 rounded-2xl border border-border/80 bg-surface/40 p-6 backdrop-blur-sm lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12 lg:p-10 transition-opacity duration-300";
-
-const figureClass = 
-  "group relative m-0 overflow-hidden rounded-xl border border-border/80 bg-surface shadow-md lg:order-2";
-
-const figureEmptyClass = 
-  "flex aspect-[16/10] items-center justify-center rounded-xl border border-dashed border-border bg-accent-tint/30 text-accent lg:order-2";
 ---
 
 <section id="servicios" class="py-section">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <SectionHeader title="¿Qué necesitás resolver?" link={{ href: "#como-trabajo", label: "Ver cómo trabajo →" }} />
-    <p class="section-intro mt-3 max-w-2xl text-secondary leading-relaxed">
-      Desarrollo software alrededor de tu operación. No necesitás llegar con una
-      solución definida: podemos empezar por el problema.
-    </p>
+  <SectionHeader title="¿Qué necesitás resolver?" link={{ href: "#como-trabajo", label: "Ver cómo trabajo →" }} />
+  <p class="section-intro">
+    Desarrollo software alrededor de tu operación. No necesitás llegar con una
+    solución definida: podemos empezar por el problema.
+  </p>
 
-    <div data-services class="mt-10">
-      <!-- Selector de pestañas estructurado como consola/nav -->
-      <div 
-        class="grid gap-6 rounded-2xl border border-border/70 bg-surface/20 p-3 sm:grid-cols-3 sm:gap-4 sm:p-2" 
-        role="tablist" 
-        aria-label="Servicios"
-      >
-        {groups.map((group, gi) => (
-          <div class:list={["flex flex-col gap-1.5", gi > 0 && "sm:border-l sm:border-border/60 sm:pl-4"]} role="presentation">
-            <span class="px-2 pt-1 text-micro font-semibold uppercase tracking-[0.1em] text-muted/80" aria-hidden="true">
-              {group.label}
-            </span>
-            <div class="flex flex-col gap-1" role="presentation">
-              {group.services.map(service => {
-                const i = services.indexOf(service);
-                return (
-                  <button
-                    type="button"
-                    role="tab"
-                    id={`svc-tab-${service.id}`}
-                    aria-selected={i === 0 ? "true" : "false"}
-                    aria-controls={`svc-panel-${service.id}`}
-                    tabindex={i === 0 ? 0 : -1}
-                    data-service-tab
-                    class={tabClass}
-                  >
-                    <span class="font-mono text-meta font-medium text-accent/80 transition-colors group-hover:text-accent">
-                      {service.num}
-                    </span>
-                    <span class="min-w-0 flex-1 truncate font-medium">{service.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
+  <div data-services>
+    <ServiceNav services={services} />
 
-      <!-- Paneles de contenido -->
-      {services.map((service, i) => (
-        <article
-          id={`svc-panel-${service.id}`}
-          role="tabpanel"
-          aria-labelledby={`svc-tab-${service.id}`}
-          tabindex="0"
-          data-service-panel
-          class:list={[panelClass, i !== 0 && "hidden opacity-0"]}
-        >
-          <!-- Contenedor Visual / Imagen -->
-          {service.image ? (
-            <figure class={figureClass}>
-              <Image
-                src={service.image}
-                alt={service.imageAlt}
-                widths={[480, 800, 1200]}
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                loading="lazy"
-                class="block aspect-[16/10] h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-              />
-              <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/10 rounded-xl" />
-            </figure>
-          ) : (
-            <div class={figureEmptyClass} aria-hidden="true">
-              <Icon name={service.icon} class="text-[2.5rem] opacity-75" />
-            </div>
-          )}
-
-          <!-- Contenido textual -->
-          <div class="flex flex-col">
-            <h3 class="text-2xl font-bold tracking-tight text-primary sm:text-3xl">
-              {service.title}
-            </h3>
-            
-            <p class="mt-3 text-base leading-relaxed text-secondary">
-              {service.description}
-            </p>
-
-            <!-- Callout del problema -->
-            <div class="mt-5 rounded-r-lg border-l-2 border-accent bg-accent-tint/30 px-3.5 py-2.5 text-sm leading-relaxed text-secondary/90">
-              <strong class="font-medium text-primary">El reto habitual:</strong> {service.problem}
-            </div>
-
-            <!-- Lista de Cambios -->
-            <div class="mt-6 border-t border-border/70 pt-5">
-              <span class="mb-3 block text-micro font-bold uppercase tracking-[0.08em] text-accent">
-                Qué cambia
-              </span>
-              <ul class="flex list-none flex-col gap-2.5 p-0">
-                {service.changes.map(change => (
-                  <li class="relative flex items-start gap-2 text-sm leading-relaxed text-primary">
-                    <span class="text-accent select-none font-bold">✓</span>
-                    <span>{change}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Flujo de trabajo en badges interactivos -->
-            {service.flow && service.flow.length > 0 && (
-              <div class="mt-7 flex flex-wrap items-center gap-1.5 pt-2" aria-hidden="true">
-                {service.flow.map((step, idx) => (
-                  <>
-                    <span class="inline-flex items-center rounded-md border border-border/80 bg-surface/80 px-2.5 py-1 text-meta font-medium text-secondary">
-                      {step}
-                    </span>
-                    {idx < service.flow.length - 1 && (
-                      <span class="text-meta text-muted/60 select-none">→</span>
-                    )}
-                  </>
-                ))}
-              </div>
-            )}
-          </div>
-        </article>
-      ))}
-    </div>
+    {services.map((service, i) => (
+      <ServicePanel service={service} active={i === 0} />
+    ))}
   </div>
 </section>
 
@@ -179,21 +51,7 @@ const figureEmptyClass =
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
         tab.tabIndex = active ? 0 : -1;
       });
-
-      panels.forEach((panel, i) => {
-        const active = i === index;
-        if (active) {
-          panel.classList.remove('hidden');
-          // Pequeño retardo para activar la animación de opacidad
-          requestAnimationFrame(() => {
-            panel.classList.remove('opacity-0');
-          });
-        } else {
-          panel.classList.add('opacity-0');
-          panel.classList.add('hidden');
-        }
-      });
-
+      panels.forEach((panel, i) => panel.classList.toggle('hidden', i !== index));
       if (options.focus) tabs[index].focus();
       if (options.reveal && !desktop.matches) {
         panels[index].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });

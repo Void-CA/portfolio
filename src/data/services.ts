@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export interface Service {
   id: string;
   num: string;
@@ -11,6 +13,11 @@ export interface Service {
   flow: string[];       // secuencia problema → solución → resultado
   image: string;        // archivo dentro de src/assets/servicios/
   imageAlt: string;     // descripción del visual conceptual del servicio
+}
+
+// Servicio con su visual ya resuelto a un asset de Astro (o sin imagen todavía).
+export interface ResolvedService extends Omit<Service, "image"> {
+  image?: ImageMetadata;
 }
 
 // Los servicios describen qué problema se resuelve y cómo se trabaja.
