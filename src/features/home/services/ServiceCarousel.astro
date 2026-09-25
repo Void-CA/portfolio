@@ -1,0 +1,69 @@
+---
+import Icon from '../../../components/ui/Icon.astro';
+import { Image } from 'astro:assets';
+import type { ResolvedService } from '../../../data/services';
+
+interface Props {
+  services: ResolvedService[];
+}
+
+const { services } = Astro.props;
+
+const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
+---
+
+<div class="lg:hidden" data-service-carousel>
+  <div class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-carousel-track>
+    {services.map(service => (
+      <article class="flex w-full shrink-0 snap-center flex-col gap-4 rounded-xl border border-border bg-surface p-5" data-carousel-slide>
+        {service.image ? (
+          <figure class="m-0 overflow-hidden rounded-lg border border-border bg-background">
+            <Image
+              src={service.image}
+              alt={service.imageAlt}
+              widths={[480, 800]}
+              sizes="100vw"
+              loading="lazy"
+              class="block aspect-[16/10] h-full w-full object-cover"
+            />
+          </figure>
+        ) : (
+          <div class="flex aspect-[16/10] items-center justify-center rounded-lg border border-border bg-accent-tint text-accent">
+            <Icon name={service.icon} class="text-[2.25rem]" />
+          </div>
+        )}
+
+        <div class="min-w-0">
+          <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{service.category}</span>
+          <h3 class="mt-1 text-title tracking-[-0.01em] text-primary">{service.title}</h3>
+          <p class="mt-2 text-base leading-[1.6] text-secondary">{service.description}</p>
+
+          <div class="mt-4 border-t border-border pt-4">
+            <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
+            <ul class="flex list-none flex-col gap-2">
+              {service.changes.map(change => <li class={changeItemClass}>{change}</li>)}
+            </ul>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="mt-4 flex items-center justify-between">
+    <span class="font-mono text-meta tabular-nums text-muted">
+      <span data-carousel-current>01</span> / {String(services.length).padStart(2, "0")}
+    </span>
+    <div class="flex gap-1.5" data-carousel-dots>
+      {services.map((_, i) => (
+        <button
+          type="button"
+          class="h-1.5 rounded-full bg-border transition-all aria-[current=true]:w-5 aria-[current=true]:bg-accent w-1.5"
+          data-carousel-dot
+          data-index={i}
+          aria-label={`Ir al servicio ${i + 1}`}
+          aria-current={i === 0 ? "true" : "false"}
+        ></button>
+      ))}
+    </div>
+  </div>
+</div>
