@@ -1,0 +1,141 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../Icon.astro';
+
+const steps = [
+  {
+    icon: "target",
+    title: "Entender",
+    text: "Antes de hablar de tecnología, entiendo cómo funciona realmente tu operación, qué problema existe y qué restricciones tenemos.",
+  },
+  {
+    icon: "cube",
+    title: "Construir",
+    text: "Definimos una solución concreta y la desarrollamos por etapas, validando que cada parte resuelva el problema real.",
+  },
+  {
+    icon: "check",
+    title: "Entregar",
+    text: "El objetivo no es una demo: dejo el sistema funcionando, documentado y con el conocimiento para continuar (código y decisiones explicadas).",
+  },
+  {
+    icon: "trending",
+    title: "Evolucionar",
+    text: "El negocio cambia. El sistema también puede hacerlo sin empezar de cero.",
+  },
+];
+
+const dotClass = "absolute left-0 top-0 h-3 w-3 rounded-full border-2 border-[rgba(15,118,110,0.35)] bg-background transition-colors [.is-reached_&]:border-accent [.is-reached_&]:bg-accent max-md:top-1";
+---
+
+<section id="como-trabajo" class="py-section">
+  <SectionHeader title="Cómo trabajo" />
+  <p class="section-intro">
+    Un proceso claro, de principio a fin. Desde entender el problema hasta
+    dejar una solución que pueda evolucionar.
+  </p>
+
+  <div class="relative mt-14" data-timeline>
+    <div class="timeline-rail" aria-hidden="true">
+      <div class="timeline-progress"></div>
+    </div>
+    <ol class="grid list-none grid-cols-4 gap-x-6 max-md:grid-cols-1 max-md:gap-0">
+      {steps.map((step, i) => (
+        <li class="milestone relative pt-11 max-md:pb-8 max-md:pl-9 max-md:pr-0 max-md:pt-0 max-md:last:pb-0">
+          <span class={dotClass} aria-hidden="true"></span>
+          <span class="mb-2 block font-mono text-ui font-semibold text-accent">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="mb-2 flex items-center gap-2 text-base uppercase tracking-[0.06em] text-primary">
+            <Icon name={step.icon} class="text-[1.2rem] text-accent" />{step.title}
+          </h3>
+          <p class="text-base leading-[1.65]">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  /* Riel con progreso por scroll: usa una variable CSS calculada en runtime,
+     no expresable con utilidades. */
+  .timeline-rail {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(15, 118, 110, 0.18);
+  }
+
+  .timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(var(--progress, 0) * 100%);
+    background: var(--color-accent);
+    transition: width 0.15s linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-progress {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .timeline-rail {
+      top: 0;
+      bottom: 0;
+      left: 5px;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+
+    .timeline-progress {
+      width: 100%;
+      height: calc(var(--progress, 0) * 100%);
+      transition: height 0.15s linear;
+    }
+  }
+</style>
+
+<script>
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  if (timeline) {
+    const items = Array.from(timeline.querySelectorAll<HTMLElement>('.milestone'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+
+    const paint = () => {
+      ticking = false;
+      const rect = timeline.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const start = vh * 0.85;
+      const end = vh * 0.25;
+      const span = start - end + rect.height;
+      const progress = span > 0 ? (start - rect.top) / span : 1;
+      const clamped = Math.max(0, Math.min(1, progress));
+      timeline.style.setProperty('--progress', reduce ? '1' : clamped.toFixed(3));
+      items.forEach((item, i) => {
+        const threshold = (i + 0.5) / items.length;
+        item.classList.toggle('is-reached', reduce || clamped >= threshold);
+      });
+    };
+
+    const request = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    if (reduce) {
+      paint();
+    } else {
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      paint();
+    }
+  }
+</script>

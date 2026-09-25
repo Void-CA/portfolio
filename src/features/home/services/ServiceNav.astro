@@ -1,0 +1,66 @@
+---
+import type { ResolvedService } from '../../../data/services';
+
+interface Props {
+  services: ResolvedService[];
+}
+
+const { services } = Astro.props;
+
+// Agrupa por categoría preservando el orden
+const groups = services.reduce<{ label: string; services: ResolvedService[] }[]>((acc, service) => {
+  const last = acc[acc.length - 1];
+  if (last && last.label === service.category) last.services.push(service);
+  else acc.push({ label: service.category, services: [service] });
+  return acc;
+}, []);
+
+// Selector con peso visual: fondo tenue, borde legible y contraste nítido al activar
+const tabClass = 
+  "group flex items-center gap-2 rounded-md border border-border bg-surface/50 px-2.5 py-2 text-left transition-all duration-150 " +
+  "hover:border-border-strong hover:bg-surface hover:text-primary " +
+  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent " +
+  "aria-selected:border-accent/70 aria-selected:bg-accent-tint aria-selected:text-primary";
+---
+
+<div class="grid gap-5 sm:grid-cols-3 sm:gap-4" role="tablist" aria-label="Servicios">
+  {groups.map((group, gi) => (
+    <div 
+      class:list={[
+        "flex flex-col gap-2", 
+        gi > 0 && "sm:border-l sm:border-border/40 sm:pl-4"
+      ]} 
+      role="presentation"
+    >
+      <span class="text-base font-bold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
+        {group.label}
+      </span>
+
+      <!-- 2 servicios lado a lado con botones nítidos y legibles -->
+      <div class="grid grid-cols-2 gap-2" role="presentation">
+        {group.services.map(service => {
+          const i = services.indexOf(service);
+          return (
+            <button
+              type="button"
+              role="tab"
+              id={`svc-tab-${service.id}`}
+              aria-selected={i === 0 ? "true" : "false"}
+              aria-controls={`svc-panel-${service.id}`}
+              tabindex={i === 0 ? 0 : -1}
+              data-service-tab
+              class={tabClass}
+            >
+              <span class="font-mono text-base font-semibold text-accent shrink-0">
+                {service.num}
+              </span>
+              <span class="min-w-0 flex-1 truncate text-ui font-semibold text-secondary group-hover:text-primary group-aria-selected:font-semibold group-aria-selected:text-primary">
+                {service.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>
