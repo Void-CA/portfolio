@@ -1,0 +1,8 @@
+name = "acastillo"
+compatibility_date = "2026-09-25"
+
+# Sitio 100% estático: Astro genera dist/ y wrangler lo sirve como assets.
+# No se usa @astrojs/cloudflare (no hay SSR).
+[assets]
+directory = "./dist"
+not_found_handling = "404-page"
