@@ -55,17 +55,28 @@ formation:
 
 tools:
   - label: Lenguajes
-    items: [Rust, TypeScript, Python, SQL]
+    items: [Rust, TypeScript, Python, SQL, R]
+
   - label: Backend
-    items: [Node.js, Fastify, APIs, WebSockets]
+    items: [Django, Node.js, APIs, WebSockets]
+
   - label: Frontend
-    items: [React, Next.js, Astro]
+    items: [React, Next.js, Astro, Tauri]
+
   - label: Datos
-    items: [PostgreSQL, SQLite, InfluxDB]
+    items: [PostgreSQL, SQLite, DuckDB, InfluxDB]
+
   - label: Infraestructura
     items: [Docker, Linux, Nginx, Cloudflare]
-  - label: Otros
-    items: [Git/GitHub, procesamiento de datos, sistemas embebidos]
+
+  - label: Ingeniería de datos
+    items: [ETL/ELT, procesamiento de datos, análisis de datos]
+
+  - label: Cibernetica
+    items: [sistemas embebidos, IoT/IIoT, automatización, control]
+
+  - label: Herramientas
+    items: [Git, GitHub]
 ---
 
 Mi trabajo se concentra en software aplicado a operaciones organizacionales:
