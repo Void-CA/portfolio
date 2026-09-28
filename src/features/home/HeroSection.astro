@@ -2,22 +2,116 @@
 import HeroDiagram from '../../components/ui/HeroDiagram.astro';
 ---
 
-<section id="propuesta" class="flex items-center gap-4 pt-8 pb-7 md:gap-12 md:pt-20 md:pb-16">
-  <div class="min-w-0 flex-1">
-    <h1>
-      Software que se adapta a tu operación, <span class="text-accent">no al revés</span>.
-    </h1>
-    <p class="mt-3 max-w-[560px] text-lead leading-[1.7]">
-      Desarrollo software para automatizar procesos, conectar información y
-      resolver operaciones que las herramientas existentes no cubren.
-    </p>
-    <div class="mt-5 flex flex-col gap-2.5 md:mt-7 md:flex-row md:gap-3">
-      <a href="#contacto" class="btn btn-primary justify-center">Contame tu proyecto</a>
-      <a href="/proyectos" class="btn btn-secondary justify-center">Ver proyectos</a>
-    </div>
-  </div>
+<section id="propuesta" class="hero">
+  <h1 class="hero__title">
+    Software que se adapta a tu operación, <span class="text-accent">no al revés</span>.
+  </h1>
 
-  <div class="flex w-[36%] min-w-[104px] max-w-[150px] shrink-0 justify-center md:w-[min(560px,40vw)] md:max-w-none lg:w-[min(760px,48vw)]">
+  <div class="hero__diagram">
     <HeroDiagram />
   </div>
+
+  <p class="hero__desc text-lead leading-[1.7]">
+    Desarrollo software para automatizar procesos, conectar información y
+    resolver operaciones que las herramientas existentes no cubren.
+  </p>
+
+  <div class="hero__actions">
+    <a href="#contacto" class="btn btn-primary justify-center">Contame tu proyecto</a>
+    <a href="/proyectos" class="btn btn-secondary justify-center">Ver proyectos</a>
+  </div>
 </section>
+
+<style>
+  /* Composición responsive no expresable con utilidades: en móvil el título
+     comparte fila con el diagrama y el resto cae abajo a todo el ancho.
+     Desde md, el copy queda en una columna y el diagrama lo acompaña al lado. */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(104px, 150px);
+    grid-template-areas:
+      "title diagram"
+      "desc desc"
+      "actions actions";
+    column-gap: 1rem;
+    row-gap: 1.25rem;
+    padding-top: 2rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .hero__title {
+    grid-area: title;
+  }
+
+  .hero__diagram {
+    grid-area: diagram;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .hero__desc {
+    grid-area: desc;
+    max-width: 560px;
+  }
+
+  .hero__actions {
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+
+  .hero__actions a {
+    width: 100%;
+  }
+
+  /* Más aire entre líneas en móvil; en desktop se conserva el interlineado original. */
+  @media (max-width: 47.999rem) {
+    .hero__title {
+      line-height: 1.8;
+    }
+
+    .hero__desc {
+      line-height: 1.85;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "title diagram"
+        "desc diagram"
+        "actions diagram";
+      column-gap: 3rem;
+      row-gap: 0;
+      padding-top: 5rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero__desc {
+      margin-top: 0.75rem;
+    }
+
+    .hero__actions {
+      display: flex;
+      margin-top: 1.75rem;
+      gap: 0.75rem;
+    }
+
+    .hero__actions a {
+      width: auto;
+    }
+
+    .hero__diagram {
+      width: min(560px, 40vw);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero__diagram {
+      width: min(760px, 48vw);
+    }
+  }
+</style>
