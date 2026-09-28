@@ -49,10 +49,10 @@ const hasDecisions = decisions.length > 0;
 ---
 
 <Layout title={data.title} description={data.description}>
-  <article class="py-12 pb-20 max-md:py-8 max-md:pb-16">
-    <a href="/proyectos" class="mb-8 inline-flex items-center gap-1 text-ui text-secondary transition-colors hover:text-accent">← Volver a proyectos</a>
+  <article class="py-12 pb-20 max-md:py-8 max-md:pb-12">
+    <a href="/proyectos" class="mb-8 inline-flex items-center gap-1 text-ui text-secondary transition-colors hover:text-accent max-md:mb-6">← Volver a proyectos</a>
 
-    <header class:list={["mb-12 grid gap-10", hasPreview && "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start"]}>
+    <header class:list={["mb-12 grid gap-10 max-md:mb-8 max-md:gap-6", hasPreview && "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start"]}>
       <div class="flex max-w-[68ch] flex-col gap-5">
         {data.brand && <p class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.brand}</p>}
         <h1 class="m-0">{data.title}</h1>
@@ -98,13 +98,13 @@ const hasDecisions = decisions.length > 0;
     )}
 
     {hasResult && (
-      <section class="mb-12 border-t border-border pt-8">
+      <section class="mb-12 border-t border-border pt-8 max-md:mb-8 max-md:pt-6">
         <span class="eyebrow"><Icon name="trending" class="text-base" />Resultado</span>
 
         {data.result && <p class="mt-4 text-lead leading-[1.7] text-primary">{data.result}</p>}
 
         {hasImprovements && (
-          <div class="mt-8 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+          <div class="mt-8 hidden gap-4 max-md:mt-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {improvements.map(item => (
               <div class="flex flex-col gap-2 rounded-md border border-border bg-surface p-4">
                 <div class="flex items-baseline justify-between gap-3">
@@ -133,7 +133,7 @@ const hasDecisions = decisions.length > 0;
     <Gallery images={images} />
 
     <details class="mb-10 border-y border-border">
-      <summary class="flex cursor-pointer list-none items-center py-5 text-ui font-semibold text-accent after:ml-auto after:font-normal after:content-['+'] [details[open]_&]:after:content-['–'] [&::-webkit-details-marker]:hidden">
+      <summary class="flex cursor-pointer list-none items-center py-5 text-ui font-semibold text-accent max-md:py-4 after:ml-auto after:font-normal after:content-['+'] [details[open]_&]:after:content-['–'] [&::-webkit-details-marker]:hidden">
         Detalle técnico (arquitectura, decisiones y stack)
       </summary>
       <div class="flex flex-col gap-7 pb-8">

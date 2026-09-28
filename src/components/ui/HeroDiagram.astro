@@ -1,22 +1,35 @@
 ---
-// Motivo de sistema: problema → sistema → resultado (Horizontal).
+// Motivo de sistema: problema → sistema → resultado.
+// Horizontal en escritorio; vertical apilado en pantallas angostas.
 // Abstracto y decorativo (aria-hidden): no aporta información única.
-const labelClass = "fill-muted font-mono text-[11px] uppercase tracking-[0.12em] text-anchor-middle";
+const labelClass = "fill-muted font-mono text-[11px] uppercase tracking-[0.12em]";
+const accentLabelClass = "fill-accent font-mono text-[11px] font-semibold uppercase tracking-[0.12em]";
 ---
 
-<div class="w-full" aria-hidden="true">
-  <svg viewBox="0 0 340 76" role="presentation" class="block h-auto w-full">
-    <!-- Línea conectora horizontal -->
+<div aria-hidden="true">
+  <!-- Vertical (móvil): el flujo se apila para conservar legibilidad. -->
+  <svg viewBox="0 0 200 220" role="presentation" class="mx-auto block h-auto w-full max-w-[210px] md:hidden">
+    <line class="stroke-border" x1="24" y1="24" x2="24" y2="196" stroke-width="2" />
+
+    <circle class="fill-background stroke-border" cx="24" cy="24" r="6" stroke-width="2" />
+    <circle class="fill-accent stroke-accent" cx="24" cy="110" r="7" stroke-width="2" />
+    <circle class="fill-background stroke-border" cx="24" cy="196" r="6" stroke-width="2" />
+
+    <text class={labelClass} text-anchor="start" x="44" y="28">Problema</text>
+    <text class={accentLabelClass} text-anchor="start" x="44" y="114">Sistema</text>
+    <text class={labelClass} text-anchor="start" x="44" y="200">Resultado</text>
+  </svg>
+
+  <!-- Horizontal (escritorio). -->
+  <svg viewBox="0 0 340 76" role="presentation" class="hidden h-auto w-full md:block">
     <line class="stroke-border" x1="40" y1="24" x2="300" y2="24" stroke-width="2" />
 
-    <!-- Nodos del flujo -->
     <circle class="fill-background stroke-border" cx="40" cy="24" r="6" stroke-width="2" />
     <circle class="fill-accent stroke-accent" cx="170" cy="24" r="7" stroke-width="2" />
     <circle class="fill-background stroke-border" cx="300" cy="24" r="6" stroke-width="2" />
 
-    <!-- Etiquetas alineadas al centro de cada nodo -->
     <text class={labelClass} text-anchor="middle" x="40" y="58">Problema</text>
-    <text class="fill-accent font-mono text-[11px] font-semibold uppercase tracking-[0.12em]" text-anchor="middle" x="170" y="58">Sistema</text>
+    <text class={accentLabelClass} text-anchor="middle" x="170" y="58">Sistema</text>
     <text class={labelClass} text-anchor="middle" x="300" y="58">Resultado</text>
   </svg>
 </div>

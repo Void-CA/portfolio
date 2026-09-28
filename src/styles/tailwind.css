@@ -88,3 +88,23 @@
 :root {
   --container-max: 1400px;
 }
+
+/* ----------------------------------------------------------------------------
+   Compactación móvil.
+   El ritmo vertical baja ~30% y la tipografía de forma moderada. Los tiers
+   micro/meta no bajan del piso de legibilidad (~0.75rem); por eso la reducción
+   tipográfica es menor que la del espaciado. Vive en `base` para ganarle a
+   `theme` sin salir del sistema de capas.
+   ---------------------------------------------------------------------------- */
+@layer base {
+  @media (max-width: 47.999rem) {
+    :root {
+      --spacing-section: 4.25rem;
+      --text-meta: 0.75rem;
+      --text-ui: 0.8125rem;
+      --text-base: 0.9375rem;
+      --text-lead: 1rem;
+      --text-title: 1.15rem;
+    }
+  }
+}

@@ -12,7 +12,7 @@ const featured = projects
 {featured.length > 0 && (
   <section id="evidencia" class="py-section">
     <SectionHeader title="Evidencia" link={{ href: "/proyectos", label: "Ver todos →" }} />
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+    <div class="grid grid-cols-1 gap-5 max-md:gap-4 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
       {featured.map(project => <ProjectCard project={project} />)}
     </div>
   </section>

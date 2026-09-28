@@ -133,4 +133,19 @@
       @apply flex-col items-start gap-2;
     }
   }
+
+  /* Compactación móvil: controles y encabezados más densos en pantallas chicas. */
+  @media (max-width: 767.98px) {
+    .btn {
+      @apply px-5 py-2.5;
+    }
+
+    .section-head {
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      @apply px-2.5 py-1;
+    }
+  }
 }

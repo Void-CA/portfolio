@@ -2,22 +2,22 @@
 import HeroDiagram from '../../components/ui/HeroDiagram.astro';
 ---
 
-<section id="propuesta" class="flex flex-col gap-8 pt-12 pb-10 md:flex-row md:items-center md:gap-12 md:pt-20 md:pb-16">
+<section id="propuesta" class="flex flex-col gap-8 pt-12 pb-10 max-md:gap-6 max-md:pt-8 max-md:pb-7 md:flex-row md:items-center md:gap-12 md:pt-20 md:pb-16">
   <div class="max-w-[720px] flex-1">
     <h1>
       Software que se adapta a tu operación, <span class="text-accent">no al revés</span>.
     </h1>
-    <p class="mt-4 max-w-[560px] text-lead leading-[1.7]">
+    <p class="mt-4 max-w-[560px] text-lead leading-[1.7] max-md:mt-3">
       Desarrollo software para automatizar procesos, conectar información y
       resolver operaciones que las herramientas existentes no cubren.
     </p>
-    <div class="mt-7 flex flex-col gap-3 md:flex-row">
+    <div class="mt-7 flex flex-col gap-3 max-md:mt-5 md:flex-row">
       <a href="#contacto" class="btn btn-primary justify-center">Contame tu proyecto</a>
       <a href="/proyectos" class="btn btn-secondary justify-center">Ver proyectos</a>
     </div>
   </div>
 
-  <div class="hidden w-full min-w-0 md:flex md:w-[min(580px,42vw)] md:shrink-0 md:justify-center">
+  <div class="w-full min-w-0 md:flex md:w-[min(580px,42vw)] md:shrink-0 md:justify-center">
     <HeroDiagram />
   </div>
 </section>
