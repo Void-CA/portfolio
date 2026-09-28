@@ -17,7 +17,7 @@ import HeroDiagram from '../../components/ui/HeroDiagram.astro';
   </p>
 
   <div class="hero__actions">
-    <a href="#contacto" class="btn btn-primary justify-center">Contame tu proyecto</a>
+    <a href="#contacto" class="btn btn-primary justify-center">Cuentame tu idea</a>
     <a href="/proyectos" class="btn btn-secondary justify-center">Ver proyectos</a>
   </div>
 </section>
@@ -46,8 +46,6 @@ import HeroDiagram from '../../components/ui/HeroDiagram.astro';
 
   .hero__diagram {
     grid-area: diagram;
-    display: flex;
-    justify-content: center;
     align-self: center;
   }
 
@@ -81,7 +79,7 @@ import HeroDiagram from '../../components/ui/HeroDiagram.astro';
 
   @media (min-width: 48rem) {
     .hero {
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
       grid-template-areas:
         "title diagram"
         "desc diagram"
@@ -107,13 +105,7 @@ import HeroDiagram from '../../components/ui/HeroDiagram.astro';
     }
 
     .hero__diagram {
-      width: min(560px, 40vw);
-    }
-  }
-
-  @media (min-width: 64rem) {
-    .hero__diagram {
-      width: min(760px, 48vw);
+      width: 100%;
     }
   }
 </style>

@@ -4,8 +4,8 @@
 // Abstracto y decorativo (aria-hidden): no aporta información única.
 const vLabelClass = "fill-muted font-mono text-[11px] uppercase tracking-[0.12em]";
 const vAccentClass = "fill-accent font-mono text-[11px] font-semibold uppercase tracking-[0.12em]";
-const hLabelClass = "fill-muted font-mono text-[13px] uppercase tracking-[0.14em]";
-const hAccentClass = "fill-accent font-mono text-[13px] font-semibold uppercase tracking-[0.14em]";
+const hLabelClass = "fill-muted font-mono text-[14px] uppercase tracking-[0.14em]";
+const hAccentClass = "fill-accent font-mono text-[14px] font-semibold uppercase tracking-[0.14em]";
 ---
 
 <div aria-hidden="true">
@@ -23,15 +23,15 @@ const hAccentClass = "fill-accent font-mono text-[13px] font-semibold uppercase 
   </svg>
 
   <!-- Horizontal (escritorio): con más masa visual para acompañar el hero. -->
-  <svg viewBox="0 0 340 100" role="presentation" class="hidden h-auto w-full md:block">
-    <line class="stroke-border" x1="40" y1="34" x2="300" y2="34" stroke-width="2.5" />
+  <svg viewBox="0 0 360 120" role="presentation" class="hidden h-auto w-full md:block">
+    <line class="stroke-border" x1="52" y1="44" x2="308" y2="44" stroke-width="3" />
 
-    <circle class="fill-background stroke-border" cx="40" cy="34" r="8" stroke-width="2.5" />
-    <circle class="fill-accent stroke-accent" cx="170" cy="34" r="9" stroke-width="2.5" />
-    <circle class="fill-background stroke-border" cx="300" cy="34" r="8" stroke-width="2.5" />
+    <circle class="fill-background stroke-border" cx="52" cy="44" r="9" stroke-width="3" />
+    <circle class="fill-accent stroke-accent" cx="180" cy="44" r="11" stroke-width="3" />
+    <circle class="fill-background stroke-border" cx="308" cy="44" r="9" stroke-width="3" />
 
-    <text class={hLabelClass} text-anchor="middle" x="40" y="76">Problema</text>
-    <text class={hAccentClass} text-anchor="middle" x="170" y="76">Sistema</text>
-    <text class={hLabelClass} text-anchor="middle" x="300" y="76">Resultado</text>
+    <text class={hLabelClass} text-anchor="middle" x="52" y="94">Problema</text>
+    <text class={hAccentClass} text-anchor="middle" x="180" y="94">Sistema</text>
+    <text class={hLabelClass} text-anchor="middle" x="308" y="94">Resultado</text>
   </svg>
 </div>
