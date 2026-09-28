@@ -100,11 +100,12 @@
   @media (max-width: 47.999rem) {
     :root {
       --spacing-section: 4.25rem;
-      --text-meta: 0.75rem;
-      --text-ui: 0.8125rem;
-      --text-base: 0.9375rem;
-      --text-lead: 1rem;
-      --text-title: 1.15rem;
+      --text-micro: 0.6875rem;
+      --text-meta: 0.6875rem;
+      --text-ui: 0.75rem;
+      --text-base: 0.875rem;
+      --text-lead: 0.9375rem;
+      --text-title: 1.0625rem;
     }
   }
 }
