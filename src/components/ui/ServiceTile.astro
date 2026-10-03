@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+import type { ServiceSummary } from '../../data/services';
+
+interface Props {
+  service: ServiceSummary;
+  variant?: 'feature' | 'wide' | 'compact';
+  class?: string;
+}
+
+const { service, variant = 'compact' } = Astro.props;
+
+const base = "group relative flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-subtle transition-[border-color,box-shadow] duration-200 hover:border-border-hover hover:shadow-card";
+---
+
+<a
+  href={`/servicios/${service.id}`}
+  class:list={[
+    base,
+    variant === 'feature' ? 'min-h-[200px] p-5 sm:p-6' : 'p-4 sm:p-5',
+    Astro.props.class,
+  ]}
+>
+  <Icon name={service.icon} class="mb-3 hidden text-[1.75rem] text-accent/30 md:block" />
+
+  <span class="text-micro font-bold uppercase tracking-[0.1em] text-accent max-md:block max-md:truncate">{service.need}</span>
+
+  <h3 class:list={[
+    "mt-1.5 line-clamp-2 font-semibold leading-tight tracking-[-0.01em] text-primary transition-colors group-hover:text-accent",
+    variant === 'feature' ? 'text-title max-md:text-lead' : 'text-lead max-md:text-base',
+  ]}>
+    {service.title}
+  </h3>
+
+  <p class:list={[
+    "mt-2 text-secondary",
+    variant === 'compact' ? 'line-clamp-3 text-ui leading-[1.55]' : 'line-clamp-2 text-base leading-[1.6] max-md:text-ui',
+  ]}>
+    {service.description}
+  </p>
+
+  <span class="mt-auto inline-flex items-center gap-1.5 pt-4 text-ui font-semibold text-accent">
+    Ver servicio
+    <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-[3px]">→</span>
+  </span>
+</a>

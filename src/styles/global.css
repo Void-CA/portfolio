@@ -17,6 +17,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Las anclas no quedan tapadas por el header sticky. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+
   img {
     max-width: 100%;
   }

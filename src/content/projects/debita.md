@@ -3,6 +3,7 @@ title: Gestión de finanzas operativas multi-empresa
 brand: Debita
 subtitle: Registros financieros dispersos convertidos en información trazable y consultable
 description: Sistema que administra la información financiera de múltiples empresas clientes por separado y reconstruye el saldo de cada tercero a partir de sus operaciones. Reemplaza la consolidación manual en Excel por consultas trazables y reportes que antes tomaban hasta un día.
+summary: Consolidación manual en Excel reemplazada por saldos trazables.
 status: finished
 featured: true
 order: 1

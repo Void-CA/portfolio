@@ -17,7 +17,7 @@ const sorted = projects.sort((a, b) => a.data.order - b.data.order);
   </section>
 
   <section class="pb-20 pt-4 max-md:pb-12">
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(420px,1fr))] items-stretch gap-5 max-md:grid-cols-1 max-md:gap-4">
+    <div class="grid grid-cols-2 items-stretch gap-5 max-md:gap-4 lg:grid-cols-3">
       {sorted.map(project => <ProjectCard project={project} />)}
     </div>
   </section>

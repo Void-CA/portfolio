@@ -3,23 +3,13 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
 import ServiceNav from './services/ServiceNav.astro';
 import ServicePanel from './services/ServicePanel.astro';
 import ServiceCarousel from './services/ServiceCarousel.astro';
-import { SERVICES } from '../../data/services';
-import type { ResolvedService } from '../../data/services';
-import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
+import { buildServiceSummaries } from '../../data/services';
+import { CONTACT } from '../../components/SiteConfig';
 
-// El servicio es dueño de su propio visual: una imagen conceptual del servicio
-// (no una captura de proyecto). Se resuelve contra src/assets/servicios/ y, si
-// el archivo todavía no existe, el panel muestra un marco neutro para que todos
-// los servicios conserven el mismo peso visual.
-const assets = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/servicios/*.{png,jpg,jpeg,webp,avif}',
-  { eager: true }
-);
-
-const services: ResolvedService[] = SERVICES.map(service => ({
-  ...service,
-  image: assets[`/src/assets/servicios/${service.image}`]?.default,
-}));
+// La sección es una proyección de descubrimiento: identidad + description +
+// visual conceptual. El detalle completo vive en /servicios/[slug].
+const summaries = buildServiceSummaries(await getCollection('services'));
 ---
 
 <section id="servicios" class="py-section">
@@ -28,17 +18,20 @@ const services: ResolvedService[] = SERVICES.map(service => ({
     Desarrollo software alrededor de tu operación. No necesitás llegar con una
     solución definida: podemos empezar por el problema.
   </p>
+  <p class="mt-3 text-ui text-muted">
+    ¿No sabés cuál? <a href={`mailto:${CONTACT.email}`} class="font-semibold text-accent hover:text-accent-strong">Contame el problema y lo vemos.</a>
+  </p>
 
   <div class="mt-14 max-md:mt-8" data-services>
     <div class="hidden lg:block">
-      <ServiceNav services={services} />
+      <ServiceNav services={summaries} />
     </div>
 
-    {services.map((service, i) => (
+    {summaries.map((service, i) => (
       <ServicePanel service={service} active={i === 0} />
     ))}
 
-    <ServiceCarousel services={services} />
+    <ServiceCarousel services={summaries} />
   </div>
 </section>
 

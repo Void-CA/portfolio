@@ -3,6 +3,7 @@ title: Analítica de notas académicas
 brand: PNA
 subtitle: Convertir formatos institucionales en información útil para decidir
 description: Plataforma que toma las planillas de notas que los docentes ya usan y las convierte en analítica por grupo, evaluación y estudiante, sin cambiar el flujo institucional.
+summary: Planillas de notas convertidas en analítica, sin cambiar el flujo.
 status: finished
 featured: true
 order: 2

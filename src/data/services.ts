@@ -1,124 +1,61 @@
+import type { CollectionEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 
-export interface Service {
+// Fuente: colección `services`. El modelo completo es la fuente de verdad; el
+// home consume una proyección de resumen y la página de servicio, el detalle.
+export type ServiceEntry = CollectionEntry<'services'>;
+export type ProjectEntry = CollectionEntry<'projects'>;
+export type ServiceDetail = ServiceEntry['data']['detail'];
+
+// Proyección de reconocimiento rápido: lo que consumen home, bento, nav y
+// carrusel. Sale de `summary` (contenido editorial propio), nunca de `detail`.
+export interface ServiceSummary {
   id: string;
   num: string;
-  icon: string;
-  label: string;        // nombre corto para el selector
-  category: string;     // agrupación temática en el selector
-  problem: string;      // el problema, en voz del cliente
-  title: string;        // la solución
+  label: string;
+  title: string;
+  need: string;
   description: string;
-  changes: string[];    // "qué cambia"
-  examples: string[];   // qué se puede pedir en concreto, sin jerga
-  image: string;        // archivo dentro de src/assets/servicios/
-  imageAlt: string;     // descripción del visual conceptual del servicio
+  icon: string;
+  order: number;
+  visual?: ImageMetadata;
+  problem: string;
+  points: string[];
+  scope: string[];
 }
 
-// Servicio con su visual ya resuelto a un asset de Astro (o sin imagen todavía).
-export interface ResolvedService extends Omit<Service, "image"> {
-  image?: ImageMetadata;
+// Resuelve el visual de un proyecto de evidencia: imagen de la galería por
+// `key` o, si no se indica, la portada. Se usa en la card de Evidencia de la
+// página de servicio; el visual de identidad del servicio es `image` (conceptual).
+export function resolveProjectVisual(
+  evidence: ServiceEntry['data']['evidence'],
+  projects: ProjectEntry[],
+): ImageMetadata | undefined {
+  if (!evidence) return undefined;
+  const project = projects.find(p => p.id === evidence.project);
+  if (!project) return undefined;
+  if (evidence.image) {
+    const match = project.data.images?.find(img => img.key === evidence.image);
+    if (match) return match.src;
+  }
+  return project.data.image;
 }
 
-// Los servicios describen qué problema se resuelve y cómo se trabaja.
-// La evidencia de que se hizo vive en la sección de proyectos: acá no se
-// referencian casos. El `image` es un visual conceptual del servicio, no una
-// captura de un proyecto.
-//
-// El conjunto se lee como una sola especialidad —software aplicado a
-// operaciones— con distintas formas de intervención, no como seis
-// especialidades independientes. La redacción evita el tono de agencia y usa
-// el vocabulario del oficio: centralizar, registrar, procesar, integrar,
-// consultar, controlar.
-export const SERVICES: Service[] = [
-  {
-    id: "automatizar",
-    num: "01",
-    icon: "cycle",
-    label: "Automatización",
-    category: "Operaciones",
-    problem: "Hay tareas que hacemos a mano constantemente.",
-    title: "Automatizar procesos operativos",
-    description:
-      "Convertimos tareas repetitivas en flujos de software que ejecutan, validan y registran cada operación.",
-    changes: ["Ejecución automática de tareas", "Validación en cada paso", "Registro de cada operación"],
-    examples: ["Procesos repetitivos", "Generación de documentos", "Avisos y notificaciones"],
-    image: "automatizacion.jpg",
-    imageAlt: "Representación de un proceso automatizado: entrada, procesamiento y salida",
-  },
-  {
-    id: "sistemas-internos",
-    num: "02",
-    icon: "layers",
-    label: "Sistemas internos",
-    category: "Operaciones",
-    problem: "La información está repartida entre varias herramientas.",
-    title: "Centralizar la operación en un sistema propio",
-    description:
-      "Reunimos información y procesos dispersos en una herramienta común, con datos consistentes y trazabilidad de las operaciones.",
-    changes: ["Información centralizada", "Datos consistentes entre áreas", "Trazabilidad de las operaciones"],
-    examples: ["Inventario", "Facturación", "Control de ventas", "Gestión de clientes"],
-    image: "sistemas-internos.jpg",
-    imageAlt: "Vistas de un sistema interno que unifica información antes dispersa",
-  },
-  {
-    id: "analitica",
-    num: "03",
-    icon: "chart",
-    label: "Analítica",
-    category: "Datos",
-    problem: "Tenemos datos, pero obtener información útil requiere demasiado trabajo.",
-    title: "Convertir datos operativos en información útil",
-    description:
-      "Estructuramos y procesamos los datos de tu operación para construir consultas, indicadores y reportes que puedas utilizar directamente.",
-    changes: ["Datos estructurados y consultables", "Indicadores y reportes a medida", "Consultas directas sobre la operación"],
-    examples: ["Reportes de ventas", "Control de gastos", "Indicadores del negocio", "Seguimiento de resultados"],
-    image: "analitica.jpg",
-    imageAlt: "Tablero analítico con indicadores y visualización de datos",
-  },
-  {
-    id: "integracion",
-    num: "04",
-    icon: "link",
-    label: "Integraciones",
-    category: "Datos",
-    problem: "Nuestros sistemas no se comunican entre sí.",
-    title: "Conectar sistemas y datos",
-    description:
-      "Diseñamos integraciones para que diferentes aplicaciones intercambien información de forma controlada, sin duplicar trabajo ni centralizarlo todo en una sola aplicación.",
-    changes: ["Intercambio entre aplicaciones", "Sin duplicar trabajo", "Cada sistema sigue siendo independiente"],
-    examples: ["Facturación ↔ contabilidad", "Tienda ↔ inventario", "Formularios ↔ base de datos", "Información entre sucursales"],
-    image: "integracion.jpg",
-    imageAlt: "Sistemas distintos conectados entre sí mediante una capa de integración",
-  },
-  {
-    id: "a-medida",
-    num: "05",
-    icon: "sliders",
-    label: "Software a medida",
-    category: "Sistemas",
-    problem: "Las herramientas existentes no se ajustan a nuestro proceso.",
-    title: "Construir software alrededor de tu operación",
-    description:
-      "Diseñamos y desarrollamos la herramienta específica que necesita tu proceso, en lugar de obligarlo a adaptarse a una solución genérica.",
-    changes: ["Se ajusta a tu proceso", "No obliga a cambiar tu forma de trabajar", "Herramientas propias, no genéricas"],
-    examples: ["Herramientas internas", "Portales para clientes", "Apps para equipos en campo", "Procesos particulares"],
-    image: "a-medida.jpg",
-    imageAlt: "Interfaz de una aplicación de negocio construida a medida",
-  },
-  {
-    id: "industrial",
-    num: "06",
-    icon: "cpu",
-    label: "Sistemas industriales",
-    category: "Sistemas",
-    problem: "Necesitamos conectar software con equipos o procesos físicos.",
-    title: "Software para monitoreo y control de procesos físicos",
-    description:
-      "Conectamos software con dispositivos y señales para observar procesos, procesar su información y ejecutar respuestas definidas por la operación.",
-    changes: ["Adquisición de señales de equipos", "Monitoreo y procesamiento de señales", "Respuestas según reglas de la operación"],
-    examples: ["Monitoreo de sensores", "Lectura de medidores", "Control de equipos", "Alertas ante desvíos"],
-    image: "industrial.jpg",
-    imageAlt: "Equipo físico conectado a un sistema de monitoreo y control",
-  },
-];
+export function buildServiceSummaries(services: ServiceEntry[]): ServiceSummary[] {
+  return [...services]
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((entry, i) => ({
+      id: entry.id,
+      num: String(i + 1).padStart(2, '0'),
+      label: entry.data.label,
+      title: entry.data.title,
+      need: entry.data.need,
+      description: entry.data.description,
+      icon: entry.data.icon,
+      order: entry.data.order,
+      visual: entry.data.image,
+      problem: entry.data.summary.problem,
+      points: entry.data.summary.points,
+      scope: entry.data.summary.scope,
+    }));
+}

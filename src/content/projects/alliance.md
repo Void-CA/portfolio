@@ -3,6 +3,7 @@ title: Ecosistema de gestión operativa para transporte
 brand: Alliance
 subtitle: Facturación, viajes y liquidaciones en aplicaciones autónomas
 description: Conjunto de aplicaciones que digitalizan la operación administrativa de una empresa de transporte. Facturación, registro de viajes y liquidaciones viven en módulos independientes que se integran por API en lugar de compartir tablas.
+summary: Operación administrativa de transporte, conectada y unificada.
 status: ongoing
 featured: false
 order: 4

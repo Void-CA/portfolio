@@ -3,6 +3,7 @@ title: Monitoreo y ejecución robótica industrial
 brand: Thalos
 subtitle: Plataforma de modelado, análisis y ejecución de sistemas robóticos
 description: Plataforma que planifica trayectorias y las ejecuta sobre simulación o hardware real. La generación de movimiento está desacoplada del backend, de modo que el mismo sistema opera sobre simulación, ROS2 o controladores físicos sin reescribir el dominio.
+summary: Ejecuciones robóticas comparables entre simulación y hardware.
 status: ongoing
 featured: true
 order: 3

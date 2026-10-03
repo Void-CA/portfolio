@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Icon from '../../components/ui/Icon.astro';
+import { CONTACT } from '../../components/SiteConfig';
+import { getCollection } from 'astro:content';
+import { resolveProjectVisual } from '../../data/services';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(service => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { data } = service;
+const detail = data.detail;
+
+const projects = await getCollection('projects');
+const evidenceProject = data.evidence
+  ? projects.find(p => p.id === data.evidence?.project)
+  : undefined;
+const evidenceVisual = resolveProjectVisual(data.evidence, projects);
+
+const heroImage = data.image;
+const hasVisual = Boolean(heroImage);
+const hasProblem = Boolean(detail.problem);
+const hasSituations = detail.situations.length > 0;
+const hasChanges = detail.changes.length > 0;
+const hasApplications = detail.applications.length > 0;
+const hasIntegrations = detail.integrations.length > 0;
+const hasBuild = detail.build.length > 0;
+const hasFit = detail.fit.length > 0;
+
+const itemClass = "relative pl-6 text-base leading-[1.65] text-secondary before:absolute before:left-0 before:text-accent before:content-['—']";
+---
+
+<Layout title={data.title} description={data.description}>
+  <article class="py-12 pb-20 max-md:py-8 max-md:pb-12">
+    <a href="/servicios" class="mb-8 inline-flex items-center gap-1 text-ui text-secondary transition-colors hover:text-accent max-md:mb-6">← Servicios</a>
+
+    <header class:list={["mb-12 grid gap-10 max-md:mb-8 max-md:gap-6", hasVisual && "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start"]}>
+      <div class="flex max-w-[68ch] flex-col gap-4">
+        <p class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{data.need}</p>
+        <h1 class="m-0">{data.title}</h1>
+        <p class="text-lead text-secondary">{data.description}</p>
+      </div>
+
+      {hasVisual && (
+        <figure class="order-first m-0 overflow-hidden rounded-lg border border-border bg-surface shadow-card lg:order-none">
+          <Image
+            src={heroImage!}
+            alt={data.imageAlt ?? data.title}
+            loading="eager"
+            class="block h-auto w-full"
+          />
+        </figure>
+      )}
+    </header>
+
+    {hasProblem && (
+      <section class="mb-12 border-t border-border pt-8 max-md:mb-8 max-md:pt-6">
+        <span class="eyebrow"><Icon name="target" class="text-base" />El problema</span>
+        <p class="mt-4 max-w-[76ch] text-lead leading-[1.7] text-primary">{detail.problem}</p>
+      </section>
+    )}
+
+    {hasSituations && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow">¿Te pasa esto?</span>
+        <ul class="mt-4 grid list-none gap-3 sm:grid-cols-2">
+          {detail.situations.map(item => <li class={itemClass}>{item}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {hasChanges && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow"><Icon name="check" class="text-base" />¿Qué cambia?</span>
+        <ul class="mt-4 grid list-none gap-3 sm:grid-cols-2">
+          {detail.changes.map(item => <li class={itemClass}>{item}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {hasApplications && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow"><Icon name="cube" class="text-base" />Ejemplos de aplicación</span>
+        <div class="mt-4 grid gap-3 max-md:gap-0 max-md:divide-y max-md:divide-border sm:grid-cols-2 lg:grid-cols-3">
+          {detail.applications.map(app => (
+            <div class="flex flex-col gap-1 py-3.5 max-md:first:pt-0 max-md:last:pb-0 sm:rounded-sm sm:border sm:border-border sm:bg-surface sm:px-4 sm:py-3">
+              <span class="text-ui font-semibold text-primary">{app.title}</span>
+              <span class="text-base leading-[1.55] text-secondary max-md:text-ui">{app.description}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {hasIntegrations && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow"><Icon name="link" class="text-base" />¿Con qué puede conectarse?</span>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {detail.integrations.map(item => <span class="chip chip--tech">{item}</span>)}
+        </div>
+      </section>
+    )}
+
+    {hasBuild && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow text-muted"><Icon name="sliders" class="text-base" />Cómo se implementa</span>
+        <p class="mt-3 max-w-[76ch] text-ui leading-[1.7] text-muted">{detail.build.join(" · ")}</p>
+      </section>
+    )}
+
+    {hasFit && (
+      <section class="mb-12 border-t border-border pt-8 max-md:mb-8 max-md:pt-6">
+        <span class="eyebrow">Puede ser una buena opción si…</span>
+        <ul class="mt-4 grid list-none gap-3 sm:grid-cols-2">
+          {detail.fit.map(item => <li class={itemClass}>{item}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {evidenceProject && (
+      <section class="mb-12 max-md:mb-8">
+        <span class="eyebrow">Evidencia</span>
+        <a href={`/proyectos/${evidenceProject.id}`} class="group mt-4 flex flex-col gap-4 overflow-hidden rounded-xl border border-border bg-background p-5 shadow-subtle transition-[border-color,box-shadow] duration-200 hover:border-border-hover hover:shadow-card sm:flex-row sm:items-center">
+          {evidenceVisual && (
+            <div class="h-40 w-full shrink-0 overflow-hidden rounded-lg bg-surface sm:h-28 sm:w-48">
+              <Image src={evidenceVisual} alt="" loading="lazy" class="block h-full w-full object-cover" />
+            </div>
+          )}
+          <div class="min-w-0">
+            {evidenceProject.data.brand && (
+              <span class="text-micro font-bold uppercase tracking-[0.1em] text-accent">{evidenceProject.data.brand}</span>
+            )}
+            <h3 class="mt-1 text-lead font-semibold leading-tight tracking-[-0.01em] text-primary transition-colors group-hover:text-accent">{evidenceProject.data.title}</h3>
+            <p class="mt-1 line-clamp-2 text-base leading-[1.55] text-secondary">{evidenceProject.data.description}</p>
+            <span class="mt-2 inline-flex items-center gap-1.5 text-ui font-semibold text-accent">
+              Ver caso
+              <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-[3px]">→</span>
+            </span>
+          </div>
+        </a>
+      </section>
+    )}
+
+    <footer class="flex flex-wrap gap-3 border-t border-border pt-6">
+      <a href={`mailto:${CONTACT.email}`} class="btn btn-primary">¿Tenés un proceso que querés mejorar?</a>
+    </footer>
+  </article>
+</Layout>

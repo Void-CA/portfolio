@@ -3,6 +3,7 @@ title: Planificación y control operativo agrícola
 brand: Kora
 subtitle: Sistema de gestión operativa de cultivos
 description: Plataforma que separa la planificación de la ejecución real en campo, para contrastar lo programado con lo que efectivamente ocurrió. Modela ciclos de cultivo, actividades, costos y trazabilidad histórica.
+summary: Planificación y ejecución en campo, conectadas y trazables.
 status: ongoing
 featured: false
 order: 5

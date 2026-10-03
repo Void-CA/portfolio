@@ -8,6 +8,7 @@ const projects = defineCollection({
     brand: z.string().optional(),      // nombre del producto, identificación secundaria
     subtitle: z.string().optional(),
     description: z.string(),
+    summary: z.string(),               // 1 línea problema→resultado para la card (summary); no derivada de description/result
     status: z.enum(["ongoing", "finished", "archived"]),
     kind: z.enum(["client", "own"]).optional(),   // trabajo para cliente vs proyecto propio
     clientNote: z.string().optional(),            // sector o contexto del cliente, sin nombre
@@ -48,6 +49,58 @@ const projects = defineCollection({
   }),
 });
 
+// Un servicio es un modelo rico; el home y el listado consumen una proyección
+// de resumen (identidad + description + visual conceptual), y la página
+// /servicios/[slug] consume el detalle completo.
+//
+// El catálogo es plano (5 servicios, sin categorías): `need` es la frase en voz
+// del cliente que funciona como puerta de entrada orientada al problema.
+//
+// `evidence` apunta a un proyecto real (slug) y, opcionalmente, a una imagen de
+// su galería por `key`.
+const services = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/services" }),
+  schema: ({ image }) => z.object({
+    label: z.string(),        // nombre de la oferta para tiles y lista
+    title: z.string(),        // título completo; H1 de la vista de servicio
+    need: z.string(),         // puerta de entrada en voz del cliente (selector)
+    description: z.string(),  // resumen de descubrimiento (home + meta)
+    icon: z.string(),
+    order: z.number().default(0),
+
+    // Visual conceptual del servicio: identidad visual en home, bento y hero.
+    // No es evidencia; la evidencia vive en `evidence`.
+    image: image().optional(),
+    imageAlt: z.string().optional(),
+
+    // Capa de reconocimiento rápido (home, bento, carrusel). Es contenido
+    // editorial propio, NO una versión truncada de `detail`.
+    summary: z.object({
+      problem: z.string(),                          // 1 frase, 30–70 caracteres
+      points: z.array(z.string()).default([]),      // máx 3, casi etiquetas
+      scope: z.array(z.string()).default([]),       // máx 5, reconocible por el cliente
+    }),
+
+    detail: z.object({
+      problem: z.string().optional(),                 // narrativa en voz del cliente
+      situations: z.array(z.string()).default([]),    // señales donde el cliente se reconoce
+      changes: z.array(z.string()).default([]),       // cambios observables
+      applications: z.array(z.object({                // escenarios desarrollados
+        title: z.string(),
+        description: z.string(),
+      })).default([]),
+      integrations: z.array(z.string()).default([]),  // con qué puede conectarse
+      build: z.array(z.string()).default([]),         // implementación técnica (subordinada)
+      fit: z.array(z.string()).default([]),           // "puede ser una buena opción si…"
+    }),
+
+    evidence: z.object({      // opcional mientras el contenido está en desarrollo
+      project: z.string(),    // slug del proyecto que respalda el servicio
+      image: z.string().optional(), // key de la galería del proyecto; si falta, portada
+    }).optional(),
+  }),
+});
+
 const about = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/about" }),
   schema: z.object({
@@ -74,5 +127,6 @@ const about = defineCollection({
 
 export const collections = {
   projects,
+  services,
   about,
 };

@@ -1,10 +1,10 @@
 ---
 import Icon from '../../../components/ui/Icon.astro';
 import { Image } from 'astro:assets';
-import type { ResolvedService } from '../../../data/services';
+import type { ServiceSummary } from '../../../data/services';
 
 interface Props {
-  services: ResolvedService[];
+  services: ServiceSummary[];
 }
 
 const { services } = Astro.props;
@@ -16,11 +16,11 @@ const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary befo
   <div class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-carousel-track>
     {services.map(service => (
       <article class="flex w-full shrink-0 snap-center flex-col gap-4 rounded-xl border border-border bg-surface p-5 max-md:gap-3 max-md:p-4" data-carousel-slide>
-        {service.image ? (
+        {service.visual ? (
           <figure class="m-0 overflow-hidden rounded-lg border border-border bg-background">
             <Image
-              src={service.image}
-              alt={service.imageAlt}
+              src={service.visual}
+              alt={service.title}
               widths={[480, 800]}
               sizes="100vw"
               loading="lazy"
@@ -34,28 +34,41 @@ const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary befo
         )}
 
         <div class="min-w-0">
-          <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{service.category}</span>
+          <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{service.need}</span>
           <h3 class="mt-1 text-title tracking-[-0.01em] text-primary">{service.title}</h3>
           <p class="mt-2 text-base leading-[1.6] text-secondary">{service.description}</p>
 
-          <div class="mt-4 border-t border-border pt-4 max-[410px]:hidden">
-            <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
-            <ul class="flex list-none flex-col gap-2">
-              {service.changes.map(change => <li class={changeItemClass}>{change}</li>)}
-            </ul>
-          </div>
+          {service.problem && (
+            <p class="mt-3 border-l-2 border-accent pl-3 text-ui leading-[1.55] text-muted">{service.problem}</p>
+          )}
 
-          <div class="mt-4 border-t border-border pt-4">
-            <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Por ejemplo</span>
-            <div class="flow">
-              {service.examples.map((example, idx) => (
-                <>
-                  <span class="flow-step">{example}</span>
-                  {idx < service.examples.length - 1 && <span class="flow-sep">·</span>}
-                </>
-              ))}
+          {service.points.length > 0 && (
+            <div class="mt-4 border-t border-border pt-4">
+              <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
+              <ul class="flex list-none flex-col gap-2">
+                {service.points.map(change => <li class={changeItemClass}>{change}</li>)}
+              </ul>
             </div>
-          </div>
+          )}
+
+          {service.scope.length > 0 && (
+            <div class="mt-4 border-t border-border pt-4">
+              <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Por ejemplo</span>
+              <div class="flow">
+                {service.scope.map((example, idx) => (
+                  <>
+                    <span class="flow-step">{example}</span>
+                    {idx < service.scope.length - 1 && <span class="flow-sep">·</span>}
+                  </>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <a href={`/servicios/${service.id}`} class="mt-4 inline-flex items-center gap-1.5 text-ui font-semibold text-accent transition-colors hover:text-accent-strong">
+            Ver servicio completo
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       </article>
     ))}
@@ -65,16 +78,21 @@ const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary befo
     <span class="font-mono text-meta tabular-nums text-muted">
       <span data-carousel-current>01</span> / {String(services.length).padStart(2, "0")}
     </span>
-    <div class="flex gap-1.5" data-carousel-dots>
+    <div class="flex gap-0.5" data-carousel-dots>
       {services.map((_, i) => (
         <button
           type="button"
-          class="h-1.5 rounded-full bg-border transition-all aria-[current=true]:w-5 aria-[current=true]:bg-accent w-1.5"
+          class="group flex h-8 w-8 items-center justify-center"
           data-carousel-dot
           data-index={i}
           aria-label={`Ir al servicio ${i + 1}`}
           aria-current={i === 0 ? "true" : "false"}
-        ></button>
+        >
+          <span
+            class="h-1.5 w-1.5 rounded-full bg-border transition-all group-aria-[current=true]:w-5 group-aria-[current=true]:bg-accent"
+            aria-hidden="true"
+          ></span>
+        </button>
       ))}
     </div>
   </div>
