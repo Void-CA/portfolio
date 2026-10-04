@@ -8,8 +8,6 @@ interface Props {
 }
 
 const { services } = Astro.props;
-
-const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary before:absolute before:left-0 before:text-accent before:content-['—']";
 ---
 
 <div class="lg:hidden" data-service-carousel>
@@ -34,36 +32,8 @@ const changeItemClass = "relative pl-5 text-base leading-[1.5] text-primary befo
         )}
 
         <div class="min-w-0">
-          <span class="text-micro font-bold uppercase tracking-[0.08em] text-accent">{service.need}</span>
-          <h3 class="mt-1 text-title tracking-[-0.01em] text-primary">{service.title}</h3>
+          <h3 class="text-title tracking-[-0.01em] text-primary">{service.title}</h3>
           <p class="mt-2 text-base leading-[1.6] text-secondary">{service.description}</p>
-
-          {service.problem && (
-            <p class="mt-3 border-l-2 border-accent pl-3 text-ui leading-[1.55] text-muted">{service.problem}</p>
-          )}
-
-          {service.points.length > 0 && (
-            <div class="mt-4 border-t border-border pt-4">
-              <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Qué cambia</span>
-              <ul class="flex list-none flex-col gap-2">
-                {service.points.map(change => <li class={changeItemClass}>{change}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {service.scope.length > 0 && (
-            <div class="mt-4 border-t border-border pt-4">
-              <span class="mb-2.5 block text-micro font-bold uppercase tracking-[0.08em] text-accent">Por ejemplo</span>
-              <div class="flow">
-                {service.scope.map((example, idx) => (
-                  <>
-                    <span class="flow-step">{example}</span>
-                    {idx < service.scope.length - 1 && <span class="flow-sep">·</span>}
-                  </>
-                ))}
-              </div>
-            </div>
-          )}
 
           <a href={`/servicios/${service.id}`} class="mt-4 inline-flex items-center gap-1.5 text-ui font-semibold text-accent transition-colors hover:text-accent-strong">
             Ver servicio completo

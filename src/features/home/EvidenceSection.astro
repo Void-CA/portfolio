@@ -12,7 +12,7 @@ const featured = projects
 {featured.length > 0 && (
   <section id="evidencia" class="py-section">
     <SectionHeader title="Evidencia" link={{ href: "/proyectos", label: "Ver todos →" }} />
-    <div class="grid grid-cols-2 gap-5 max-md:gap-4 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 max-md:gap-4 md:grid-cols-2 lg:grid-cols-3">
       {featured.map((project, i) => (
         <ProjectCard project={project} class={i >= 2 ? "max-lg:hidden" : undefined} />
       ))}

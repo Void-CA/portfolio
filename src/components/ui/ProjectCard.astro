@@ -40,9 +40,9 @@ const originLabel = data.kind ? originLabels[data.kind] : "";
     <a href={`/proyectos/${slug}`} class="text-inherit no-underline after:absolute after:inset-0 after:rounded-xl">{data.title}</a>
   </h3>
 
-  <p class="line-clamp-2 text-base max-md:text-ui leading-[1.55] text-secondary">{data.summary}</p>
+  <p class="line-clamp-2 text-base max-md:hidden leading-[1.55] text-secondary">{data.summary}</p>
 
-  <div class="mt-auto flex items-center justify-between gap-3 pt-2.5 max-md:justify-end max-md:pt-4 md:border-t md:border-border">
+  <div class="mt-auto flex items-center justify-between gap-3 pt-2.5 max-md:hidden md:border-t md:border-border">
     <span class="hidden min-w-0 items-center gap-1.5 text-micro font-semibold uppercase tracking-[0.05em] text-muted md:flex">
       {originLabel}
       {originLabel && statusLabel && <span class="opacity-50">·</span>}
