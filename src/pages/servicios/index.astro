@@ -6,10 +6,10 @@ import { buildServiceSummaries } from '../../data/services';
 
 const services = buildServiceSummaries(await getCollection('services'));
 
-// Bento de 5: el primero es el hero; el resto en una grilla que mantiene la
-// forma también en móvil (2 columnas).
+// Bento de 5: el primero es el hero; el resto en una grilla que en móvil pasa a
+// una lista apilada (1 columna) y en sm/lg recupera la forma de bento.
 const spans = [
-  'col-span-2 lg:col-span-6',
+  'col-span-1 sm:col-span-2 lg:col-span-6',
   'col-span-1 lg:col-span-3',
   'col-span-1 lg:col-span-3',
   'col-span-1 lg:col-span-3',
@@ -32,7 +32,7 @@ const variants = ['feature', 'wide', 'wide', 'wide', 'wide'] as const;
   </section>
 
   <section class="pb-20 max-md:pb-12">
-    <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6">
       {services.map((service, i) => (
         <ServiceTile
           service={service}
