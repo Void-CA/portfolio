@@ -1,7 +1,7 @@
 ---
 title: Quién está detrás del software.
 lead: Soy Ari Castillo, desarrollador de software orientado a sistemas. Apasionado por las tecnologías de la información, la ingeniería de datos y la automatización.
-location: Chinandega, Nicaragua · Trabajo remoto · Español / Inglés
+location: Chinandega, Nicaragua · Presencial en Occidente (Chinandega, León, Managua, Estelí) · Remoto en Nicaragua y otros mercados · Español / Inglés
 
 flow:
   - Proceso

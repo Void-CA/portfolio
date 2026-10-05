@@ -4,7 +4,7 @@ title: "Automatizar procesos operativos"
 need: "Eliminar tareas repetitivas"
 description: "Automatizo tareas repetitivas con flujos que ejecutan, validan y registran cada paso."
 icon: "cycle"
-order: 2
+order: 4
 image: "../../assets/servicios/automatizacion.jpg"
 imageAlt: "Representación de un proceso automatizado: entrada, procesamiento y salida"
 summary:
@@ -31,7 +31,7 @@ detail:
     - "Un error en un paso obliga a rehacer el resto."
     - "Nadie sabe con certeza qué se ejecutó y qué no."
   changes:
-    - "Las tareas repetitivas se ejecutan solas, cuando corresponden."
+    - "Las tareas repetitivas se ejecutan automáticamente, cuando corresponden."
     - "Cada paso se valida antes de seguir."
     - "Cada ejecución queda registrada, con fecha y resultado."
     - "Los errores por olvido dejan de ocurrir."

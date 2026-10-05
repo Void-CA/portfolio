@@ -11,6 +11,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "perfil:pdf": "google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=\"$PWD/public/perfil-comercial.pdf\" \"file://$PWD/docs/kit-comercial.html\"",
     "astro": "astro"
   },
   "dependencies": {

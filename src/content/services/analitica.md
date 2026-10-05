@@ -1,10 +1,10 @@
 ---
-label: "Analítica"
+label: "Análisis y ciencia de datos"
 title: "Convertir datos operativos en información útil"
 need: "Entender mis datos"
-description: "Convierto los datos de tu operación en consultas, indicadores y reportes que podés usar directamente."
+description: "Analizo los datos de tu operación para convertirlos en indicadores, reportes y modelos que podés usar para decidir."
 icon: "chart"
-order: 4
+order: 2
 image: "../../assets/servicios/analitica.jpg"
 imageAlt: "Tablero analítico con indicadores y visualización de datos"
 summary:
@@ -35,14 +35,16 @@ detail:
     - "Los reportes se generan solos, sin rearmarlos cada vez."
     - "Podés responder preguntas sobre la operación cuando las necesitás."
   applications:
+    - title: "Análisis exploratorio"
+      description: "Poner los datos en orden: formatos, faltantes, duplicados y consistencia antes de analizarlos."
     - title: "Tablero de indicadores"
       description: "Los números principales del negocio en un solo lugar, actualizados."
     - title: "Reportes periódicos"
       description: "Ventas, gastos o resultados por período, listos para revisar o exportar."
     - title: "Seguimiento por cliente o producto"
       description: "Evolución y comportamiento de cada cliente o producto."
-    - title: "Consultas a medida"
-      description: "Preguntas concretas sobre tu operación, resueltas sobre los datos reales."
+    - title: "Modelos y experimentación"
+      description: "Probar modelos o reglas sobre datos reales para apoyar una decisión."
   integrations:
     - "Sistemas que ya usás"
     - "Planillas y exportaciones"
@@ -50,8 +52,9 @@ detail:
     - "Formularios"
   build:
     - "Modelado de datos"
+    - "Análisis estadístico"
     - "Bases de datos relacionales"
-    - "Reportes exportables"
+    - "Visualización y reportes"
   fit:
     - "Las decisiones dependen de datos que hoy cuesta leer."
     - "Necesitás los mismos indicadores de forma consistente."

@@ -1,8 +1,8 @@
 ---
-label: "Software a medida"
+label: "Desarrollo de software"
 title: "Software a medida para tu operación"
 need: "Sistema para mi operación"
-description: "Construyo sistemas y aplicaciones adaptados a la forma en que trabaja tu empresa, sin depender de una solución genérica."
+description: "Desarrollo aplicaciones y sistemas adaptados a la forma en que trabaja tu empresa, sin depender de una solución genérica."
 icon: "sliders"
 order: 1
 image: "../../assets/servicios/sistemas-internos.jpg"
