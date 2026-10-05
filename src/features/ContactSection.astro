@@ -42,9 +42,14 @@ const {
           ))}
         </ol>
 
-        <a href={`mailto:${CONTACT.email}`} class="btn btn-primary mt-1 w-full justify-center shadow-subtle sm:w-auto">
-          <Icon name="mail" class="btn-icon" />Escribime
-        </a>
+        <div class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <a href={`mailto:${CONTACT.email}`} class="btn btn-primary w-full justify-center shadow-subtle sm:w-auto">
+            <Icon name="mail" class="btn-icon" />Escribime
+          </a>
+          <a href="/perfil-comercial.pdf" download class="btn btn-secondary w-full justify-center sm:w-auto">
+            <Icon name="download" class="btn-icon" />Perfil comercial (PDF)
+          </a>
+        </div>
 
         <p class="text-ui leading-[1.6] text-muted">{phrase}</p>
       </div>
