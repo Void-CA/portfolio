@@ -1,6 +1,7 @@
 ---
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import SiteBackdrop from '../components/layout/SiteBackdrop.astro';
 import { IDENTITY, CONTACT, SOCIAL } from '../components/SiteConfig';
 
 import '../styles/tailwind.css';
@@ -59,6 +60,7 @@ const jsonLd = {
 	</head>
 	<body>
 		<div class="page">
+			<SiteBackdrop />
 			<Header />
 			<main>
 				<slot />

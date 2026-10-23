@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <!-- Fondo único de sistema (vertical): mismo grafo con el camino destacado.
+       Blanco sobre transparente: se usa como mask-image y el color viene del token de acento. -->
+  <g stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" opacity="0.75">
+    <path d="M120 120L300 90M120 120L90 300M120 120L260 280M300 90L480 160M300 90L260 280M480 160L650 110M480 160L430 320M480 160L600 280M650 110L760 220M650 110L600 280M760 220L740 380M90 300L260 280M90 300L150 480M260 280L430 320M260 280L150 480M260 280L340 470M430 320L600 280M430 320L340 470M430 320L520 460M600 280L740 380M600 280L520 460M600 280L680 500M740 380L680 500M740 380L760 600M150 480L340 470M150 480L110 660M340 470L520 460M340 470L300 650M520 460L680 500M520 460L300 650M520 460L480 660M680 500L760 600M680 500L480 660M680 500L640 680M760 600L640 680M110 660L300 650M110 660L180 840M300 650L480 660M300 650L180 840M300 650L380 820M480 660L640 680M480 660L380 820M480 660L560 860M640 680L560 860M640 680L720 820M180 840L380 820M180 840L300 950M380 820L560 860M380 820L300 950M560 860L720 820M560 860L520 960M720 820L520 960"/>
+  </g>
+
+  <g fill="#FFFFFF" opacity="0.9">
+    <circle cx="120" cy="120" r="2.4"/>
+    <circle cx="300" cy="90" r="2.4"/>
+    <circle cx="480" cy="160" r="2.4"/>
+    <circle cx="650" cy="110" r="2.4"/>
+    <circle cx="760" cy="220" r="2.4"/>
+    <circle cx="90" cy="300" r="2.4"/>
+    <circle cx="260" cy="280" r="2.4"/>
+    <circle cx="430" cy="320" r="2.4"/>
+    <circle cx="600" cy="280" r="2.4"/>
+    <circle cx="740" cy="380" r="2.4"/>
+    <circle cx="150" cy="480" r="2.4"/>
+    <circle cx="340" cy="470" r="2.4"/>
+    <circle cx="520" cy="460" r="2.4"/>
+    <circle cx="680" cy="500" r="2.4"/>
+    <circle cx="760" cy="600" r="2.4"/>
+    <circle cx="110" cy="660" r="2.4"/>
+    <circle cx="300" cy="650" r="2.4"/>
+    <circle cx="480" cy="660" r="2.4"/>
+    <circle cx="640" cy="680" r="2.4"/>
+    <circle cx="180" cy="840" r="2.4"/>
+    <circle cx="380" cy="820" r="2.4"/>
+    <circle cx="560" cy="860" r="2.4"/>
+    <circle cx="720" cy="820" r="2.4"/>
+    <circle cx="300" cy="950" r="2.4"/>
+    <circle cx="520" cy="960" r="2.4"/>
+  </g>
+
+  <g fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.9">
+    <circle cx="480" cy="160" r="6"/>
+    <circle cx="340" cy="470" r="6"/>
+    <circle cx="480" cy="660" r="6"/>
+    <circle cx="720" cy="820" r="6"/>
+  </g>
+
+  <!-- Camino destacado dentro del mismo grafo. -->
+  <g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.95">
+    <path d="M380 820L480 660L520 460L600 280L650 110"/>
+  </g>
+
+  <g>
+    <circle cx="380" cy="820" r="2.8" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="480" cy="660" r="2.8" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="520" cy="460" r="6.5" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.95"/>
+    <circle cx="520" cy="460" r="2.3" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M593 273L607 287M607 273L593 287" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.95"/>
+    <circle cx="650" cy="110" r="6" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity="0.9"/>
+    <circle cx="650" cy="110" r="2.2" fill="#FFFFFF" opacity="0.9"/>
+  </g>
+</svg>

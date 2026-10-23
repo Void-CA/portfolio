@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" fill="none">
+  <!-- Fondo único de sistema (escritorio): un solo grafo con un camino destacado.
+       Blanco sobre transparente: se usa como mask-image y el color viene del token de acento. -->
+  <g stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" opacity="0.75">
+    <path d="M120 140L330 90M120 140L300 330M330 90L540 190M330 90L300 330M330 90L500 400M540 190L760 90M540 190L500 400M540 190L700 300M760 90L960 170M760 90L700 300M960 170L1180 80M960 170L900 420M960 170L1100 330M1180 80L1400 160M1180 80L1100 330M1400 160L1550 300M1400 160L1300 380M1550 300L1520 480M80 380L300 330M80 380L150 620M300 330L500 400M500 400L700 300M500 400L380 570M700 300L900 420M700 300L600 660M900 420L1100 330M900 420L820 560M1100 330L1300 380M1100 330L1040 640M1300 380L1520 480M1300 380L1240 570M1520 480L1440 700M150 620L380 570M150 620L100 850M380 570L600 660M380 570L320 800M600 660L820 560M600 660L320 800M820 560L1040 640M820 560L760 780M1040 640L1240 570M1040 640L980 880M1240 570L1440 700M1240 570L1200 820M1440 700L1200 820M1440 700L1420 930M100 850L320 800M100 850L200 1080M320 800L540 900M320 800L430 1040M540 900L760 780M540 900L430 1040M760 780L980 880M760 780L660 1120M980 880L1200 820M980 880L900 1060M1200 820L1420 930M1200 820L1140 1100M1420 930L1140 1100M1420 930L1380 1120M200 1080L430 1040M430 1040L660 1120M660 1120L900 1060M900 1060L1140 1100M1140 1100L1380 1120M1380 1120L1560 1000"/>
+  </g>
+
+  <g fill="#FFFFFF" opacity="0.9">
+    <circle cx="120" cy="140" r="2.4"/>
+    <circle cx="330" cy="90" r="2.4"/>
+    <circle cx="540" cy="190" r="2.4"/>
+    <circle cx="760" cy="90" r="2.4"/>
+    <circle cx="960" cy="170" r="2.4"/>
+    <circle cx="1180" cy="80" r="2.4"/>
+    <circle cx="1400" cy="160" r="2.4"/>
+    <circle cx="1550" cy="300" r="2.4"/>
+    <circle cx="80" cy="380" r="2.4"/>
+    <circle cx="300" cy="330" r="2.4"/>
+    <circle cx="500" cy="400" r="2.4"/>
+    <circle cx="700" cy="300" r="2.4"/>
+    <circle cx="900" cy="420" r="2.4"/>
+    <circle cx="1100" cy="330" r="2.4"/>
+    <circle cx="1300" cy="380" r="2.4"/>
+    <circle cx="1520" cy="480" r="2.4"/>
+    <circle cx="150" cy="620" r="2.4"/>
+    <circle cx="380" cy="570" r="2.4"/>
+    <circle cx="600" cy="660" r="2.4"/>
+    <circle cx="820" cy="560" r="2.4"/>
+    <circle cx="1040" cy="640" r="2.4"/>
+    <circle cx="1240" cy="570" r="2.4"/>
+    <circle cx="1440" cy="700" r="2.4"/>
+    <circle cx="100" cy="850" r="2.4"/>
+    <circle cx="320" cy="800" r="2.4"/>
+    <circle cx="540" cy="900" r="2.4"/>
+    <circle cx="760" cy="780" r="2.4"/>
+    <circle cx="980" cy="880" r="2.4"/>
+    <circle cx="1200" cy="820" r="2.4"/>
+    <circle cx="1420" cy="930" r="2.4"/>
+    <circle cx="200" cy="1080" r="2.4"/>
+    <circle cx="430" cy="1040" r="2.4"/>
+    <circle cx="660" cy="1120" r="2.4"/>
+    <circle cx="900" cy="1060" r="2.4"/>
+    <circle cx="1140" cy="1100" r="2.4"/>
+    <circle cx="1380" cy="1120" r="2.4"/>
+    <circle cx="1560" cy="1000" r="2.4"/>
+  </g>
+
+  <g fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.9">
+    <circle cx="760" cy="90" r="6"/>
+    <circle cx="1100" cy="330" r="6"/>
+    <circle cx="380" cy="570" r="6"/>
+    <circle cx="760" cy="780" r="6"/>
+    <circle cx="1140" cy="1100" r="6"/>
+    <circle cx="1560" cy="1000" r="6"/>
+  </g>
+
+  <!-- Camino destacado dentro del mismo grafo. -->
+  <g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.95">
+    <path d="M820 560L900 420L1100 330L1300 380L1520 480"/>
+  </g>
+
+  <g>
+    <circle cx="820" cy="560" r="2.8" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="900" cy="420" r="7" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.95"/>
+    <circle cx="900" cy="420" r="2.4" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M1293 373L1307 387M1307 373L1293 387" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.95"/>
+    <circle cx="1520" cy="480" r="6.5" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity="0.9"/>
+    <circle cx="1520" cy="480" r="2.2" fill="#FFFFFF" opacity="0.9"/>
+  </g>
+</svg>

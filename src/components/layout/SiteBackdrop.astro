@@ -1,0 +1,28 @@
+---
+// Fondo decorativo del sitio: un único grafo (textura + camino destacado) fijo
+// al viewport. El SVG es blanco con alpha y se usa como mask-image, así el color
+// vive en --color-accent. Sin JS ni animación.
+---
+
+<div class="site-backdrop" aria-hidden="true"></div>
+
+<style>
+  .site-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--color-accent);
+    opacity: 0.09;
+    -webkit-mask: url("/bg/backdrop-wide.svg") right top / cover no-repeat;
+    mask: url("/bg/backdrop-wide.svg") right top / cover no-repeat;
+  }
+
+  /* Vertical para pantallas angostas o retrato: el camino no se recorta. */
+  @media (max-width: 47.999rem), (max-aspect-ratio: 1/1) {
+    .site-backdrop {
+      -webkit-mask-image: url("/bg/backdrop-narrow.svg");
+      mask-image: url("/bg/backdrop-narrow.svg");
+    }
+  }
+</style>
